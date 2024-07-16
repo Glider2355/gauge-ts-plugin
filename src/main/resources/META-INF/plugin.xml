@@ -9,10 +9,8 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.glider2355.gaugetsplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <completion.contributor
+                language="any"
+                implementationClass="com.github.glider2355.gaugetsplugin.contributor.SpecCompletionContributor"/>
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.glider2355.gaugetsplugin.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
 </idea-plugin>
