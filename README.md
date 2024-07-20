@@ -49,3 +49,11 @@ Plugin based on the [IntelliJ Platform Plugin Template][template].
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 [docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+
+## 参考資料
+https://www.jetbrains.com/help/idea/auto-completing-code.html
+https://github.com/JetBrains/intellij-sdk-code-samples/blob/main/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleCompletionContributor.java
+
+
+https://www.plugin-dev.com/intellij/custom-language/code-completion/
+https://github.dev/optimizely/intellij-plugin/blob/master/src/main/java/com/optimizely/intellij/plugin/contributor/kotlin/OptimizelyKotlinComplete.java

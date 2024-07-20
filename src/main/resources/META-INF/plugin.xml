@@ -9,10 +9,22 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.glider2355.gaugetsplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-    </extensions>
+        <!-- Spec ファイルタイプの登録 -->
+        <fileType
+                name="Spec File"
+                language="Spec"
+                extensions="spec"
+                fieldName="INSTANCE"
+                implementationClass="com.github.glider2355.gaugetsplugin.language.SpecFileType"/>
 
-    <applicationListeners>
-        <listener class="com.github.glider2355.gaugetsplugin.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
+        <!-- パーサーの登録 -->
+        <lang.parserDefinition
+                language="Spec"
+                implementationClass="com.github.glider2355.gaugetsplugin.language.SpecParserDefinition"/>
+
+        <!-- コード補完の登録 -->
+        <completion.contributor
+                language="Spec"
+                implementationClass="com.github.glider2355.gaugetsplugin.contributor.SpecCompletionContributor"/>
+    </extensions>
 </idea-plugin>

@@ -1,0 +1,20 @@
+{
+  parserClass="com.github.glider2355.gaugetsplugin.language.parser.SpecParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Spec"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.github.glider2355.gaugetsplugin.language.psi"
+  psiImplPackage="com.github.glider2355.gaugetsplugin.language.psi.impl"
+
+  elementTypeHolderClass="com.github.glider2355.gaugetsplugin.language.psi.SpecTypes"
+  elementTypeClass="com.github.glider2355.gaugetsplugin.language.psi.SpecElementType"
+  tokenTypeClass="com.github.glider2355.gaugetsplugin.language.psi.SpecTokenType"
+}
+
+simpleFile ::= item_*
+
+private item_ ::= (property|COMMENT|CRLF)
+
+property ::= (KEY? SEPARATOR VALUE?) | KEY
