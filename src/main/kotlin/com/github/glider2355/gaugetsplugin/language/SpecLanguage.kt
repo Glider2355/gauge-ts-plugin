@@ -1,4 +1,4 @@
-package com.github.glider2355.gaugetsplugin.contributor
+package com.github.glider2355.gaugetsplugin.language
 
 import com.intellij.lang.Language
 

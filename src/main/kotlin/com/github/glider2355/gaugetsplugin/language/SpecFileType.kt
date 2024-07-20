@@ -1,6 +1,5 @@
 package com.github.glider2355.gaugetsplugin.language
 
-import com.github.glider2355.gaugetsplugin.contributor.SpecLanguage
 import com.intellij.openapi.fileTypes.LanguageFileType
 import javax.swing.Icon
 

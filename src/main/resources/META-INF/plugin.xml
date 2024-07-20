@@ -17,6 +17,11 @@
                 fieldName="INSTANCE"
                 implementationClass="com.github.glider2355.gaugetsplugin.language.SpecFileType"/>
 
+        <!-- パーサーの登録 -->
+        <lang.parserDefinition
+                language="Spec"
+                implementationClass="com.github.glider2355.gaugetsplugin.language.SpecParserDefinition"/>
+
         <!-- コード補完の登録 -->
         <completion.contributor
                 language="Spec"
