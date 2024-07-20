@@ -13,7 +13,5 @@ class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
         result: CompletionResultSet
     ) {
         result.addElement(LookupElementBuilder.create("specOption1"))
-        result.addElement(LookupElementBuilder.create("specOption2"))
-        result.addElement(LookupElementBuilder.create("specOption3"))
     }
 }

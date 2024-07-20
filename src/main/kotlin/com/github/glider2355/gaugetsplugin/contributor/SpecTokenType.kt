@@ -7,6 +7,6 @@ import org.jetbrains.annotations.NotNull
 class SpecTokenType(@NotNull @NonNls debugName: String) :
     IElementType(debugName, SpecLanguage.INSTANCE) {
     override fun toString(): String {
-        return "SimpleTokenType." + super.toString()
+        return "SpecTokenType." + super.toString()
     }
 }
