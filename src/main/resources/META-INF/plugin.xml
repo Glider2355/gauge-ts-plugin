@@ -15,8 +15,7 @@
                 language="Spec"
                 extensions="spec"
                 fieldName="INSTANCE"
-                implementationClass="com.github.glider2355.gaugetsplugin.language.SpecFileType"
-                icon="/icons/img.png"/>
+                implementationClass="com.github.glider2355.gaugetsplugin.language.SpecFileType"/>
 
         <!-- コード補完の登録 -->
         <completion.contributor
