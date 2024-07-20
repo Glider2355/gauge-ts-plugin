@@ -9,8 +9,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiManager
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 
 class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
 
@@ -39,18 +37,17 @@ class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
         for (file in tsFiles) {
             val psiFile = PsiManager.getInstance(project).findFile(file) ?: continue
 
-            // TypeScriptファイル内の関数を解析
-            psiFile.accept(object : PsiRecursiveElementWalkingVisitor() {
-                override fun visitElement(element: PsiElement) {
-                    super.visitElement(element)
-                    if (element.text.contains("@Step")) {
-                        val annotationText = extractAnnotationText(element.text)
-                        if (annotationText.isNotEmpty()) {
-                            stepAnnotations.add(annotationText)
-                        }
+            // TypeScriptファイルのテキストを取得して行ごとに処理
+            val lines = psiFile.text.split("\n")
+
+            for (line in lines) {
+                if (line.contains("@Step")) {
+                    val annotationText = extractAnnotationText(line)
+                    if (annotationText.isNotEmpty()) {
+                        stepAnnotations.add(annotationText)
                     }
                 }
-            })
+            }
         }
 
         return stepAnnotations
