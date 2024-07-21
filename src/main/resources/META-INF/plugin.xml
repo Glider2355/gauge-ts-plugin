@@ -5,6 +5,7 @@
     <vendor>glider2355</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>JavaScript</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
@@ -21,6 +22,9 @@
         <lang.parserDefinition
                 language="Spec"
                 implementationClass="com.github.glider2355.gaugetsplugin.language.SpecParserDefinition"/>
+
+        <!-- Pluginの設定の登録 -->
+        <projectConfigurable implementation="com.github.glider2355.gaugetsplugin.setting.SettingsConfigurable" displayName="gauge-ts Plugin Settings"/>
 
         <!-- コード補完の登録 -->
         <completion.contributor
