@@ -31,10 +31,10 @@ class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
 
         // ユーザーが指定したディレクトリを取得
         val settings = project.service<PluginSettings>()
-        val searchDirectory = settings.searchDirectory
+        val searchDirectories = settings.searchDirectories
 
         // TypeScriptファイルを解析し、@Stepアノテーションの引数を取得
-        val stepAnnotations = findStepAnnotations(project, searchDirectory)
+        val stepAnnotations = searchDirectories.flatMap { findStepAnnotations(project, it) }.toSet()
 
         // サジェストするために取得したアノテーションの引数を追加
         for (annotation in stepAnnotations) {
