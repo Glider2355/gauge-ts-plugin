@@ -10,10 +10,10 @@ import com.intellij.openapi.components.Storage
 class PluginSettings : PersistentStateComponent<PluginSettings.State> {
     private var myState = State()
 
-    var searchDirectory: String
-        get() = myState.searchDirectory
+    var searchDirectories: MutableList<String>
+        get() = myState.searchDirectories
         set(value) {
-            myState.searchDirectory = value
+            myState.searchDirectories = value
         }
 
     override fun getState(): State {
@@ -24,5 +24,5 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
         myState = state
     }
 
-    data class State(var searchDirectory: String = "")
+    data class State(var searchDirectories: MutableList<String> = mutableListOf())
 }
