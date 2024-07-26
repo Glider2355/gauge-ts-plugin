@@ -12,7 +12,7 @@ import java.awt.Dimension
 
 class SettingsComponent {
     val mainPanel: JPanel = JPanel(BorderLayout())
-    private val directoryListModel = DefaultListModel<String>()
+    private val directoryListModel = DefaultListModel<DirectoryItem>()
     private val directoryList = JBList(directoryListModel)
     val addButton = JButton("Add Directory")
     val removeButton = JButton("Remove Selected Directory")
@@ -25,6 +25,7 @@ class SettingsComponent {
         val listPanel = JPanel(BorderLayout())
         listPanel.border = JBUI.Borders.empty(10, 0)
         listPanel.add(JLabel("Gauge Step Directories:"), BorderLayout.NORTH)
+        directoryList.cellRenderer = DirectoryItemRenderer()
         directoryList.visibleRowCount = 10
         listPanel.add(JScrollPane(directoryList), BorderLayout.CENTER)
 
@@ -45,19 +46,19 @@ class SettingsComponent {
 
     // ディレクトリ一覧を取得
     fun getDirectories(): List<String> {
-        return directoryListModel.elements().toList()
+        return directoryListModel.elements().toList().filter { it.isChecked }.map { it.path }
     }
 
     // ディレクトリ一覧を設定
     fun setDirectories(directories: List<String>) {
         directoryListModel.clear()
-        directories.forEach { directoryListModel.addElement(it) }
+        directories.forEach { directoryListModel.addElement(DirectoryItem(it, true)) }
     }
 
     // ディレクトリを追加
     fun addDirectory(directory: String) {
-        if (!directoryListModel.contains(directory)) {
-            directoryListModel.addElement(directory)
+        if (!directoryListModel.elements().toList().any { it.path == directory }) {
+            directoryListModel.addElement(DirectoryItem(directory, true))
         }
     }
 
