@@ -3,11 +3,7 @@ package com.github.glider2355.gaugetsplugin.setting
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.components.service
-import com.intellij.ui.components.JBList
-import com.intellij.util.ui.JBUI
 import javax.swing.*
-import java.awt.BorderLayout
-import java.awt.Dimension
 
 class SettingsConfigurable(private val project: Project) : Configurable {
     private var mySettingsComponent: SettingsComponent? = null
