@@ -20,13 +20,16 @@ class SettingsConfigurable(private val project: Project) : Configurable {
     // 設定が変更されたかどうかを返す
     override fun isModified(): Boolean {
         val settings = project.service<PluginSettings>()
-        return mySettingsComponent?.getDirectories() != settings.searchDirectories
+        val currentDirectories = mySettingsComponent?.getDirectories()?.map { it.path } ?: emptyList()
+        return currentDirectories != settings.searchDirectories ||
+                mySettingsComponent?.getDirectories()?.any { it.path in settings.searchDirectories && it.isChecked != (it.path in settings.validDirectories) } == true
     }
 
     // 設定を保存したときに選択されたディレクトリを設定に保存
     override fun apply() {
         val settings = project.service<PluginSettings>()
-        settings.searchDirectories = mySettingsComponent?.getDirectories()?.toMutableList() ?: mutableListOf()
+        settings.searchDirectories = mySettingsComponent?.getDirectories()?.map { it.path }?.toMutableList() ?: mutableListOf()
+        settings.validDirectories = mySettingsComponent?.getDirectories()?.filter { it.isChecked }?.map { it.path }?.toMutableList() ?: mutableListOf()
     }
 
     // 設定画面のタイトル
@@ -37,6 +40,7 @@ class SettingsConfigurable(private val project: Project) : Configurable {
     // リセットの際にディレクトリ一覧をリセット
     override fun reset() {
         val settings = project.service<PluginSettings>()
-        mySettingsComponent?.setDirectories(settings.searchDirectories)
+        val directoryItems = settings.searchDirectories.map { DirectoryItem(it, it in settings.validDirectories) }
+        mySettingsComponent?.setDirectories(directoryItems)
     }
 }

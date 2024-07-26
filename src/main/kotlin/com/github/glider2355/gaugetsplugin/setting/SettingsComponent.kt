@@ -45,14 +45,14 @@ class SettingsComponent {
     }
 
     // ディレクトリ一覧を取得
-    fun getDirectories(): List<String> {
-        return directoryListModel.elements().toList().filter { it.isChecked }.map { it.path }
+    fun getDirectories(): List<DirectoryItem> {
+        return directoryListModel.elements().toList()
     }
 
     // ディレクトリ一覧を設定
-    fun setDirectories(directories: List<String>) {
+    fun setDirectories(directories: List<DirectoryItem>) {
         directoryListModel.clear()
-        directories.forEach { directoryListModel.addElement(DirectoryItem(it, true)) }
+        directories.forEach { directoryListModel.addElement(it) }
     }
 
     // ディレクトリを追加

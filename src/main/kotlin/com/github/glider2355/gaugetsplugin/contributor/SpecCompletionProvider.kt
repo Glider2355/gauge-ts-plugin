@@ -29,9 +29,9 @@ class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
     ) {
         val project: Project = parameters.editor.project ?: return
 
-        // ユーザーが指定したディレクトリを取得
+        // ユーザーがチェックしたディレクトリを取得
         val settings = project.service<PluginSettings>()
-        val searchDirectories = settings.searchDirectories
+        val searchDirectories = settings.validDirectories
 
         // TypeScriptファイルを解析し、@Stepアノテーションの引数を取得
         val stepAnnotations = searchDirectories.flatMap { findStepAnnotations(project, it) }.toSet()

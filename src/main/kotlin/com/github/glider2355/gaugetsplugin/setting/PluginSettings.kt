@@ -8,21 +8,20 @@ import com.intellij.openapi.components.Storage
 @State(name = "PluginSettings", storages = [Storage("PluginSettings.xml")])
 @Service(Service.Level.PROJECT)
 class PluginSettings : PersistentStateComponent<PluginSettings.State> {
-    private var myState = State()
-
-    var searchDirectories: MutableList<String>
-        get() = myState.searchDirectories
-        set(value) {
-            myState.searchDirectories = value
-        }
+    var searchDirectories: MutableList<String> = mutableListOf()
+    var validDirectories: MutableList<String> = mutableListOf()
 
     override fun getState(): State {
-        return myState
+        return State(searchDirectories, validDirectories)
     }
 
     override fun loadState(state: State) {
-        myState = state
+        searchDirectories = state.searchDirectories.toMutableList()
+        validDirectories = state.validDirectories.toMutableList()
     }
 
-    data class State(var searchDirectories: MutableList<String> = mutableListOf())
+    data class State(
+        var searchDirectories: List<String> = listOf(),
+        var validDirectories: List<String> = listOf()
+    )
 }
