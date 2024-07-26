@@ -11,21 +11,7 @@ class SettingsConfigurable(private val project: Project) : Configurable {
     override fun createComponent(): JComponent? {
         if (mySettingsComponent == null) {
             mySettingsComponent = SettingsComponent()
-
-            // ボタンのアクションリスナーを追加
-            mySettingsComponent!!.addButton.addActionListener {
-                val fileChooser = JFileChooser()
-                fileChooser.fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
-                val result = fileChooser.showOpenDialog(mySettingsComponent!!.mainPanel)
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    val selectedDir = fileChooser.selectedFile.absolutePath
-                    mySettingsComponent!!.addDirectory(selectedDir)
-                }
-            }
-
-            mySettingsComponent!!.removeButton.addActionListener {
-                mySettingsComponent!!.removeSelectedDirectories()
-            }
+            SettingsListener(mySettingsComponent!!)
         }
         return mySettingsComponent?.mainPanel
     }
