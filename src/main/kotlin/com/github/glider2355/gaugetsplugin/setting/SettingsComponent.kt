@@ -12,8 +12,8 @@ import java.awt.Dimension
 
 class SettingsComponent {
     val mainPanel: JPanel = JPanel(BorderLayout())
-    private val directoryListModel = DefaultListModel<DirectoryItem>()
-    private val directoryList = JBList(directoryListModel)
+    val directoryListModel = DefaultListModel<DirectoryItem>()
+    val directoryList = JBList(directoryListModel)
     val addButton = JButton("Add Directory")
     val removeButton = JButton("Remove Selected Directory")
 
