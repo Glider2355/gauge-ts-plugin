@@ -21,18 +21,14 @@ class SettingsComponent {
         // メインパネルのボーダー設定
         mainPanel.border = JBUI.Borders.empty(10)
 
-        // ディレクトリ一覧のボーダーとタイトル設定
+        // ディレクトリ一覧の作成
         val listPanel = JPanel(BorderLayout())
         listPanel.border = JBUI.Borders.empty(10, 0)
         listPanel.add(JLabel("Gauge Step Directories:"), BorderLayout.NORTH)
-
-        // ディレクトリ一覧を10行表示
         directoryList.visibleRowCount = 10
-
-        // ディレクトリ一覧を中央に表示
         listPanel.add(JScrollPane(directoryList), BorderLayout.CENTER)
 
-        // ディレクトリの追加・削除ボタンを追加
+        // ディレクトリの追加・削除ボタンを作成
         val buttonPanel = JPanel()
         buttonPanel.layout = BoxLayout(buttonPanel, BoxLayout.Y_AXIS)
         buttonPanel.border = JBUI.Borders.empty(10, 0)
