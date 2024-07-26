@@ -10,66 +10,38 @@ import java.awt.BorderLayout
 import java.awt.Dimension
 
 class SettingsConfigurable(private val project: Project) : Configurable {
-    private var mySettingsComponent: JPanel? = null
-    private val directoryListModel = DefaultListModel<String>()
-    private val directoryList = JBList(directoryListModel)
-    private val addButton = JButton("Add Directory")
-    private val removeButton = JButton("Remove Selected Directory")
+    private var mySettingsComponent: SettingsComponent? = null
 
     override fun createComponent(): JComponent? {
         if (mySettingsComponent == null) {
-            mySettingsComponent = JPanel(BorderLayout())
-            mySettingsComponent!!.border = JBUI.Borders.empty(10)
-
-            val listPanel = JPanel(BorderLayout())
-            listPanel.border = JBUI.Borders.empty(10, 0)
-            listPanel.add(JLabel("Gauge Step Directories:"), BorderLayout.NORTH)
-            directoryList.visibleRowCount = 10
-            listPanel.add(JScrollPane(directoryList), BorderLayout.CENTER)
-
-            val buttonPanel = JPanel()
-            buttonPanel.layout = BoxLayout(buttonPanel, BoxLayout.Y_AXIS)
-            buttonPanel.border = JBUI.Borders.empty(10, 0)
-            addButton.maximumSize = Dimension(Int.MAX_VALUE, addButton.preferredSize.height)
-            removeButton.maximumSize = Dimension(Int.MAX_VALUE, removeButton.preferredSize.height)
-            buttonPanel.add(addButton)
-            buttonPanel.add(Box.createRigidArea(Dimension(0, 5)))
-            buttonPanel.add(removeButton)
-
-            mySettingsComponent!!.add(listPanel, BorderLayout.CENTER)
-            mySettingsComponent!!.add(buttonPanel, BorderLayout.SOUTH)
+            mySettingsComponent = SettingsComponent()
 
             // ボタンのアクションリスナーを追加
-            addButton.addActionListener {
+            mySettingsComponent!!.addButton.addActionListener {
                 val fileChooser = JFileChooser()
                 fileChooser.fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
-                val result = fileChooser.showOpenDialog(mySettingsComponent)
+                val result = fileChooser.showOpenDialog(mySettingsComponent!!.mainPanel)
                 if (result == JFileChooser.APPROVE_OPTION) {
                     val selectedDir = fileChooser.selectedFile.absolutePath
-                    if (!directoryListModel.contains(selectedDir)) {
-                        directoryListModel.addElement(selectedDir)
-                    }
+                    mySettingsComponent!!.addDirectory(selectedDir)
                 }
             }
 
-            removeButton.addActionListener {
-                val selectedIndices = directoryList.selectedIndices
-                for (i in selectedIndices.reversed()) {
-                    directoryListModel.remove(i)
-                }
+            mySettingsComponent!!.removeButton.addActionListener {
+                mySettingsComponent!!.removeSelectedDirectories()
             }
         }
-        return mySettingsComponent
+        return mySettingsComponent?.mainPanel
     }
 
     override fun isModified(): Boolean {
         val settings = project.service<PluginSettings>()
-        return directoryListModel.elements().toList() != settings.searchDirectories
+        return mySettingsComponent?.getDirectories() != settings.searchDirectories
     }
 
     override fun apply() {
         val settings = project.service<PluginSettings>()
-        settings.searchDirectories = directoryListModel.elements().toList().toMutableList()
+        settings.searchDirectories = mySettingsComponent?.getDirectories()?.toMutableList() ?: mutableListOf()
     }
 
     override fun getDisplayName(): String {
@@ -78,7 +50,6 @@ class SettingsConfigurable(private val project: Project) : Configurable {
 
     override fun reset() {
         val settings = project.service<PluginSettings>()
-        directoryListModel.clear()
-        settings.searchDirectories.forEach { directoryListModel.addElement(it) }
+        mySettingsComponent?.setDirectories(settings.searchDirectories)
     }
 }
