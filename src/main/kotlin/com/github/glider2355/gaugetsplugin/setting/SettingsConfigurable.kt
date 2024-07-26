@@ -35,6 +35,7 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         return mySettingsComponent?.getDirectories() != settings.searchDirectories
     }
 
+    // 設定を保存したときに選択されたディレクトリを設定に保存
     override fun apply() {
         val settings = project.service<PluginSettings>()
         settings.searchDirectories = mySettingsComponent?.getDirectories()?.toMutableList() ?: mutableListOf()
@@ -44,6 +45,7 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         return "Gauge Ts Plugin Settings"
     }
 
+    // リセットの際にディレクトリ一覧をリセット
     override fun reset() {
         val settings = project.service<PluginSettings>()
         mySettingsComponent?.setDirectories(settings.searchDirectories)
