@@ -8,6 +8,7 @@ import javax.swing.*
 class SettingsConfigurable(private val project: Project) : Configurable {
     private var mySettingsComponent: SettingsComponent? = null
 
+    // 設定画面のコンポーネントを返す
     override fun createComponent(): JComponent? {
         if (mySettingsComponent == null) {
             mySettingsComponent = SettingsComponent()
@@ -16,6 +17,7 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         return mySettingsComponent?.mainPanel
     }
 
+    // 設定が変更されたかどうかを返す
     override fun isModified(): Boolean {
         val settings = project.service<PluginSettings>()
         return mySettingsComponent?.getDirectories() != settings.searchDirectories
@@ -27,6 +29,7 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         settings.searchDirectories = mySettingsComponent?.getDirectories()?.toMutableList() ?: mutableListOf()
     }
 
+    // 設定画面のタイトル
     override fun getDisplayName(): String {
         return "Gauge Ts Plugin Settings"
     }
