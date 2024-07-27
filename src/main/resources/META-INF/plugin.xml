@@ -11,25 +11,13 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Spec ファイルタイプの登録 -->
-        <fileType
-                name="Spec File"
-                language="Spec"
-                extensions="spec"
-                fieldName="INSTANCE"
-                implementationClass="gauge.language.SpecFileType"/>
-
-        <!-- パーサーの登録 -->
-        <lang.parserDefinition
-                language="Spec"
-                implementationClass="gauge.language.SpecParserDefinition"/>
-
         <!-- Pluginの設定の登録 -->
         <projectConfigurable instance="gauge.setting.SettingsConfigurable" displayName="GaugeTS Plugin"/>
 
         <!-- コード補完の登録 -->
         <completion.contributor
-                language="Spec"
-                implementationClass="gauge.contributor.SpecCompletionContributor"/>
+                language="Specification"
+                implementationClass="gauge.contributor.SpecCompletionContributor"
+                order="first"/>
     </extensions>
 </idea-plugin>
