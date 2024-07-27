@@ -1,6 +1,6 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.glider2355.gaugetsplugin</id>
+    <id>gauge</id>
     <name>gauge-ts-plugin</name>
     <vendor>glider2355</vendor>
 
@@ -16,19 +16,19 @@
                 language="Spec"
                 extensions="spec"
                 fieldName="INSTANCE"
-                implementationClass="com.github.glider2355.gaugetsplugin.language.SpecFileType"/>
+                implementationClass="gauge.language.SpecFileType"/>
 
         <!-- パーサーの登録 -->
         <lang.parserDefinition
                 language="Spec"
-                implementationClass="com.github.glider2355.gaugetsplugin.language.SpecParserDefinition"/>
+                implementationClass="gauge.language.SpecParserDefinition"/>
 
         <!-- Pluginの設定の登録 -->
-        <projectConfigurable implementation="com.github.glider2355.gaugetsplugin.setting.SettingsConfigurable" displayName="gauge-ts Plugin Settings"/>
+        <projectConfigurable implementation="gauge.setting.SettingsConfigurable" displayName="gauge-ts Plugin Settings"/>
 
         <!-- コード補完の登録 -->
         <completion.contributor
                 language="Spec"
-                implementationClass="com.github.glider2355.gaugetsplugin.contributor.SpecCompletionContributor"/>
+                implementationClass="gauge.contributor.SpecCompletionContributor"/>
     </extensions>
 </idea-plugin>
