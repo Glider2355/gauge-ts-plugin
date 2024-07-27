@@ -165,7 +165,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: azul
+          distribution: zulu
           java-version: 17
 
       # Run Qodana inspections
