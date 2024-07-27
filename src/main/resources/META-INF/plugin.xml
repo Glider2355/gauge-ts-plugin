@@ -24,7 +24,7 @@
                 implementationClass="gauge.language.SpecParserDefinition"/>
 
         <!-- Pluginの設定の登録 -->
-        <projectConfigurable implementation="gauge.setting.SettingsConfigurable" displayName="gauge-ts Plugin Settings"/>
+        <projectConfigurable instance="gauge.setting.SettingsConfigurable" displayName="GaugeTS Plugin"/>
 
         <!-- コード補完の登録 -->
         <completion.contributor
