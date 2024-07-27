@@ -8,8 +8,6 @@
     <depends>JavaScript</depends>
     <depends>com.thoughtworks.gauge</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
-
     <extensions defaultExtensionNs="com.intellij">
         <!-- Pluginの設定の登録 -->
         <projectConfigurable instance="gauge.setting.SettingsConfigurable" displayName="GaugeTS Plugin"/>
