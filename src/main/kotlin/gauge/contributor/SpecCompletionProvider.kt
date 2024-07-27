@@ -19,6 +19,8 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiRecursiveElementVisitor
 import com.intellij.util.ProcessingContext
+import com.thoughtworks.gauge.autocomplete.GaugePrefixMatcher
+import com.thoughtworks.gauge.autocomplete.StepCompletionContributor.getPrefix
 
 class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
 
@@ -38,7 +40,7 @@ class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
 
         // サジェストするために取得したアノテーションの引数を追加
         for (annotation in stepAnnotations) {
-            result.addElement(LookupElementBuilder.create(annotation))
+            result.addElement(LookupElementBuilder.create("* $annotation"))
         }
     }
 
