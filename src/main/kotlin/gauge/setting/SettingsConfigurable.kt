@@ -34,7 +34,7 @@ class SettingsConfigurable(private val project: Project) : Configurable {
 
     // 設定画面のタイトル
     override fun getDisplayName(): String {
-        return "Gauge Ts Plugin Settings"
+        return "Gauge TS Plugin Settings"
     }
 
     // リセットの際にディレクトリ一覧をリセット
