@@ -1,6 +1,6 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>GaugeTS</id>
+    <id>com.github.Glider2355.gauge</id>
     <name>GaugeTS</name>
     <vendor>glider2355</vendor>
     <category>Test Tools</category>
