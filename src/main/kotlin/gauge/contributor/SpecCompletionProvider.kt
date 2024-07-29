@@ -82,7 +82,7 @@ class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
                                 // デコレーターの引数を取得してリストに追加
                                 val callExpression = decorator.expression as? JSCallExpression
                                 callExpression?.arguments?.forEach { argument ->
-                                    stepAnnotations.add(removeQuotes(argument.text))
+                                    stepAnnotations.add(fixStepText(argument.text))
                                 }
                             }
                         }
@@ -92,8 +92,15 @@ class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
         })
     }
 
-    // 引数のクォートを削除
-    private fun removeQuotes(text: String): String {
-        return text.replace("\"", "").replace("'", "")
+    // Step名を調整
+    private fun fixStepText(text: String): String {
+        // 「,」以降を削除
+        val noComma = text.split(",")[0]
+        // 「"」と「'」を削除
+        val noQuotes = noComma.replace("\"", "").replace("'", "")
+        // 「[」、「]」、改行を削除
+        val cleaned = noQuotes.replace("[", "").replace("]", "").replace("\n", "")
+        // 先頭のスペースを削除
+        return cleaned.trimStart()
     }
 }
