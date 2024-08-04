@@ -19,7 +19,7 @@ class GaugeGotoDeclarationHandler : GotoDeclarationHandler {
         }
 
         val project = sourceElement.project
-        val stepText = sourceElement.text.trim()
+        val stepText = cleanStepText(sourceElement.parent.text)
 
         // PluginSettingsからsearchDirectoriesを取得
         val settings = project.service<PluginSettings>()
@@ -30,5 +30,11 @@ class GaugeGotoDeclarationHandler : GotoDeclarationHandler {
         val stepFunction = stepFinder.findStepFunction(project, searchDirectories, stepText)
 
         return stepFunction?.let { arrayOf(it) } ?: PsiElement.EMPTY_ARRAY
+    }
+
+    private fun cleanStepText(text: String): String {
+        val noAsterisk = text.replace("*", "").trim()
+        val noTable = noAsterisk.split("|")[0]
+        return noTable.trim()
     }
 }

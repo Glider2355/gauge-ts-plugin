@@ -42,8 +42,8 @@ class StepFunctionFinder {
                             if (decorator is ES6Decorator && decorator.decoratorName == "Step") {
                                 val callExpression = decorator.expression as? JSCallExpression
                                 callExpression?.arguments?.forEach { argument ->
-                                    val stepAnnotationText = argument.text.trim('\"', '\'')
-                                    if (stepAnnotationText == stepText) {
+                                    val stepAnnotationText = fixStepText(argument.text)
+                                    if (isStepMatch(stepAnnotationText, stepText)) {
                                         foundFunction = element
                                         return
                                     }
@@ -56,4 +56,19 @@ class StepFunctionFinder {
         })
         return foundFunction
     }
+
+    private fun fixStepText(text: String): String {
+        val noComma = text.split(",")[0]
+        val noQuotes = noComma.replace("\"", "").replace("'", "")
+        val cleaned = noQuotes.replace("[", "").replace("]", "").replace("\n", "")
+        return cleaned.trimStart()
+    }
+
+    private fun isStepMatch(stepAnnotationText: String, stepText: String): Boolean {
+        val stepAnnotationTextMatch = stepAnnotationText.replace("<[^>]+>".toRegex(), "").trimEnd() // <text> の部分を削除
+        val stepTextMatch = stepText.replace("\"[^\"]*\"".toRegex(), "").trimEnd() // "text" の部分を削除
+
+        return stepAnnotationTextMatch == stepTextMatch
+    }
+
 }
