@@ -19,7 +19,7 @@ class StepFunctionFinder {
             // TypeScriptFileCollectorを使ってディレクトリからファイルを収集
             val files = fileCollector.collectTypeScriptFiles(project, directoryPath)
             for (file in files) {
-                val function = findFunctionInFile(file, stepText)
+                val function = findFunctionFromFile(file, stepText)
                 if (function != null) {
                     return function
                 }
@@ -28,7 +28,7 @@ class StepFunctionFinder {
         return null
     }
 
-    private fun findFunctionInFile(file: PsiFile, stepText: String): PsiElement? {
+    private fun findFunctionFromFile(file: PsiFile, stepText: String): PsiElement? {
         if (file !is JSFile) return null
 
         var foundFunction: PsiElement? = null
@@ -42,8 +42,8 @@ class StepFunctionFinder {
                             if (decorator is ES6Decorator && decorator.decoratorName == "Step") {
                                 val callExpression = decorator.expression as? JSCallExpression
                                 callExpression?.arguments?.forEach { argument ->
-                                    val stepAnnotationText = fixStepText(argument.text)
-                                    if (isStepMatch(stepAnnotationText, stepText)) {
+                                    val stepAnnotationText = StepTextProcessor.fixStepText(argument.text)
+                                    if (StepTextProcessor.isStepMatch(stepAnnotationText, stepText)) {
                                         foundFunction = element
                                         return
                                     }
@@ -56,19 +56,4 @@ class StepFunctionFinder {
         })
         return foundFunction
     }
-
-    private fun fixStepText(text: String): String {
-        val noComma = text.split(",")[0]
-        val noQuotes = noComma.replace("\"", "").replace("'", "")
-        val cleaned = noQuotes.replace("[", "").replace("]", "").replace("\n", "")
-        return cleaned.trimStart()
-    }
-
-    private fun isStepMatch(stepAnnotationText: String, stepText: String): Boolean {
-        val stepAnnotationTextMatch = stepAnnotationText.replace("<[^>]+>".toRegex(), "").trimEnd() // <text> の部分を削除
-        val stepTextMatch = stepText.replace("\"[^\"]*\"".toRegex(), "").trimEnd() // "text" の部分を削除
-
-        return stepAnnotationTextMatch == stepTextMatch
-    }
-
 }

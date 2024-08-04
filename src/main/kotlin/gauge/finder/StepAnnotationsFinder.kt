@@ -44,7 +44,7 @@ class StepAnnotationsFinder {
                                 // デコレーターの引数を取得してリストに追加
                                 val callExpression = decorator.expression as? JSCallExpression
                                 callExpression?.arguments?.forEach { argument ->
-                                    stepAnnotations.add(fixStepText(argument.text))
+                                    stepAnnotations.add(StepTextProcessor.fixStepText(argument.text))
                                 }
                             }
                         }
@@ -52,12 +52,5 @@ class StepAnnotationsFinder {
                 }
             }
         })
-    }
-
-    private fun fixStepText(text: String): String {
-        val noComma = text.split(",")[0]
-        val noQuotes = noComma.replace("\"", "").replace("'", "")
-        val cleaned = noQuotes.replace("[", "").replace("]", "").replace("\n", "")
-        return cleaned.trimStart()
     }
 }
