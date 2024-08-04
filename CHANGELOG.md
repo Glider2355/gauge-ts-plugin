@@ -3,6 +3,10 @@
 # gauge-ts-plugin Changelog
 
 ## [Unreleased]
+## [0.0.3] - 2024-08-04
+### Added
+- Supports code jump to step function
+
 ## [0.0.2] - 2024-07-30
 ### Changed
 - Supports multiple step names
@@ -11,6 +15,7 @@
 ### Added
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.2...HEAD
+[Unreleased]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.3...HEAD
+[0.0.3]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.1...v0.0.3
 [0.0.2]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/Glider2355/gauge-ts-plugin/commits/v0.0.1
