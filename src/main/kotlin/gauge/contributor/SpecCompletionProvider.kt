@@ -8,7 +8,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.util.ProcessingContext
-import gauge.finder.TypeScriptStepFinder
+import gauge.finder.StepAnnotationsFinder
 
 class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
 
@@ -24,7 +24,7 @@ class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
         val searchDirectories = settings.validDirectories
 
         // TypeScriptファイルを解析し、@Stepアノテーションの引数を取得
-        val stepFinder = TypeScriptStepFinder()
+        val stepFinder = StepAnnotationsFinder()
         val stepAnnotations = stepFinder.findStepAnnotations(project, searchDirectories)
 
         // サジェストするために取得したアノテーションの引数を追加

@@ -18,5 +18,8 @@
                 language="Specification"
                 implementationClass="gauge.contributor.SpecCompletionContributor"
                 order="first"/>
+        
+        <!-- コードジャンプの登録 -->
+        <gotoDeclarationHandler implementation="gauge.gotoDeclaration.GaugeGotoDeclarationHandler"/>
     </extensions>
 </idea-plugin>

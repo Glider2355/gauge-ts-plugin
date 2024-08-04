@@ -6,14 +6,10 @@ import com.intellij.lang.javascript.psi.ecma6.ES6Decorator
 import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList
 import com.intellij.lang.javascript.psi.JSCallExpression
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.VfsUtil
-import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
-import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiRecursiveElementVisitor
 
-class TypeScriptStepFinder {
+class StepAnnotationsFinder {
 
     fun findStepAnnotations(project: Project, searchDirectories: MutableList<String>): List<String> {
         val stepAnnotations = searchDirectories.flatMap { findStepAnnotationsByDirectoryPath(project, it) }.toSet()
@@ -24,18 +20,8 @@ class TypeScriptStepFinder {
         val stepAnnotations = mutableListOf<String>()
 
         // ディレクトリ内のTypeScriptファイルを取得
-        val virtualFile = VirtualFileManager.getInstance().findFileByUrl("file://$directoryPath")
-        val files = mutableListOf<PsiFile>()
-        if (virtualFile != null && virtualFile.isDirectory) {
-            VfsUtil.iterateChildrenRecursively(virtualFile, null) { file ->
-                if (!file.isDirectory && file.extension == "ts") {
-                    PsiManager.getInstance(project).findFile(file)?.let { psiFile ->
-                        files.add(psiFile)
-                    }
-                }
-                true
-            }
-        }
+        val collector = TypeScriptFileCollector()
+        val files = collector.collectTypeScriptFiles(project, directoryPath)
 
         // 各ファイルを解析して@Stepアノテーションを抽出
         for (file in files) {
