@@ -13,7 +13,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.InvalidDataException
 import com.intellij.openapi.util.WriteExternalException
 import com.intellij.util.xmlb.XmlSerializer
-import com.thoughtworks.gauge.execution.GaugeDebugInfo
 import gauge.GaugeConstants
 import org.jdom.Element
 import javax.swing.JComponent

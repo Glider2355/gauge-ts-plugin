@@ -17,8 +17,6 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.thoughtworks.gauge.core.GaugeVersion
 import gauge.GaugeConstants
-import com.thoughtworks.gauge.execution.GaugeDebugInfo
-import com.thoughtworks.gauge.execution.GaugeRunProcessHandler
 import com.thoughtworks.gauge.settings.GaugeSettingsService
 import gauge.execution.runner.GaugeConsoleProperties
 import com.thoughtworks.gauge.util.GaugeUtil
