@@ -5,12 +5,12 @@
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/24971-gaugets.svg)](https://plugins.jetbrains.com/plugin/24971-gaugets)
 
 <!-- Plugin description -->
-Plugin for writing Gauge tests (originally developed by Thoughtworks Inc.). Supports only steps written in TypeScript.
-
+Plugin for writing Gauge tests (originally developed by Thoughtworks Inc.). Supports only steps written in TypeScript.  
 You need to specify the folder where the Step is implemented in the settings screen.
 
 Features:
 - Auto completion
+- Run from the gutter
 <!-- Plugin description end -->
 
 ## Installation
