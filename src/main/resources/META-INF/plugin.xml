@@ -18,8 +18,28 @@
                 language="Specification"
                 implementationClass="gauge.contributor.SpecCompletionContributor"
                 order="first"/>
-        
+
         <!-- コードジャンプの登録 -->
         <gotoDeclarationHandler implementation="gauge.gotoDeclaration.GaugeGotoDeclarationHandler"/>
+
+        <!-- Gaugeを実行するためのマーカー登録 -->
+        <runLineMarkerContributor
+                language="Specification"
+                implementationClass="gauge.execution.TestRunLineMarkerProvider"
+                order="first"/>
+
+        <!-- Gaugeの実行構成 -->
+        <configurationType
+                implementation="gauge.execution.GaugeRunTaskConfigurationType"
+                order="first"/>
+
+        <programRunner
+                implementation="gauge.execution.GaugeTestRunner"
+                order="first"/>
+
+        <!-- シナリオの実行 -->
+        <runConfigurationProducer
+                implementation="gauge.execution.ScenarioExecutionProducer"
+                order="first"/>
     </extensions>
 </idea-plugin>
