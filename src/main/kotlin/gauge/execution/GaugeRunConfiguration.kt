@@ -75,7 +75,7 @@ class GaugeRunConfiguration(
 //        }
 
         // --simple-consoleフラグを追加
-        commandLine.addParameter(GaugeConstants.SIMPLE_CONSOLE)
+        // commandLine.addParameter(GaugeConstants.SIMPLE_CONSOLE)
 
         // tagsが指定されている場合、--tagsフラグとその値を追加
         if (!tags.isNullOrBlank()) {
