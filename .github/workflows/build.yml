@@ -216,9 +216,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api repos/{owner}/{repo}/releases \
-            --jq '.[] | select(.draft == true) | .id' \
-            | xargs -I '{}' gh api -X DELETE repos/{owner}/{repo}/releases/{}
+          gh api "repos/${GITHUB_REPOSITORY}/releases" \
+          --jq '.[] | select(.draft == true) | .id' \
+          | xargs -I '{}' gh api -X DELETE "repos/${GITHUB_REPOSITORY}/releases/{}"
 
       - name: Create Release Draft
         env:
