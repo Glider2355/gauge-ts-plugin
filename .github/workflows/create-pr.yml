@@ -18,7 +18,7 @@ jobs:
         id: extract_branch
         run: |
           comment_body="${{ github.event.comment.body }}"
-          branch_name=$(echo "$comment_body" | sed 's/^create-pr //')
+          branch_name="${comment_body#create-pr }"
           branch_name=$(echo "$branch_name" | xargs)
           echo "branch_name=$branch_name" >> "$GITHUB_OUTPUT"
 
