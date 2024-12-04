@@ -16,9 +16,10 @@ jobs:
     steps:
       - name: issueのコメントからブランチ名を抽出する
         id: extract_branch
+        env:
+          COMMENT_BODY: "${{ github.event.comment.body }}"
         run: |
-          comment_body="${{ github.event.comment.body }}"
-          branch_name="${comment_body#create-pr }"
+          branch_name="${COMMENT_BODY#create-pr }"
           branch_name=$(echo "$branch_name" | xargs)
           echo "branch_name=$branch_name" >> "$GITHUB_OUTPUT"
 
