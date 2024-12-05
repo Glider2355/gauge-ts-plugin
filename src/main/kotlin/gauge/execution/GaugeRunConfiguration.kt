@@ -1,6 +1,5 @@
 package gauge.execution
 
-import com.intellij.execution.CommonProgramRunConfigurationParameters
 import com.intellij.execution.Executor
 import com.intellij.execution.application.ApplicationConfiguration
 import com.intellij.execution.application.ApplicationConfigurationType
@@ -183,81 +182,6 @@ class GaugeRunConfiguration(
 
     override fun getModules(): Array<Module> {
         return ModuleManager.getInstance(project).modules
-    }
-
-    private fun setSpecsToExecute(specsToExecute: String) {
-        this.specs = specsToExecute
-    }
-
-    fun getSpecsToExecute(): String? {
-        return specs
-    }
-
-    fun setModule(module: Module) {
-        this.selectedModule = module
-        this.moduleName = module.name
-    }
-
-    fun getModule(): Module? {
-        if (selectedModule == null) {
-            return ModuleManager.getInstance(project).findModuleByName(moduleName!!)
-        }
-        return selectedModule
-    }
-
-    fun getEnvironment(): String {
-        return environment!!
-    }
-
-    fun setEnvironment(environment: String?) {
-        this.environment = environment
-    }
-
-    fun getTags(): String {
-        return tags!!
-    }
-
-    fun setTags(tags: String?) {
-        this.tags = tags
-    }
-
-    fun setSpecsArrayToExecute(specsArrayToExecute: List<String?>) {
-        val builder = StringBuilder()
-        for (specName in specsArrayToExecute) {
-            builder.append(specName)
-            if (specsArrayToExecute.indexOf(specName) != specsArrayToExecute.size - 1) {
-                builder.append(GaugeConstants.SPEC_FILE_DELIMITER)
-            }
-        }
-        setSpecsToExecute(builder.toString())
-    }
-
-    fun setExecInParallel(execInParallel: Boolean) {
-        this.execInParallel = execInParallel
-    }
-
-    fun getExecInParallel(): Boolean {
-        return execInParallel
-    }
-
-    fun setParallelNodes(parallelNodes: String?) {
-        this.parallelNodes = parallelNodes
-    }
-
-    fun getParallelNodes(): String {
-        return parallelNodes!!
-    }
-
-    fun getProgramParameters(): CommonProgramRunConfigurationParameters {
-        return programParameters
-    }
-
-    fun getRowsRange(): String {
-        return rowsRange!!
-    }
-
-    fun setRowsRange(rowsRange: String?) {
-        this.rowsRange = rowsRange
     }
 
     companion object {

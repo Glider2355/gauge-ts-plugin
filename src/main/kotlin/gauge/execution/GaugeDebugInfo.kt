@@ -11,8 +11,6 @@ class GaugeDebugInfo private constructor(
 ) {
     val host: String = "localhost"
 
-    fun getPortInt(): Int = port.toInt()
-
     companion object {
         fun getInstance(commandLine: GeneralCommandLine, env: ExecutionEnvironment): GaugeDebugInfo {
             return if (isDebugExecution(env)) {
