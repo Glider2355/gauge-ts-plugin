@@ -180,8 +180,23 @@ class GaugeRunConfiguration(
         }
     }
 
+    private fun setSpecsToExecute(specsToExecute: String) {
+        this.specs = specsToExecute
+    }
+
     override fun getModules(): Array<Module> {
         return ModuleManager.getInstance(project).modules
+    }
+
+    fun setSpecsArrayToExecute(specsArrayToExecute: List<String>) {
+        val builder = StringBuilder()
+        for (specName in specsArrayToExecute) {
+            builder.append(specName)
+            if (specsArrayToExecute.indexOf(specName) != specsArrayToExecute.size - 1) {
+                builder.append(GaugeConstants.SPEC_FILE_DELIMITER)
+            }
+        }
+        setSpecsToExecute(builder.toString())
     }
 
     companion object {

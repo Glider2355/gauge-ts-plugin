@@ -37,6 +37,10 @@
                 implementation="gauge.execution.GaugeTestRunner"
                 order="first"/>
 
+        <!-- specの実行 -->
+        <runConfigurationProducer
+                implementation="gauge.execution.SpecsExecutionProducer"
+                order="first"/>
         <!-- シナリオの実行 -->
         <runConfigurationProducer
                 implementation="gauge.execution.ScenarioExecutionProducer"
