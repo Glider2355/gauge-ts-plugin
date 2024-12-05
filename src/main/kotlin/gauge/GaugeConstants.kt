@@ -10,7 +10,6 @@ object GaugeConstants {
     const val ENV_FLAG: String = "--env"
     const val GAUGE_HOME: String = "GAUGE_HOME"
     const val GAUGE_CUSTOM_CLASSPATH: String = "gauge_custom_classpath"
-    const val SPEC_FILE_DELIMITER: String = "||"
     const val SPEC_FILE_DELIMITER_REGEX: String = "\\|\\|"
     private const val COLON = ":"
     const val SPEC_SCENARIO_DELIMITER: String = COLON

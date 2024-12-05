@@ -1,6 +1,5 @@
 package gauge.execution
 
-import com.intellij.execution.CommonProgramRunConfigurationParameters
 import com.intellij.execution.Executor
 import com.intellij.execution.application.ApplicationConfiguration
 import com.intellij.execution.application.ApplicationConfigurationType
