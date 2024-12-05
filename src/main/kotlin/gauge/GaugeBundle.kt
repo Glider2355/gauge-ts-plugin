@@ -3,7 +3,6 @@ package gauge
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.Nls
 import org.jetbrains.annotations.PropertyKey
-import java.util.function.Supplier
 
 object GaugeBundle {
     private const val BUNDLE = "messages.GaugeBundle"
