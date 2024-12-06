@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.0.6] - 2024-12-06
+
+Added
+
+- Spec Run from the gutter
+
 ## [0.0.5] - 2024-12-04
 
 - Run from the gutter
@@ -32,7 +38,8 @@
 
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.5...HEAD
+[Unreleased]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.6...HEAD
+[0.0.6]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.2...v0.0.3
