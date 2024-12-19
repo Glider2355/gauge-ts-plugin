@@ -10,6 +10,7 @@ import com.thoughtworks.gauge.util.GaugeUtil
 
 object GaugeCommandLine {
 
+    @JvmStatic
     fun getInstance(module: Module?, project: Project): GeneralCommandLine {
         val commandLine = GeneralCommandLine()
         try {

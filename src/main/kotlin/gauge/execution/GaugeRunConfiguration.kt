@@ -188,6 +188,13 @@ class GaugeRunConfiguration(
         return ModuleManager.getInstance(project).modules
     }
 
+    fun getModule(): Module? {
+        if (selectedModule == null) {
+            return ModuleManager.getInstance(project).findModuleByName(moduleName!!)
+        }
+        return selectedModule
+    }
+
     fun setSpecsArrayToExecute(specsArrayToExecute: List<String>) {
         val builder = StringBuilder()
         for (specName in specsArrayToExecute) {
