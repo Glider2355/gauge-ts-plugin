@@ -2,7 +2,7 @@ package gauge.contributor
 
 import com.intellij.codeInsight.completion.*
 import com.intellij.patterns.PlatformPatterns
-import com.thoughtworks.gauge.language.Specification
+import gauge.language.Specification
 
 class SpecCompletionContributor : CompletionContributor() {
     init {

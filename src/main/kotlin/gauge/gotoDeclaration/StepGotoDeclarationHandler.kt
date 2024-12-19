@@ -4,7 +4,7 @@ import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
 import com.intellij.psi.PsiElement
 import com.intellij.openapi.components.service
 import gauge.setting.PluginSettings
-import com.thoughtworks.gauge.language.token.SpecTokenTypes
+import gauge.language.token.SpecTokenTypes
 import gauge.finder.StepFunctionFinder
 
 class GaugeGotoDeclarationHandler : GotoDeclarationHandler {
