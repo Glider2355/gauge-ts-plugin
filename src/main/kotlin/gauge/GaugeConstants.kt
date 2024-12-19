@@ -8,6 +8,7 @@ object GaugeConstants {
     const val PARALLEL_NODES: String = "-n"
     const val TABLE_ROWS: String = "--table-rows"
     const val ENV_FLAG: String = "--env"
+    const val FAILED: String = "--failed"
     const val GAUGE_HOME: String = "GAUGE_HOME"
     const val GAUGE_CUSTOM_CLASSPATH: String = "gauge_custom_classpath"
     const val SPEC_FILE_DELIMITER: String = "||"
