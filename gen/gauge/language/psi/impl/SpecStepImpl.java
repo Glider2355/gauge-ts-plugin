@@ -9,8 +9,6 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.thoughtworks.gauge.StepValue;
 import com.thoughtworks.gauge.helper.ModuleHelper;
 import gauge.language.psi.*;
-import gauge.language.psi.impl.SpecNamedElementImpl;
-import gauge.language.psi.impl.SpecTableImpl;
 import com.thoughtworks.gauge.reference.StepReference;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
