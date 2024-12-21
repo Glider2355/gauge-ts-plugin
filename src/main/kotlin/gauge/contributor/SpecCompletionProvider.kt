@@ -27,6 +27,8 @@ class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
         val stepFinder = StepAnnotationsFinder()
         val stepAnnotations = stepFinder.findStepAnnotations(project, searchDirectories)
 
+        print("stepAnnotations: $stepAnnotations")
+
         // サジェストするために取得したアノテーションの引数を追加
         for (annotation in stepAnnotations) {
             result.addElement(LookupElementBuilder.create("* $annotation"))
