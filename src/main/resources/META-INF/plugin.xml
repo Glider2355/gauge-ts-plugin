@@ -7,9 +7,13 @@
 
     <depends>com.intellij.modules.java</depends>
     <depends>JavaScript</depends>
-    <depends>com.thoughtworks.gauge</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <!-- Specファイルの登録 -->
+        <fileType name="Specification" language="Specification" fieldName="INSTANCE"
+                  implementationClass="gauge.language.SpecFileType"
+                  extensions="spec"/>
+
         <!-- Pluginの設定の登録 -->
         <projectConfigurable groupId="tools" instance="gauge.setting.SettingsConfigurable" displayName="GaugeTS Plugin"/>
 
@@ -20,7 +24,7 @@
                 order="first"/>
 
         <!-- コードジャンプの登録 -->
-        <gotoDeclarationHandler implementation="gauge.gotoDeclaration.GaugeGotoDeclarationHandler"/>
+<!--        <gotoDeclarationHandler implementation="gauge.gotoDeclaration.GaugeGotoDeclarationHandler"/>-->
 
 <!--        &lt;!&ndash; Gaugeを実行するためのマーカー登録 &ndash;&gt;-->
 <!--        <runLineMarkerContributor-->

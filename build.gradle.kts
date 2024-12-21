@@ -19,6 +19,17 @@ kotlin {
     jvmToolchain(17)
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs("src/main/java", "gen") // Javaのソースディレクトリとしてgenを追加
+        }
+        kotlin {
+            srcDirs("src/main/kotlin") // Kotlinのソースディレクトリ
+        }
+    }
+}
+
 // Configure project's dependencies
 repositories {
     mavenCentral()
