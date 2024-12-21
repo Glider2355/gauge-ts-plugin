@@ -12,25 +12,37 @@
   elementTypeClass="gauge.language.token.SpecElementType"
   tokenTypeClass="gauge.language.token.SpecTokenType"
 
-  psiImplUtilClass="gauge.language.psi.SpecPsiImplUtil"
+  // psiImplUtilClass="gauge.language.psi.SpecPsiImplUtil"
 }
 
-specFile ::= (comment)* specDetail scenario* teardown?
-specDetail ::= specHeading (comment | tags | keyword | table)* (step|comment)*
-scenario ::= (comment)* scenarioHeading (comment)* tags? (comment)* (step | comment)*
-teardown ::=  TEARDOWN_IDENTIFIER (comment)* (step | comment | TEARDOWN_IDENTIFIER)*
+/**
+* .specファイルのトップレベル構造 (specDetail:仕様の詳細部分 scenario+: 1つ以上のシナリオ)
+*/
+specFile ::= specDetail scenario+
+
+/**
+ * scenarioHeading: シナリオの見出し
+ * (step | comment)*: 0個以上のステップまたはコメント
+ */
+scenario ::= scenarioHeading (step | comment)*
+
+/**
+ * ステップ要素(STEPのトークンで認識する)
+ * table?: オプションでテーブル
+ */
+step ::= STEP table?
+table ::= TABLE_HEADER TABLE_ROW*
+
+/**
+ * (comment)*: 0個以上のコメント
+ * specHeading: 仕様の見出し
+ * table?: オプションでテーブル
+ * (step|comment)*: 0個以上のステップまたはコメント
+ */
+private specDetail ::= (comment)*  specHeading table? (step|comment)*
+
+// コメント要素(COMMENTのトークンで認識する)
 private comment ::= COMMENT
-private specComment ::= SPEC_COMMENT
+
 private specHeading ::= SPEC_HEADING
 private scenarioHeading ::= SCENARIO_HEADING
-step ::= STEP_IDENTIFIER (arg|STEP)+ (comment)* table?    {mixin="gauge.language.psi.impl.SpecNamedElementImpl"
-                                   implements="gauge.language.psi.SpecNamedElement" methods = [getStepValue]}
-arg ::= dynamicArg | staticArg
-dynamicArg ::= DYNAMIC_ARG_START DYNAMIC_ARG DYNAMIC_ARG_END
-staticArg ::= ARG_START ARG? ARG_END
-tags ::= TAGS
-keyword ::= KEYWORD
-table ::= tableHeader tableBody
-tableHeader ::= TABLE_BORDER (TABLE_HEADER* TABLE_BORDER)+ NEW_LINE ((TABLE_BORDER)* NEW_LINE)?
-tableBody ::=(TABLE_BORDER (WHITESPACE* tableRowValue? WHITESPACE* TABLE_BORDER)+ NEW_LINE?)*
-tableRowValue ::= TABLE_ROW_VALUE+ | (DYNAMIC_ARG_START DYNAMIC_ARG+ DYNAMIC_ARG_END WHITESPACE* TABLE_ROW_VALUE* WHITESPACE*)+

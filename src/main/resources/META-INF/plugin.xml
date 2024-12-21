@@ -14,6 +14,11 @@
                   implementationClass="gauge.language.SpecFileType"
                   extensions="spec"/>
 
+        <!-- パーサーの設定の登録 -->
+        <lang.parserDefinition
+                language="Specification"
+                implementationClass="gauge.parser.SpecParserDefinition"/>
+
         <!-- Pluginの設定の登録 -->
         <projectConfigurable groupId="tools" instance="gauge.setting.SettingsConfigurable" displayName="GaugeTS Plugin"/>
 

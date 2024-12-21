@@ -5,100 +5,67 @@ import com.intellij.psi.tree.IElementType;
 import static gauge.language.token.SpecTokenTypes.*;
 
 %%
-
 %{
   public _SpecLexer() {
-    this(null);
+    this((java.io.Reader)null);
   }
 %}
 
+
+// Flexディレクティブ
+// 生成されるLexerクラスはpublic
 %public
+// 生成されるLexerクラス名
 %class _SpecLexer
+// IntelliJ IDEAのFlexLexerインターフェースを実装
 %implements FlexLexer
+// メイン処理関数をadvanceに指定
 %function advance
+// トークンの型をIElementTypeに指定
 %type IElementType
+// Unicodeをサポート
 %unicode
-%caseless
-%state INSTEP,INARG,INDYNAMIC,INTABLEHEADER,INTABLEBODY,INTABLEBODYROW,INDYNAMICTABLEITEM,INTABLECELL,INCOMMENT
+// テーブル内の状態をINTABLEに指定
+%state INTABLE
 
+// トークン定義
+// 改行文字
 LineTerminator = \r|\n|\r\n
+// 改行文字以外の文字
 InputCharacter = [^\r\n]
+// テーブルのセル内の文字
+TableInputCharacter = [^|\r\n]
+// 空白文字
 WhiteSpace = [ \t\f]
-TableIdentifier = [|]
-InputCharacter = [^\r\n]
-StepIdentifier = [*]
-NonWhiteSpaceAndIdentifierCharacter = [^ \r\n\t\f#*|]
-dynamicArgTablePattern = {WhiteSpace}* [<] {tableChar}* [>] {WhiteSpace}*
-ScenarioHeading = {WhiteSpace}* "##" {InputCharacter}* {LineTerminator}? | {WhiteSpace}* {InputCharacter}* {LineTerminator} [-]+ {LineTerminator}?
-SpecHeading = {WhiteSpace}* "#" {InputCharacter}* {LineTerminator}? | {WhiteSpace}* {InputCharacter}* {LineTerminator} [=]+ {LineTerminator}?
-Tags = {WhiteSpace}* tags {WhiteSpace}? ":" {InputCharacter}* {LineTerminator}?
-Keyword = {WhiteSpace}* table {WhiteSpace}? ":" {InputCharacter}* {LineTerminator}?
-TeardownIdentifier = "_" "_" "_"+ {WhiteSpace}* {LineTerminator}
+
+// シナリオの見出し(##で始まる行)
+ScenarioHeading = {WhiteSpace}* "##" {InputCharacter}* {LineTerminator}+ | {WhiteSpace}* {InputCharacter}* {LineTerminator} [-]+ {LineTerminator}+
+// 仕様の見出し(#で始まる行)
+SpecHeading = {WhiteSpace}* "#" {InputCharacter}* {LineTerminator}+ | {WhiteSpace}* {InputCharacter}* {LineTerminator} [=]+ {LineTerminator}+
+// ステップ(*で始まる行)
+Step = {WhiteSpace}* "*" [^*] {InputCharacter}* {LineTerminator}*
+// テーブルのヘッダー（|区切りの行）
+TableHeader = {WhiteSpace}* ("|" {TableInputCharacter}*)+ "|" {LineTerminator} | {WhiteSpace}* ("|" {TableInputCharacter}*)+ "|" {LineTerminator} {WhiteSpace}* {TableSeparator}+ {LineTerminator}+
+// テーブルの行
+TableRow={WhiteSpace}* ("|" {TableInputCharacter}*)+ "|" {LineTerminator}
+// コメント
+Comment = {InputCharacter}*? {LineTerminator}*?
+// テーブルのセパレータ
+TableSeparator = [-|]
+
+// ルール
 %%
+// 初期状態でのトークン認識ルール
 <YYINITIAL> {
-  {ScenarioHeading}                        {return SCENARIO_HEADING;}
-  {SpecHeading}                            {return SPEC_HEADING;}
-  {Tags}                                   {return TAGS;}
-  {Keyword}                                {return KEYWORD;}
-  {StepIdentifier}                         {yybegin(INSTEP); return STEP_IDENTIFIER;}
-  {TableIdentifier}                        {yybegin(INTABLEHEADER); return TABLE_BORDER;}
-  {LineTerminator}? {WhiteSpace}* {NonWhiteSpaceAndIdentifierCharacter}+ {WhiteSpace}* ({StepIdentifier} | [#] | [##] | {TableIdentifier}) {InputCharacter}* {LineTerminator}? {return COMMENT;}
-  {TeardownIdentifier}                     {return TEARDOWN_IDENTIFIER;}
-  {LineTerminator}?{WhiteSpace}*           {return COMMENT;}
-  [^]                                      {yypushback(1); yybegin(INCOMMENT);}
+  {ScenarioHeading} {return SCENARIO_HEADING;}
+  {SpecHeading}     {return SPEC_HEADING;}
+  {Step}            {return STEP;}
+  {TableHeader}     {yybegin(INTABLE);return TABLE_HEADER;}
+  {Comment}         {return COMMENT;}
 }
 
-<INSTEP> {
-  [^<\"\r\n]*                              {yybegin(INSTEP); return STEP;}
-  [\"]                                     {yybegin(INARG); return ARG_START;}
-  [<]                                      {yybegin(INDYNAMIC); return DYNAMIC_ARG_START;}
-  {LineTerminator}?                        {yybegin(YYINITIAL); return STEP;}
-}
-
-<INARG> {
-  (\\\"|[^\"])*                            {return ARG;}
-  [\"]                                     {yybegin(INSTEP); return ARG_END;}
-}
-
-<INDYNAMIC> {
-  (\\<|\\>|[^\>])*                         {return DYNAMIC_ARG;}
-  [>]                                      {yybegin(INSTEP); return DYNAMIC_ARG_END;}
-}
-
-<INDYNAMICTABLEITEM> {
-  (\\<|\\>|[^\>|]|[\\\|])                  {yybegin(INDYNAMICTABLEITEM); return DYNAMIC_ARG; }
-  [>]                                      {yybegin(INTABLEBODYROW); return DYNAMIC_ARG_END;}
-  {TableIdentifier}                        {yybegin(INTABLEBODYROW); return TABLE_BORDER;}
-  {LineTerminator}{WhiteSpace}*            {yybegin(INTABLEBODY); return NEW_LINE;}
-}
-
-<INTABLEHEADER> {
-  (\\\||[^|\r\n])*                         {yybegin(INTABLEHEADER); return TABLE_HEADER;}
-  {TableIdentifier}                        {yybegin(INTABLEHEADER); return TABLE_BORDER;}
-  {LineTerminator}{WhiteSpace}*            {yybegin(INTABLEBODY); return NEW_LINE;}
-}
-
-<INTABLEBODY> {
-  {TableIdentifier}                        {yybegin(INTABLEBODYROW); return TABLE_BORDER;}
-  [^]                                      {yypushback(1); yybegin(YYINITIAL);}
-}
-
-<INTABLEBODYROW> {
-  {WhiteSpace}*                            {yybegin(INTABLEBODYROW); return WHITESPACE;}
-  (\\\||[^-<|\r\n])                        {yybegin(INTABLECELL); return TABLE_ROW_VALUE;}
-  [-]*                                     {yybegin(INTABLEBODYROW); return TABLE_BORDER;}
-  [<]                                      {yybegin(INDYNAMICTABLEITEM); return DYNAMIC_ARG_START;}
-  {TableIdentifier}                        {yybegin(INTABLEBODYROW); return TABLE_BORDER;}
-  {LineTerminator}{WhiteSpace}*            {yybegin(INTABLEBODY); return NEW_LINE;}
-}
-
-<INTABLECELL> {
-  (\\\||[^|\r\n])*                         {yybegin(INTABLECELL); return TABLE_ROW_VALUE;}
-  {TableIdentifier}                        {yybegin(INTABLEBODYROW); return TABLE_BORDER;}
-  {LineTerminator}{WhiteSpace}*            {yybegin(INTABLEBODY); return NEW_LINE;}
-}
-
-<INCOMMENT> {
-  {InputCharacter}+{LineTerminator}?       {yybegin(YYINITIAL); return COMMENT;}
-  {LineTerminator}?                        {yybegin(YYINITIAL); return COMMENT;}
+// テーブル内の状態でのトークン認識ルール
+<INTABLE> {
+  {TableRow}         {yybegin(INTABLE);return TABLE_ROW;}
+  [^]                {yypushback(1); yybegin(YYINITIAL);}
 }
