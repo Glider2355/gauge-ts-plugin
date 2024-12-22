@@ -152,14 +152,14 @@ jobs:
         with:
           cache-default-branch-only: true
           args: >
-            --exclude=gen/
+            --source-directory=src
 
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2024.3.3
         with:
           upload-result: true
           args: >
-            --exclude=gen/
+            --source-directory=src
 
   verify:
     name: Verify plugin
