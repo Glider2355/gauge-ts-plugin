@@ -9,7 +9,7 @@ import gauge.language.psi.impl.*;
 public interface SpecTokenTypes {
 
   IElementType SCENARIO = new SpecElementType("SCENARIO");
-  IElementType STEP = new SpecElementType("STEP");
+  // IElementType STEP = new SpecElementType("STEP");
   IElementType TABLE = new SpecElementType("TABLE");
 
   IElementType COMMENT = new SpecTokenType("COMMENT");
