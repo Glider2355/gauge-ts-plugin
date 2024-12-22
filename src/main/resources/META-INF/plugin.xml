@@ -29,7 +29,7 @@
                 order="first"/>
 
         <!-- コードジャンプの登録 -->
-<!--        <gotoDeclarationHandler implementation="gauge.gotoDeclaration.GaugeGotoDeclarationHandler"/>-->
+        <gotoDeclarationHandler implementation="gauge.gotoDeclaration.GaugeGotoDeclarationHandler"/>
 
 <!--        &lt;!&ndash; Gaugeを実行するためのマーカー登録 &ndash;&gt;-->
 <!--        <runLineMarkerContributor-->
