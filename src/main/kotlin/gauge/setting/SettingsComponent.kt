@@ -1,5 +1,8 @@
 package gauge.setting
 
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.ui.TextBrowseFolderListener
+import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.JBList
 import com.intellij.util.ui.JBUI
 import javax.swing.*
@@ -16,10 +19,42 @@ class SettingsComponent {
     val directoryList = JBList(directoryListModel)
     val addButton = JButton("Add Directory")
     val removeButton = JButton("Remove Selected Directory")
+    private val gaugeBinaryPathField = TextFieldWithBrowseButton()
+    private val gaugeHomePathField = TextFieldWithBrowseButton()
 
     init {
         // メインパネルのボーダー設定
         mainPanel.border = JBUI.Borders.empty(10)
+
+        // Gauge Binary Pathの設定フィールド
+        val binaryPathPanel = JPanel(BorderLayout())
+        binaryPathPanel.border = JBUI.Borders.empty(10, 0)
+        binaryPathPanel.add(JLabel("Gauge Binary Path:"), BorderLayout.WEST)
+        binaryPathPanel.add(gaugeBinaryPathField, BorderLayout.CENTER)
+
+        // フォルダ選択の設定
+        gaugeBinaryPathField.addBrowseFolderListener(
+            TextBrowseFolderListener(
+                FileChooserDescriptorFactory.createSingleFileDescriptor()
+                    .withTitle("Select Gauge Binary")
+                    .withDescription("Choose the Gauge binary file")
+            )
+        )
+
+        // GAUGE_HOME Pathの設定フィールド
+        val homePathPanel = JPanel(BorderLayout())
+        homePathPanel.border = JBUI.Borders.empty(10, 0)
+        homePathPanel.add(JLabel("GAUGE_HOME Path:"), BorderLayout.WEST)
+        homePathPanel.add(gaugeHomePathField, BorderLayout.CENTER)
+
+        // フォルダ選択の設定
+        gaugeHomePathField.addBrowseFolderListener(
+            TextBrowseFolderListener(
+                FileChooserDescriptorFactory.createSingleFolderDescriptor()
+                    .withTitle("Select GAUGE_HOME")
+                    .withDescription("Choose the Gauge home directory")
+            )
+        )
 
         // ディレクトリ一覧の作成
         val listPanel = JPanel(BorderLayout())
@@ -39,9 +74,33 @@ class SettingsComponent {
         buttonPanel.add(Box.createRigidArea(Dimension(0, 5)))
         buttonPanel.add(removeButton)
 
-        // メインパネルにディレクトリ一覧とボタンを追加
+        // メインパネルに各コンポーネントを追加
+        val inputPanel = JPanel(BorderLayout())
+        inputPanel.add(binaryPathPanel, BorderLayout.NORTH)
+        inputPanel.add(homePathPanel, BorderLayout.SOUTH)
+        mainPanel.add(inputPanel, BorderLayout.NORTH)
         mainPanel.add(listPanel, BorderLayout.CENTER)
         mainPanel.add(buttonPanel, BorderLayout.SOUTH)
+    }
+
+    // Gauge Binary Pathを取得
+    fun getGaugeBinaryPath(): String {
+        return gaugeBinaryPathField.text
+    }
+
+    // Gauge Binary Pathを設定
+    fun setGaugeBinaryPath(path: String) {
+        gaugeBinaryPathField.text = path
+    }
+
+    // GAUGE_HOME Pathを取得
+    fun getGaugeHomePath(): String {
+        return gaugeHomePathField.text
+    }
+
+    // GAUGE_HOME Pathを設定
+    fun setGaugeHomePath(path: String) {
+        gaugeHomePathField.text = path
     }
 
     // ディレクトリ一覧を取得
