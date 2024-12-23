@@ -21,15 +21,24 @@ class SettingsConfigurable(private val project: Project) : Configurable {
     override fun isModified(): Boolean {
         val settings = project.service<PluginSettings>()
         val currentDirectories = mySettingsComponent?.getDirectories()?.map { it.path } ?: emptyList()
+        val currentGaugeBinaryPath = mySettingsComponent?.getGaugeBinaryPath() ?: ""
+        val currentGaugeHomePath = mySettingsComponent?.getGaugeHomePath() ?: ""
+
         return currentDirectories != settings.searchDirectories ||
-                mySettingsComponent?.getDirectories()?.any { it.path in settings.searchDirectories && it.isChecked != (it.path in settings.validDirectories) } == true
+                currentGaugeBinaryPath != settings.gaugeBinaryPath ||
+                currentGaugeHomePath != settings.gaugeHomePath ||
+                mySettingsComponent?.getDirectories()?.any {
+                    it.path in settings.searchDirectories && it.isChecked != (it.path in settings.validDirectories)
+                } == true
     }
 
-    // 設定を保存したときに選択されたディレクトリを設定に保存
+    // 設定を保存
     override fun apply() {
         val settings = project.service<PluginSettings>()
         settings.searchDirectories = mySettingsComponent?.getDirectories()?.map { it.path }?.toMutableList() ?: mutableListOf()
         settings.validDirectories = mySettingsComponent?.getDirectories()?.filter { it.isChecked }?.map { it.path }?.toMutableList() ?: mutableListOf()
+        settings.gaugeBinaryPath = mySettingsComponent?.getGaugeBinaryPath() ?: ""
+        settings.gaugeHomePath = mySettingsComponent?.getGaugeHomePath() ?: ""
     }
 
     // 設定画面のタイトル
@@ -37,10 +46,12 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         return "Gauge TS Plugin Settings"
     }
 
-    // リセットの際にディレクトリ一覧をリセット
+    // リセット時にすべての設定をリセット
     override fun reset() {
         val settings = project.service<PluginSettings>()
         val directoryItems = settings.searchDirectories.map { DirectoryItem(it, it in settings.validDirectories) }
         mySettingsComponent?.setDirectories(directoryItems)
+        mySettingsComponent?.setGaugeBinaryPath(settings.gaugeBinaryPath ?: "")
+        mySettingsComponent?.setGaugeHomePath(settings.gaugeHomePath ?: "")
     }
 }
