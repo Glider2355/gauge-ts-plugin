@@ -35,22 +35,20 @@
                 language="Specification"
                 implementationClass="gauge.execution.TestRunLineMarkerProvider"/>
 
-<!--        &lt;!&ndash; Gaugeの実行構成 &ndash;&gt;-->
-<!--        <configurationType-->
-<!--                implementation="gauge.execution.GaugeRunTaskConfigurationType"-->
-<!--                order="first"/>-->
+        <!-- Gaugeの実行構成 -->
+        <configurationType
+                implementation="gauge.execution.GaugeRunTaskConfigurationType"
+                order="first"/>
 
-<!--        <programRunner-->
-<!--                implementation="gauge.execution.GaugeTestRunner"-->
-<!--                order="first"/>-->
+        <programRunner
+                implementation="gauge.execution.GaugeTestRunner"/>
 
-<!--        &lt;!&ndash; specの実行 &ndash;&gt;-->
-<!--        <runConfigurationProducer-->
-<!--                implementation="gauge.execution.SpecsExecutionProducer"-->
-<!--                order="first"/>-->
-<!--        &lt;!&ndash; シナリオの実行 &ndash;&gt;-->
-<!--        <runConfigurationProducer-->
-<!--                implementation="gauge.execution.ScenarioExecutionProducer"-->
-<!--                order="first"/>-->
+        <!-- specの実行 -->
+        <runConfigurationProducer
+                implementation="gauge.execution.SpecsExecutionProducer"/>
+        <!-- シナリオの実行 -->
+        <runConfigurationProducer
+                implementation="gauge.execution.ScenarioExecutionProducer"
+                order="first"/>
     </extensions>
 </idea-plugin>
