@@ -26,18 +26,22 @@ class GaugeOutputToGeneralTestEventsProcessor(
 
     init {
         val cache = TestsCache()
+        // テストイベントの処理を行うプロセッサを初期化
         processors = listOf(
             SuiteEventProcessor(this, cache),
             SpecEventProcessor(this, cache)
         )
+        // テスト実行中にプロセスが異常終了した場合の処理を行うプロセッサを初期化
         unexpectedEndProcessor = UnexpectedEndProcessor(this, cache)
     }
 
+    // テストイベントの処理を行うプロセッサを登録
     override fun setProcessor(processor: GeneralTestEventsProcessor?) {
         super.setProcessor(processor)
         processor?.onRootPresentationAdded("Test Suite", null, null)
     }
 
+    // textをイベントに変換
     @Throws(ParseException::class)
     override fun processServiceMessages(
         text: String,
@@ -66,6 +70,7 @@ class GaugeOutputToGeneralTestEventsProcessor(
         return super.processServiceMessages(text, outputType, visitor)
     }
 
+    // メッセージをテストランナーに通知
     @Throws(ParseException::class)
     override fun process(
         msg: ServiceMessageBuilder,
@@ -82,6 +87,7 @@ class GaugeOutputToGeneralTestEventsProcessor(
         super.process(text, outputType)
     }
 
+    // プロセス終了時にバッファをフラッシュ
     override fun processLineBreak(): Boolean {
         super.flushBufferOnProcessTermination(0)
         return true

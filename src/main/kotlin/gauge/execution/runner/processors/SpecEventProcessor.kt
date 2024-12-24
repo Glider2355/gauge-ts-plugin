@@ -17,6 +17,7 @@ class SpecEventProcessor(
         private const val AFTER_SPEC = "After Specification"
     }
 
+    // 開始イベント(SPEC_START)でテストツリーに追加
     @Throws(ParseException::class)
     override fun onStart(event: ExecutionEvent): Boolean {
         if (cache.currentId == SuiteEventProcessor.SUITE_ID) processor.processLineBreak()
@@ -29,6 +30,7 @@ class SpecEventProcessor(
         return processor.process(msg, cache.getId(event.id), SuiteEventProcessor.SUITE_ID)
     }
 
+    // 開始イベント(SPEC_START)でノード終了
     @Throws(ParseException::class)
     override fun onEnd(event: ExecutionEvent): Boolean {
         cache.getId(event.id)?.let { addHooks(event, BEFORE_SPEC, AFTER_SPEC, event.id, it) }

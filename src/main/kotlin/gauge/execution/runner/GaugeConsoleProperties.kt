@@ -36,6 +36,7 @@ class GaugeConsoleProperties(
         setIfUndefined(TestConsoleProperties.SHOW_STATISTICS, false)
     }
 
+    // テストランナーの出力をテストイベントに変換する
     override fun createTestEventsConverter(
         testFrameworkName: String,
         consoleProperties: TestConsoleProperties
@@ -43,12 +44,15 @@ class GaugeConsoleProperties(
         return GaugeOutputToGeneralTestEventsProcessor(testFrameworkName, consoleProperties, handler)
     }
 
+    // 失敗したテストを再実行する
     override fun createRerunFailedTestsAction(consoleView: ConsoleView): AbstractRerunFailedTestsAction {
         return GaugeRerunFailedAction(consoleView).apply { init(this@GaugeConsoleProperties) }
     }
 
+    // テストツリーをIDベースで構築する
     override fun isIdBasedTestTree(): Boolean = true
 
+    // テスト結果からテストの場所を特定するロケーター
     override fun getTestLocator(): SMTestLocator {
         return SMTestLocator { _, path, project, _ ->
             try {

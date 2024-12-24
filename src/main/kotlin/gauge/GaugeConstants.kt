@@ -3,6 +3,7 @@ package gauge
 object GaugeConstants {
     const val GAUGE: String = "gauge"
     const val RUN: String = "run"
+    const val MACHINE_READABLE: String = "--machine-readable"
     const val TAGS: String = "--tags"
     const val PARALLEL: String = "--parallel"
     const val PARALLEL_NODES: String = "-n"
@@ -15,4 +16,5 @@ object GaugeConstants {
     const val SPEC_FILE_DELIMITER_REGEX: String = "\\|\\|"
     private const val COLON = ":"
     const val SPEC_SCENARIO_DELIMITER: String = COLON
+    const val HIDE_SUGGESTION: String = "--hide-suggestion"
 }

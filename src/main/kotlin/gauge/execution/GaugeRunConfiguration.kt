@@ -65,13 +65,8 @@ class GaugeRunConfiguration(
         // 基本コマンドの追加 (gauge run)
         commandLine.addParameter(GaugeConstants.RUN)
 
-        // Gaugeが0.9.2以上なら--machine-readableと--hide-suggestionを追加(versionを見てないので追加しない)
-//        if (GaugeVersion.isGreaterOrEqual(TEST_RUNNER_SUPPORT_VERSION, true) &&
-//            GaugeSettingsService.getSettings().useIntelliJTestRunner()
-//        ) {
-//            commandLine.addParameter(GaugeConstants.MACHINE_READABLE)
-//            commandLine.addParameter(GaugeConstants.HIDE_SUGGESTION)
-//        }
+        commandLine.addParameter(GaugeConstants.MACHINE_READABLE)
+        commandLine.addParameter(GaugeConstants.HIDE_SUGGESTION)
 
         // --simple-consoleフラグを追加
         // commandLine.addParameter(GaugeConstants.SIMPLE_CONSOLE)
