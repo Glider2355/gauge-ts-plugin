@@ -1,32 +1,28 @@
-/*
- * Copyright (C) 2020 ThoughtWorks, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package gauge.execution.runner.event
 
+/**
+ * status: (pass, fail, skip)
+ * time: 実行時間(ms)
+ * errors: エラーオブジェクトの配列 (エラーがない場合は null)
+ * beforeHookFailure: 前処理 (Before Hook) の失敗情報 (失敗していない場合は null)
+ * afterHookFailure: 後処理 (After Hook) の失敗情報 (失敗していない場合は null)
+ * table: テーブル情報 (テーブルがない場合は null)
+ */
 data class ExecutionResult(
-    var status: String = "",
-    var time: Int? = null,
-    var out: String? = null,
-    var errors: Array<ExecutionError>? = null,
-    var beforeHookFailure: ExecutionError? = null,
-    var afterHookFailure: ExecutionError? = null,
-    var table: TableInfo? = null
+    val status: String,
+    val time: Int?,
+    val out: String?,
+    val errors: Array<ExecutionError>?,
+    val beforeHookFailure: ExecutionError?,
+    val afterHookFailure: ExecutionError?,
+    val table: TableInfo?
 ) {
     fun skipped(): Boolean {
         return status.equals(ExecutionEvent.SKIP, ignoreCase = true)
+    }
+
+    fun passed(): Boolean {
+        return status.equals(ExecutionEvent.PASS, ignoreCase = true)
     }
 
     fun failed(): Boolean {

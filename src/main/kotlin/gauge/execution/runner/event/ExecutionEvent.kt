@@ -1,15 +1,26 @@
 package gauge.execution.runner.event
 
+/**
+ * type: このイベントの種類
+ * id: イベントの一意の識別子
+ * filename: イベントが発生したファイル名
+ * line: イベントが発生した行番号
+ * parentId: 親イベントの識別子(ルートイベントの場合はnull)
+ * name: イベントの名前(スペック名、シナリオ名など)
+ * message: イベントに関連付けられたメッセージ
+ * notification: 通知情報
+ * result: 実行結果
+ */
 data class ExecutionEvent(
-    var type: String = "",
-    var id: String = "",
-    var filename: String = "",
-    var line: Int? = null,
-    var parentId: String = "",
-    var name: String = "",
-    var message: String = "",
-    var notification: GaugeNotification? = null,
-    var result: ExecutionResult? = null
+    val type: String,
+    val id: String?,
+    val filename: String?,
+    val line: Int?,
+    val parentId: String?,
+    val name: String?,
+    val message: String?,
+    val notification: GaugeNotification?,
+    val result: ExecutionResult?
 ) {
     companion object {
         const val SUITE_START = "suiteStart"
@@ -20,6 +31,7 @@ data class ExecutionEvent(
         const val SUITE_END = "suiteEnd"
         const val NOTIFICATION = "notification"
         const val STANDARD_OUTPUT = "out"
+        const val PASS = "pass"
         const val FAIL = "fail"
         const val SKIP = "skip"
     }

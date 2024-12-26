@@ -1,12 +1,12 @@
 package gauge.execution.runner.event
 
-class ExecutionError {
-    var text: String? = null
-    var filename: String? = null
-    var lineNo: String? = null
-    var message: String? = null
-    var stackTrace: String? = null
-
+data class ExecutionError(
+    val text: String,
+    val filename: String,
+    val lineNo: String,
+    val message: String,
+    val stackTrace: String
+){
     fun format(status: String?): String {
         return format(this.text, status, "\n") +
                 format(fileNameWithLineNo, "Filename: ", "\n") +
@@ -15,7 +15,7 @@ class ExecutionError {
     }
 
     private val fileNameWithLineNo: String?
-        get() = if (lineNo!!.isEmpty()) filename else format(":", filename, lineNo)
+        get() = if (lineNo.isEmpty()) filename else format(":", filename, lineNo)
 
     companion object {
         private fun format(text: String?, prefix: String?, suffix: String?): String {

@@ -14,6 +14,6 @@ class TestsCache {
     }
 
     fun setId(key: String) {
-        idCache[key] = ++this.currentId
+        idCache[key] = ++currentId
     }
 }

@@ -18,7 +18,6 @@ class GaugeOutputToGeneralTestEventsProcessor(
     consoleProperties: TestConsoleProperties,
     private val handler: ProcessHandler
 ) : OutputToGeneralTestEventsConverter(testFrameworkName, consoleProperties), MessageProcessor {
-
     private var outputType: Key<*>? = null
     private var visitor: ServiceMessageVisitor? = null
     private val processors: List<EventProcessor>
@@ -29,7 +28,10 @@ class GaugeOutputToGeneralTestEventsProcessor(
         // テストイベントの処理を行うプロセッサを初期化
         processors = listOf(
             SuiteEventProcessor(this, cache),
-            SpecEventProcessor(this, cache)
+            SpecEventProcessor(this, cache),
+            ScenarioEventProcessor(this, cache),
+            NotificationEventProcessor(this, cache),
+            StandardOutputEventProcessor(this, cache),
         )
         // テスト実行中にプロセスが異常終了した場合の処理を行うプロセッサを初期化
         unexpectedEndProcessor = UnexpectedEndProcessor(this, cache)
@@ -52,6 +54,7 @@ class GaugeOutputToGeneralTestEventsProcessor(
         this.visitor = visitor
         // JSONとしてパースできる場合、イベント処理を行う
         if (text.startsWith("{")) {
+            // JSONをExecutionEventに変換
             val event = GsonBuilder().create().fromJson(text, ExecutionEvent::class.java)
             for (processor in processors) {
                 if (processor.canProcess(event)) return processor.process(event)
@@ -60,11 +63,25 @@ class GaugeOutputToGeneralTestEventsProcessor(
         // テキストが "Process finished with exit code" で始まり、かつ UnexpectedEndProcessor が処理可能な場合、処理を行う
         if (text.trim().startsWith("Process finished with exit code") && unexpectedEndProcessor.canProcess(null)) {
             unexpectedEndProcessor.process(
-                ExecutionEvent().apply {
-                    result = ExecutionResult().apply {
-                        status = if (handler.exitCode == SUCCESS) ExecutionEvent.SKIP else ExecutionEvent.FAIL
-                    }
-                }
+                ExecutionEvent(
+                    type = "",
+                    id = null,
+                    filename = null,
+                    line = null,
+                    parentId = null,
+                    name = null,
+                    message = null,
+                    notification = null,
+                    result = ExecutionResult(
+                        status = if (SUCCESS == handler.exitCode) ExecutionEvent.SKIP else ExecutionEvent.FAIL,
+                        time = null,
+                        out = null,
+                        errors = null,
+                        beforeHookFailure = null,
+                        afterHookFailure = null,
+                        table = null
+                    )
+                )
             )
         }
         return super.processServiceMessages(text, outputType, visitor)
