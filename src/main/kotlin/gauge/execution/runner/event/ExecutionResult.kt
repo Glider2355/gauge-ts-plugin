@@ -21,10 +21,6 @@ data class ExecutionResult(
         return status.equals(ExecutionEvent.SKIP, ignoreCase = true)
     }
 
-    fun passed(): Boolean {
-        return status.equals(ExecutionEvent.PASS, ignoreCase = true)
-    }
-
     fun failed(): Boolean {
         return status.equals(ExecutionEvent.FAIL, ignoreCase = true)
     }

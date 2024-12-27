@@ -51,7 +51,7 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         val settings = project.service<PluginSettings>()
         val directoryItems = settings.searchDirectories.map { DirectoryItem(it, it in settings.validDirectories) }
         mySettingsComponent?.setDirectories(directoryItems)
-        mySettingsComponent?.setGaugeBinaryPath(settings.gaugeBinaryPath ?: "")
-        mySettingsComponent?.setGaugeHomePath(settings.gaugeHomePath ?: "")
+        mySettingsComponent?.setGaugeBinaryPath(settings.gaugeBinaryPath)
+        mySettingsComponent?.setGaugeHomePath(settings.gaugeHomePath)
     }
 }

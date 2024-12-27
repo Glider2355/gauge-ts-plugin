@@ -9,10 +9,6 @@ class TestsCache {
         return idCache[key]
     }
 
-    fun setId(key: String, id: Int) {
-        idCache[key] = id
-    }
-
     fun setId(key: String) {
         idCache[key] = ++currentId
     }

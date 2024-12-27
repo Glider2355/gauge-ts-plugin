@@ -12,7 +12,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
 import gauge.GaugeConstants
-import gauge.language.psi.impl.SpecScenarioImpl
 import gauge.language.token.SpecTokenTypes
 import org.jetbrains.annotations.NotNull
 import gauge.util.GaugeUtil.isSpecFile
