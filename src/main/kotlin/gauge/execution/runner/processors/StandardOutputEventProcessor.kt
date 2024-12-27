@@ -1,8 +1,8 @@
 package gauge.execution.runner.processors
 
-import com.thoughtworks.gauge.execution.runner.MessageProcessor
-import com.thoughtworks.gauge.execution.runner.TestsCache
-import com.thoughtworks.gauge.execution.runner.event.ExecutionEvent
+import gauge.execution.runner.MessageProcessor
+import gauge.execution.runner.TestsCache
+import gauge.execution.runner.event.ExecutionEvent
 
 class StandardOutputEventProcessor(
     processor: MessageProcessor,
@@ -15,6 +15,9 @@ class StandardOutputEventProcessor(
     }
 
     override fun onEnd(event: ExecutionEvent): Boolean {
+        if (event.message == null) {
+            return true
+        }
         var msg = event.message
         // メッセージが改行で終わっていない場合、改行を追加
         if (!msg.endsWith("\n")) {

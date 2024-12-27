@@ -1,0 +1,48 @@
+{
+  parserClass="gauge.parser.SpecParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Spec"
+  psiImplClassSuffix="Impl"
+  psiPackage="gauge.language.psi"
+  psiImplPackage="gauge.language.psi.impl"
+
+  elementTypeHolderClass="gauge.language.token.SpecTokenTypes"
+  elementTypeClass="gauge.language.token.SpecElementType"
+  tokenTypeClass="gauge.language.token.SpecTokenType"
+
+  // psiImplUtilClass="gauge.language.psi.SpecPsiImplUtil"
+}
+
+/**
+* .specファイルのトップレベル構造 (specDetail:仕様の詳細部分 scenario+: 1つ以上のシナリオ)
+*/
+specFile ::= specDetail scenario+
+
+/**
+ * scenarioHeading: シナリオの見出し
+ * (step | comment)*: 0個以上のステップまたはコメント
+ */
+scenario ::= scenarioHeading (step | comment)*
+
+/**
+ * ステップ要素(STEPのトークンで認識する)
+ * table?: オプションでテーブル
+ */
+step ::= STEP table?
+table ::= TABLE_HEADER TABLE_ROW*
+
+/**
+ * (comment)*: 0個以上のコメント
+ * specHeading: 仕様の見出し
+ * table?: オプションでテーブル
+ * (step|comment)*: 0個以上のステップまたはコメント
+ */
+private specDetail ::= (comment)*  specHeading table? (step|comment)*
+
+// コメント要素(COMMENTのトークンで認識する)
+private comment ::= COMMENT
+
+private specHeading ::= SPEC_HEADING
+private scenarioHeading ::= SCENARIO_HEADING

@@ -2,13 +2,14 @@ package gauge.contributor
 
 import com.intellij.codeInsight.completion.*
 import com.intellij.patterns.PlatformPatterns
-import com.thoughtworks.gauge.language.Specification
+import gauge.language.Specification
+import gauge.language.token.SpecTokenTypes
 
 class SpecCompletionContributor : CompletionContributor() {
     init {
         extend(
             CompletionType.BASIC,
-            PlatformPatterns.psiElement().withLanguage(Specification.INSTANCE),
+            PlatformPatterns.psiElement(SpecTokenTypes.STEP).withLanguage(Specification.INSTANCE),
             SpecCompletionProvider()
         )
     }

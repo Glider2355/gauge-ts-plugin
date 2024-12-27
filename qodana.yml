@@ -6,7 +6,9 @@ linter: jetbrains/qodana-jvm-community:latest
 projectJDK: "17"
 profile:
   name: qodana.recommended
+fixesStrategy: apply
 exclude:
   - name: All
     paths:
       - .qodana
+      - gen

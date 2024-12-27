@@ -1,8 +1,8 @@
 package gauge.execution.runner.processors
 
-import com.thoughtworks.gauge.execution.runner.MessageProcessor
-import com.thoughtworks.gauge.execution.runner.TestsCache
-import com.thoughtworks.gauge.execution.runner.event.ExecutionEvent
+import gauge.execution.runner.MessageProcessor
+import gauge.execution.runner.TestsCache
+import gauge.execution.runner.event.ExecutionEvent
 import java.text.ParseException
 
 class SuiteEventProcessor(

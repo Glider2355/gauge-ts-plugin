@@ -1,6 +1,6 @@
 package gauge.execution.runner.processors
 
-import com.thoughtworks.gauge.execution.runner.event.ExecutionEvent
+import gauge.execution.runner.event.ExecutionEvent
 import java.text.ParseException
 
 interface EventProcessor {

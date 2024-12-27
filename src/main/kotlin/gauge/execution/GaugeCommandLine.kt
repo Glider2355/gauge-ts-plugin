@@ -1,30 +1,30 @@
 package gauge.execution
 
 import com.intellij.execution.configurations.GeneralCommandLine
-import com.intellij.openapi.module.Module
+import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import gauge.GaugeConstants
-import com.thoughtworks.gauge.exception.GaugeNotFoundException
-import com.thoughtworks.gauge.settings.GaugeSettingsModel
-import com.thoughtworks.gauge.util.GaugeUtil
+import gauge.exception.GaugeNotFoundException
+import gauge.setting.PluginSettings
 
 object GaugeCommandLine {
 
-    fun getInstance(module: Module?, project: Project): GeneralCommandLine {
+    fun getInstance(project: Project): GeneralCommandLine {
         val commandLine = GeneralCommandLine()
         try {
-            val settings: GaugeSettingsModel = GaugeUtil.getGaugeSettings()
-            commandLine.exePath = settings.gaugePath
+            val settings = project.service<PluginSettings>()
+            commandLine.exePath = settings.gaugeBinaryPath
             val environment = commandLine.environment
-            environment[GaugeConstants.GAUGE_HOME] = settings.homePath
+            environment[GaugeConstants.GAUGE_HOME] = settings.gaugeHomePath
         } catch (e: GaugeNotFoundException) {
             commandLine.exePath = GaugeConstants.GAUGE
-        } finally {
-            commandLine.setWorkDirectory(project.basePath)
-            module?.let {
-                commandLine.workDirectory = GaugeUtil.moduleDir(it)
-            }
         }
+//        finally {
+//            commandLine.setWorkDirectory(project.basePath)
+//            module?.let {
+//                commandLine.workDirectory = GaugeUtil.moduleDir(it) 廃止済み
+//            }
+//        }
         return commandLine
     }
 }

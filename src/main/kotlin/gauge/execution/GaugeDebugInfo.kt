@@ -3,7 +3,7 @@ package gauge.execution
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.execution.executors.DefaultDebugExecutor
 import com.intellij.execution.runners.ExecutionEnvironment
-import com.thoughtworks.gauge.util.SocketUtils
+import gauge.util.SocketUtils
 
 class GaugeDebugInfo private constructor(
     val shouldDebug: Boolean,

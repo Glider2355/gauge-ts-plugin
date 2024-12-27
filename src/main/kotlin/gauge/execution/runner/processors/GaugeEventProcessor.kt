@@ -2,10 +2,10 @@ package gauge.execution.runner.processors
 
 import com.intellij.execution.testframework.sm.ServiceMessageBuilder
 import gauge.GaugeConstants
-import com.thoughtworks.gauge.execution.runner.MessageProcessor
-import com.thoughtworks.gauge.execution.runner.TestsCache
-import com.thoughtworks.gauge.execution.runner.event.ExecutionError
-import com.thoughtworks.gauge.execution.runner.event.ExecutionEvent
+import gauge.execution.runner.MessageProcessor
+import gauge.execution.runner.TestsCache
+import gauge.execution.runner.event.ExecutionError
+import gauge.execution.runner.event.ExecutionEvent
 
 abstract class GaugeEventProcessor(
     val processor: MessageProcessor,
@@ -31,8 +31,8 @@ abstract class GaugeEventProcessor(
         prefix: String,
         parentId: Int
     ): Boolean {
-        failTest(parentId, before, event.result.beforeHookFailure, "$prefix$before", event)
-        failTest(parentId, after, event.result.afterHookFailure, "$prefix$after", event)
+        failTest(parentId, before, event.result?.beforeHookFailure, "$prefix$before", event)
+        failTest(parentId, after, event.result?.afterHookFailure, "$prefix$after", event)
         return true
     }
 
@@ -44,7 +44,7 @@ abstract class GaugeEventProcessor(
     }
 
     protected fun addLocation(event: ExecutionEvent, msg: ServiceMessageBuilder) {
-        if (event.filename != null && event.line != null) {
+        if (event.line != null) {
             msg.addAttribute("locationHint", "$FILE_PREFIX${event.filename}${GaugeConstants.SPEC_SCENARIO_DELIMITER}${event.line}")
         }
     }

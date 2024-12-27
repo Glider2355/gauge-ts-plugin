@@ -1,9 +1,9 @@
 package gauge.execution.runner.processors
 
 import com.intellij.execution.testframework.sm.ServiceMessageBuilder
-import com.thoughtworks.gauge.execution.runner.MessageProcessor
-import com.thoughtworks.gauge.execution.runner.TestsCache
-import com.thoughtworks.gauge.execution.runner.event.ExecutionEvent
+import gauge.execution.runner.MessageProcessor
+import gauge.execution.runner.TestsCache
+import gauge.execution.runner.event.ExecutionEvent
 
 class UnexpectedEndProcessor(
     processor: MessageProcessor,
@@ -17,7 +17,7 @@ class UnexpectedEndProcessor(
     override fun onEnd(event: ExecutionEvent): Boolean {
         var name = "Failed"
         var msg = ServiceMessageBuilder.testFailed(name)
-        if (event.result.skipped()) {
+        if (event.result?.skipped() == true) {
             name = "Ignored"
             msg = ServiceMessageBuilder.testIgnored(name)
         }

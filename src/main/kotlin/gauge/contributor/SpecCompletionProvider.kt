@@ -29,7 +29,9 @@ class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
 
         // サジェストするために取得したアノテーションの引数を追加
         for (annotation in stepAnnotations) {
-            result.addElement(LookupElementBuilder.create("* $annotation"))
+            result.addElement(LookupElementBuilder.create(annotation)
+                .withPresentableText(annotation) // "* "はサジェスト表示には影響しない
+                .withLookupString("* $annotation")) // フィルタリング条件に "* " を含む
         }
     }
 }

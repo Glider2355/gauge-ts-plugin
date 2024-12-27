@@ -25,7 +25,6 @@ class GaugeRunConfiguration(
 
     // 実行するspecのパス
     var specs: String? = null
-    var selectedModule: Module? = null
     // 実行時の環境設定
     private var environment: String? = null
     // 実行するテストのタグ
@@ -55,7 +54,7 @@ class GaugeRunConfiguration(
 
     // 実行時の状態
     override fun getState(executor: Executor, env: ExecutionEnvironment): RunProfileState {
-        val commandLine = GaugeCommandLine.getInstance(selectedModule, project)
+        val commandLine = GaugeCommandLine.getInstance(project)
         addFlags(commandLine, env)
         return GaugeCommandLineState(commandLine, project, env, this)
     }
@@ -65,13 +64,8 @@ class GaugeRunConfiguration(
         // 基本コマンドの追加 (gauge run)
         commandLine.addParameter(GaugeConstants.RUN)
 
-        // Gaugeが0.9.2以上なら--machine-readableと--hide-suggestionを追加(versionを見てないので追加しない)
-//        if (GaugeVersion.isGreaterOrEqual(TEST_RUNNER_SUPPORT_VERSION, true) &&
-//            GaugeSettingsService.getSettings().useIntelliJTestRunner()
-//        ) {
-//            commandLine.addParameter(GaugeConstants.MACHINE_READABLE)
-//            commandLine.addParameter(GaugeConstants.HIDE_SUGGESTION)
-//        }
+        commandLine.addParameter(GaugeConstants.MACHINE_READABLE)
+        commandLine.addParameter(GaugeConstants.HIDE_SUGGESTION)
 
         // --simple-consoleフラグを追加
         // commandLine.addParameter(GaugeConstants.SIMPLE_CONSOLE)
@@ -90,7 +84,7 @@ class GaugeRunConfiguration(
         // テーブルの行の範囲の設定
         addTableRowsRangeFlags(commandLine)
         // 並列実行の設定
-        addParallelExecFlags(commandLine, env)
+        // addParallelExecFlags(commandLine, env)
         // 追加のプログラム引数
         addProgramArguments(commandLine)
 
@@ -122,24 +116,24 @@ class GaugeRunConfiguration(
     }
 
     // 並列実行の設定
-    private fun addParallelExecFlags(commandLine: GeneralCommandLine, env: ExecutionEnvironment) {
-        if (parallelExec(env)) {
-            commandLine.addParameter(GaugeConstants.PARALLEL)
-            parallelNodes?.takeIf { it.isNotEmpty() }?.let {
-                try {
-                    it.toInt()
-                    commandLine.addParameters(GaugeConstants.PARALLEL_NODES, it)
-                } catch (e: NumberFormatException) {
-                    // Ignore
-                }
-            }
-        }
-    }
+//    private fun addParallelExecFlags(commandLine: GeneralCommandLine, env: ExecutionEnvironment) {
+//        if (parallelExec(env)) {
+//            commandLine.addParameter(GaugeConstants.PARALLEL)
+//            parallelNodes?.takeIf { it.isNotEmpty() }?.let {
+//                try {
+//                    it.toInt()
+//                    commandLine.addParameters(GaugeConstants.PARALLEL_NODES, it)
+//                } catch (e: NumberFormatException) {
+//                    // Ignore
+//                }
+//            }
+//        }
+//    }
 
     // 並列実行するかどうか
-    private fun parallelExec(env: ExecutionEnvironment): Boolean {
-        return execInParallel && !GaugeDebugInfo.isDebugExecution(env)
-    }
+//    private fun parallelExec(env: ExecutionEnvironment): Boolean {
+//        return execInParallel && !GaugeDebugInfo.isDebugExecution(env)
+//    }
 
     // 実行する仕様、シナリオの指定
     private fun addSpecs(commandLine: GeneralCommandLine, specsToExecute: String) {
@@ -180,26 +174,16 @@ class GaugeRunConfiguration(
         }
     }
 
-    private fun setSpecsToExecute(specsToExecute: String) {
-        this.specs = specsToExecute
-    }
-
     override fun getModules(): Array<Module> {
         return ModuleManager.getInstance(project).modules
     }
 
-    fun setSpecsArrayToExecute(specsArrayToExecute: List<String>) {
-        val builder = StringBuilder()
-        for (specName in specsArrayToExecute) {
-            builder.append(specName)
-            if (specsArrayToExecute.indexOf(specName) != specsArrayToExecute.size - 1) {
-                builder.append(GaugeConstants.SPEC_FILE_DELIMITER)
-            }
-        }
-        setSpecsToExecute(builder.toString())
+    fun setSpecsToExecute(specsToExecute: String) {
+        this.specs = specsToExecute
     }
 
-    companion object {
-        const val TEST_RUNNER_SUPPORT_VERSION = "0.1.0"
+    fun setSpecsArrayToExecute(specsArrayToExecute: List<String>) {
+        val joinedSpecs = specsArrayToExecute.joinToString(separator = GaugeConstants.SPEC_FILE_DELIMITER)
+        setSpecsToExecute(joinedSpecs)
     }
 }

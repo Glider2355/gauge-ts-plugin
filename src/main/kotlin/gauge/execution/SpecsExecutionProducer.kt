@@ -10,9 +10,12 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.psi.util.elementType
 import gauge.GaugeConstants
+import gauge.language.psi.impl.SpecScenarioImpl
+import gauge.language.token.SpecTokenTypes
 import org.jetbrains.annotations.NotNull
-import com.thoughtworks.gauge.util.GaugeUtil.isSpecFile
+import gauge.util.GaugeUtil.isSpecFile
 
 class SpecsExecutionProducer : LazyRunConfigurationProducer<GaugeRunConfiguration>() {
 
@@ -20,41 +23,55 @@ class SpecsExecutionProducer : LazyRunConfigurationProducer<GaugeRunConfiguratio
         const val DEFAULT_CONFIGURATION_NAME = "Specifications"
     }
 
+    // 実行構成を作成するためのファクトリー
     @NotNull
     override fun getConfigurationFactory(): ConfigurationFactory {
         return GaugeRunTaskConfigurationType().configurationFactories[0]
     }
 
+    // 実行構成を作成する
     override fun setupConfigurationFromContext(
         configuration: GaugeRunConfiguration,
         configurationContext: ConfigurationContext,
         ref: Ref<PsiElement>
     ): Boolean {
+        // 選択されたファイルを取得
         val selectedFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(configurationContext.dataContext)
         val module = configurationContext.module
         if (selectedFiles == null || module == null) {
             return false
         }
+
+        // シナリオが選択された場合、実行構成を作成しない
+        val psiLocation = configurationContext.psiLocation
+        if (psiLocation.elementType == SpecTokenTypes.SCENARIO_HEADING) {
+            return false
+        }
+
+        // 選択されたファイルが1つの場合
         if (selectedFiles.size == 1) {
             if (selectedFiles[0].isDirectory) {
                 return false
             } else if (selectedFiles[0].path == configurationContext.project.basePath) {
                 configuration.name = DEFAULT_CONFIGURATION_NAME
-                configuration.selectedModule = module
                 return true
             }
         }
 
         val specsToExecute = getSpecs(selectedFiles)
+
+        // 実行する仕様がない場合
         if (specsToExecute.isEmpty()) {
             return false
         }
+
+        // 複数ファイルを選択している場合
         configuration.name = DEFAULT_CONFIGURATION_NAME
-        configuration.selectedModule = module
         configuration.setSpecsArrayToExecute(specsToExecute)
         return true
     }
 
+    // 実行構成がコンテキストに対応しているかどうか
     override fun isConfigurationFromContext(
         config: GaugeRunConfiguration,
         context: ConfigurationContext
