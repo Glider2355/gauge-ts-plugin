@@ -18,7 +18,7 @@ class NotificationEventProcessor(processor: MessageProcessor?, cache: TestsCache
         if (title == null || message == null) {
             return true
         }
-        Notification(NotificationGroups.GAUGE_GROUP, title, message, event.notification!!.getType())
+        Notification(NotificationGroups.GAUGE_GROUP, title, message, event.notification.getType())
             .notify(null)
         return true
     }

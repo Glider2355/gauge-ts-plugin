@@ -178,7 +178,7 @@ class GaugeRunConfiguration(
         return ModuleManager.getInstance(project).modules
     }
 
-    fun setSpecsToExecute(specsToExecute: String) {
+    private fun setSpecsToExecute(specsToExecute: String) {
         this.specs = specsToExecute
     }
 

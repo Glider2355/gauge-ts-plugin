@@ -14,7 +14,7 @@ data class ExecutionError(
                 format(this.stackTrace, "Stack Trace:\n", "")
     }
 
-    private val fileNameWithLineNo: String?
+    private val fileNameWithLineNo: String
         get() = if (lineNo.isEmpty()) filename else format(":", filename, lineNo)
 
     companion object {
