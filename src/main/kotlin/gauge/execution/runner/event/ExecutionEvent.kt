@@ -31,7 +31,6 @@ data class ExecutionEvent(
         const val SUITE_END = "suiteEnd"
         const val NOTIFICATION = "notification"
         const val STANDARD_OUTPUT = "out"
-        const val PASS = "pass"
         const val FAIL = "fail"
         const val SKIP = "skip"
     }
