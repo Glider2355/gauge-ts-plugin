@@ -95,8 +95,6 @@ jobs:
 
       - name: Fetch Sources
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}  # 現在のブランチを指定
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -142,6 +140,9 @@ jobs:
 
       - name: Fetch Sources
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 全コミット履歴を取得
+          ref: ${{ github.ref_name }}  # 現在のブランチを指定
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -150,7 +151,7 @@ jobs:
           java-version: 17
 
       - name: Qodana - Code Inspection
-        uses: JetBrains/qodana-action@v2024.3.4
+        uses: JetBrains/qodana-action@v2024.3.3
         with:
           cache-default-branch-only: true
           args: --apply-fixes,--project-dir=src
