@@ -154,7 +154,6 @@ jobs:
         with:
           cache-default-branch-only: true
           upload-result: true
-          pr-mode: false
           args: --apply-fixes
       - run: |
           git config user.name github-actions
