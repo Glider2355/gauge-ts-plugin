@@ -112,7 +112,7 @@ class ScenarioEventProcessor(
         result.errors?.let { errors.addAll(it) }
         result.afterHookFailure?.let { errors.add(it) }
 
-        msg.addAttribute("messages", "$tableText\n${errors.joinToString("\n\n") { it.format(status) }}")
+        msg.addAttribute("message", "$tableText\n${errors.joinToString("\n\n") { it.format(status) }}")
         processor.process(msg, nodeId, parentId)
     }
 }
