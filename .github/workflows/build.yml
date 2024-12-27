@@ -154,15 +154,15 @@ jobs:
         with:
           cache-default-branch-only: true
           upload-result: true
-          args: --apply-fixes
+          args: --cleanup
       - run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git checkout -b quick-fixes-$GITHUB_RUN_ID
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git checkout -b "quick-fixes-${GITHUB_RUN_ID}"
           git add .
           git commit -m "I fixed some issues"
-          git push origin quick-fixes-$GITHUB_RUN_ID
-          gh pr create --repo $GITHUB_REPOSITORY --base $GITHUB_REF_NAME --head quick-fixes-$GITHUB_RUN_ID --title "Pull requests" --body "I fixed some issues"
+          git push origin "quick-fixes-${GITHUB_RUN_ID}"
+          gh pr create --repo "${GITHUB_REPOSITORY}" --base "${GITHUB_REF_NAME}" --head "quick-fixes-${GITHUB_RUN_ID}" --title "Pull requests" --body "I fixed some issues"
         env:
           GH_TOKEN: ${{ github.token }}
 
