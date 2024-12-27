@@ -58,7 +58,7 @@ class TestRunLineMarkerProviderTest {
         val mockVirtualFile = mockk<VirtualFile>(relaxed = true)
 
         // 拡張子を "txt" に設定
-        every { mockVirtualFile.extension } returns "txt"
+        every { mockVirtualFile.extension } returns "spec"
         every { mockFile.virtualFile } returns mockVirtualFile
         every { mockElement.containingFile } returns mockFile
         // elementType は SPEC_HEADING にしておく
