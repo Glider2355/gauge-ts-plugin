@@ -151,7 +151,9 @@ jobs:
         uses: JetBrains/qodana-action@v2024.3.3
         with:
           cache-default-branch-only: true
-          args: --apply-fixes --project-dir src
+          args: |
+            --apply-fixes
+            --project-dir=src
           push-fixes: pull-request
           upload-result: true
 
