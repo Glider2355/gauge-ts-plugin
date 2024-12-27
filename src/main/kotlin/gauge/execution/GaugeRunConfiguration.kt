@@ -25,7 +25,6 @@ class GaugeRunConfiguration(
 
     // 実行するspecのパス
     var specs: String? = null
-    var selectedModule: Module? = null
     // 実行時の環境設定
     private var environment: String? = null
     // 実行するテストのタグ
@@ -55,7 +54,7 @@ class GaugeRunConfiguration(
 
     // 実行時の状態
     override fun getState(executor: Executor, env: ExecutionEnvironment): RunProfileState {
-        val commandLine = GaugeCommandLine.getInstance(selectedModule, project)
+        val commandLine = GaugeCommandLine.getInstance(project)
         addFlags(commandLine, env)
         return GaugeCommandLineState(commandLine, project, env, this)
     }

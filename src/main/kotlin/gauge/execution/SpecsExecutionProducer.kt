@@ -10,7 +10,10 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.psi.util.elementType
 import gauge.GaugeConstants
+import gauge.language.psi.impl.SpecScenarioImpl
+import gauge.language.token.SpecTokenTypes
 import org.jetbrains.annotations.NotNull
 import gauge.util.GaugeUtil.isSpecFile
 
@@ -39,13 +42,18 @@ class SpecsExecutionProducer : LazyRunConfigurationProducer<GaugeRunConfiguratio
             return false
         }
 
+        // シナリオが選択された場合、実行構成を作成しない
+        val psiLocation = configurationContext.psiLocation
+        if (psiLocation.elementType == SpecTokenTypes.SCENARIO_HEADING) {
+            return false
+        }
+
         // 選択されたファイルが1つの場合
         if (selectedFiles.size == 1) {
             if (selectedFiles[0].isDirectory) {
                 return false
             } else if (selectedFiles[0].path == configurationContext.project.basePath) {
                 configuration.name = DEFAULT_CONFIGURATION_NAME
-                configuration.selectedModule = module
                 return true
             }
         }
@@ -59,7 +67,6 @@ class SpecsExecutionProducer : LazyRunConfigurationProducer<GaugeRunConfiguratio
 
         // 複数ファイルを選択している場合
         configuration.name = DEFAULT_CONFIGURATION_NAME
-        configuration.selectedModule = module
         configuration.setSpecsArrayToExecute(specsToExecute)
         return true
     }

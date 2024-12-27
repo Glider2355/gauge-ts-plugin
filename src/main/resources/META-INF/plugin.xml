@@ -37,18 +37,16 @@
 
         <!-- Gaugeの実行構成 -->
         <configurationType
-                implementation="gauge.execution.GaugeRunTaskConfigurationType"
-                order="first"/>
+                implementation="gauge.execution.GaugeRunTaskConfigurationType"/>
 
         <programRunner
                 implementation="gauge.execution.GaugeTestRunner"/>
 
+        <!-- シナリオの実行 -->
+        <runConfigurationProducer
+                implementation="gauge.execution.ScenarioExecutionProducer"/>
         <!-- specの実行 -->
         <runConfigurationProducer
                 implementation="gauge.execution.SpecsExecutionProducer"/>
-        <!-- シナリオの実行 -->
-        <runConfigurationProducer
-                implementation="gauge.execution.ScenarioExecutionProducer"
-                order="first"/>
     </extensions>
 </idea-plugin>

@@ -33,7 +33,6 @@ class ScenarioExecutionProducer : LazyRunConfigurationProducer<GaugeRunConfigura
         }
 
         val psiLocation = context.psiLocation ?: return false
-        val module: Module = GaugeUtil.moduleForPsiElement(psiLocation) ?: return false
 
         val containingFile = psiLocation.containingFile
         val virtualFile = containingFile.virtualFile ?: return false
@@ -41,23 +40,22 @@ class ScenarioExecutionProducer : LazyRunConfigurationProducer<GaugeRunConfigura
             return false
         }
 
-        return try {
+        try {
             val name = virtualFile.canonicalPath
             val scenarioIdentifier = getScenarioIdentifier(context, containingFile)
             if (scenarioIdentifier == NO_SCENARIOS || scenarioIdentifier == NON_SCENARIO_CONTEXT) {
-                false
+                return false
             } else {
                 val scenarioName = getScenarioName(context)
                 if (scenarioName != null) {
                     configuration.name = scenarioName
                 }
                 configuration.specs = "$name${GaugeConstants.SPEC_SCENARIO_DELIMITER}$scenarioIdentifier"
-                configuration.selectedModule = module
-                true
+                return true
             }
         } catch (ex: Exception) {
             LOG.debug(ex)
-            false
+            return false
         }
     }
 

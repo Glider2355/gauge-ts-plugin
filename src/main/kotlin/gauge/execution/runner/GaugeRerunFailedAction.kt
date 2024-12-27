@@ -23,7 +23,7 @@ class GaugeRerunFailedAction(componentContainer: ComponentContainer) :
     private class RerunProfile(private val config: GaugeRunConfiguration) : MyRunProfile(config) {
 
         override fun getState(executor: Executor, env: ExecutionEnvironment): RunProfileState {
-            val commandLine = GaugeCommandLine.getInstance(config.selectedModule, project)
+            val commandLine = GaugeCommandLine.getInstance(project)
             commandLine.addParameters(GaugeConstants.RUN, GaugeConstants.FAILED)
             return GaugeCommandLineState(commandLine, project, env, config)
         }
