@@ -22,6 +22,15 @@ class SettingsComponent {
     private val gaugeBinaryPathField = TextFieldWithBrowseButton()
     private val gaugeHomePathField = TextFieldWithBrowseButton()
 
+    private val parallelNodesSpinner = JSpinner(
+        SpinnerNumberModel(
+            1,   // 初期値
+            1,   // 最小値
+            10,  // 最大値 (必要に応じて変更)
+            1    // ステップ
+        )
+    )
+
     init {
         // メインパネルのボーダー設定
         mainPanel.border = JBUI.Borders.empty(10)
@@ -31,6 +40,11 @@ class SettingsComponent {
         binaryPathPanel.border = JBUI.Borders.empty(10, 0)
         binaryPathPanel.add(JLabel("Gauge Binary Path:"), BorderLayout.WEST)
         binaryPathPanel.add(gaugeBinaryPathField, BorderLayout.CENTER)
+
+        val parallelExecPanel = JPanel(BorderLayout())
+        parallelExecPanel.border = JBUI.Borders.empty(10, 0)
+        parallelExecPanel.add(JLabel("Max Parallel Nodes:"), BorderLayout.WEST)
+        parallelExecPanel.add(parallelNodesSpinner, BorderLayout.CENTER)
 
         // フォルダ選択の設定
         gaugeBinaryPathField.addBrowseFolderListener(
@@ -77,7 +91,8 @@ class SettingsComponent {
         // メインパネルに各コンポーネントを追加
         val inputPanel = JPanel(BorderLayout())
         inputPanel.add(binaryPathPanel, BorderLayout.NORTH)
-        inputPanel.add(homePathPanel, BorderLayout.SOUTH)
+        inputPanel.add(homePathPanel, BorderLayout.CENTER)
+        inputPanel.add(parallelExecPanel, BorderLayout.SOUTH)
         mainPanel.add(inputPanel, BorderLayout.NORTH)
         mainPanel.add(listPanel, BorderLayout.CENTER)
         mainPanel.add(buttonPanel, BorderLayout.SOUTH)
@@ -101,6 +116,14 @@ class SettingsComponent {
     // GAUGE_HOME Pathを設定
     fun setGaugeHomePath(path: String) {
         gaugeHomePathField.text = path
+    }
+
+    fun getParallelNode(): Int {
+        return (parallelNodesSpinner.value as? Int) ?: 1
+    }
+
+    fun setParallelNode(value: Int) {
+        parallelNodesSpinner.value = value
     }
 
     // ディレクトリ一覧を取得

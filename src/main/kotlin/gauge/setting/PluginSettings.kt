@@ -12,13 +12,15 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
     var validDirectories: MutableList<String> = mutableListOf()
     var gaugeBinaryPath: String = "/opt/homebrew/bin/gauge"
     var gaugeHomePath: String = "~/.gauge"
+    var parallelNode: Int = 3
 
     override fun getState(): State {
         return State(
             searchDirectories,
             validDirectories,
             gaugeBinaryPath,
-            gaugeHomePath
+            gaugeHomePath,
+            parallelNode
         )
     }
 
@@ -27,12 +29,14 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
         validDirectories = state.validDirectories.toMutableList()
         gaugeBinaryPath = state.gaugeBinaryPath
         gaugeHomePath = state.gaugeHomePath
+        parallelNode = state.parallelNode
     }
 
     data class State(
         var searchDirectories: List<String> = listOf(),
         var validDirectories: List<String> = listOf(),
         var gaugeBinaryPath: String = "/opt/homebrew/bin/gauge",
-        var gaugeHomePath: String = "~/.gauge"
+        var gaugeHomePath: String = "~/.gauge",
+        var parallelNode: Int = 3
     )
 }

@@ -33,7 +33,7 @@ class ScenarioExecutionProducer : LazyRunConfigurationProducer<GaugeRunConfigura
 
         val psiLocation = context.psiLocation ?: return false
 
-        val containingFile = psiLocation.containingFile
+        val containingFile = psiLocation.containingFile ?: return false
         val virtualFile = containingFile.virtualFile ?: return false
         if (!GaugeUtil.isSpecFile(containingFile)) {
             return false

@@ -49,4 +49,17 @@
         <runConfigurationProducer
                 implementation="gauge.execution.SpecsExecutionProducer"/>
     </extensions>
+
+    <!-- ファイル選択での実行 -->
+    <actions>
+        <action id="Gauge.RunFolderWithConfiguration"
+                class="gauge.execution.RunGaugeFolderWithConfigurationAction"
+                text="Run Gauge Specs in Folder"
+                description="Run all Gauge specs in the selected folder">
+            <add-to-group
+                    group-id="ProjectViewPopupMenu"
+                    anchor="after"
+                    relative-to-action="Gauge.RunFolderWithConfiguration"/>
+        </action>
+    </actions>
 </idea-plugin>
