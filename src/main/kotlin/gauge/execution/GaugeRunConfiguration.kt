@@ -55,12 +55,12 @@ class GaugeRunConfiguration(
     // 実行時の状態
     override fun getState(executor: Executor, env: ExecutionEnvironment): RunProfileState {
         val commandLine = GaugeCommandLine.getInstance(project)
-        addFlags(commandLine, env)
+        addFlags(commandLine)
         return GaugeCommandLineState(commandLine, project, env, this)
     }
 
     // コマンドラインに必要なフラグやパラメータを追加
-    private fun addFlags(commandLine: GeneralCommandLine, env: ExecutionEnvironment) {
+    private fun addFlags(commandLine: GeneralCommandLine) {
         // 基本コマンドの追加 (gauge run)
         commandLine.addParameter(GaugeConstants.RUN)
 
