@@ -10,7 +10,12 @@ You need to specify the folder where the Step is implemented in the settings scr
 
 Features:
 - Auto completion
-- Run from the gutter
+- Run tests
+- Code jumping
+
+Disable Features:
+- Debugging
+- Find Usages
 <!-- Plugin description end -->
 
 ## Installation

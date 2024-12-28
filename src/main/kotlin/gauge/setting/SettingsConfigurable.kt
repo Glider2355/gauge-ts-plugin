@@ -23,10 +23,12 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         val currentDirectories = mySettingsComponent?.getDirectories()?.map { it.path } ?: emptyList()
         val currentGaugeBinaryPath = mySettingsComponent?.getGaugeBinaryPath() ?: ""
         val currentGaugeHomePath = mySettingsComponent?.getGaugeHomePath() ?: ""
+        val currentParallelNode = mySettingsComponent?.getParallelNode() ?: 1
 
         return currentDirectories != settings.searchDirectories ||
                 currentGaugeBinaryPath != settings.gaugeBinaryPath ||
                 currentGaugeHomePath != settings.gaugeHomePath ||
+                currentParallelNode != settings.parallelNode ||
                 mySettingsComponent?.getDirectories()?.any {
                     it.path in settings.searchDirectories && it.isChecked != (it.path in settings.validDirectories)
                 } == true
@@ -39,6 +41,7 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         settings.validDirectories = mySettingsComponent?.getDirectories()?.filter { it.isChecked }?.map { it.path }?.toMutableList() ?: mutableListOf()
         settings.gaugeBinaryPath = mySettingsComponent?.getGaugeBinaryPath() ?: ""
         settings.gaugeHomePath = mySettingsComponent?.getGaugeHomePath() ?: ""
+        settings.parallelNode = mySettingsComponent?.getParallelNode() ?: 1
     }
 
     // 設定画面のタイトル
@@ -53,5 +56,6 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         mySettingsComponent?.setDirectories(directoryItems)
         mySettingsComponent?.setGaugeBinaryPath(settings.gaugeBinaryPath)
         mySettingsComponent?.setGaugeHomePath(settings.gaugeHomePath)
+        mySettingsComponent?.setParallelNode(settings.parallelNode)
     }
 }

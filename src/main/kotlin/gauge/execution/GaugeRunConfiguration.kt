@@ -5,6 +5,7 @@ import com.intellij.execution.application.ApplicationConfiguration
 import com.intellij.execution.application.ApplicationConfigurationType
 import com.intellij.execution.configurations.*
 import com.intellij.execution.runners.ExecutionEnvironment
+import com.intellij.openapi.components.service
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.options.SettingsEditor
@@ -13,6 +14,7 @@ import com.intellij.openapi.util.InvalidDataException
 import com.intellij.openapi.util.WriteExternalException
 import com.intellij.util.xmlb.XmlSerializer
 import gauge.GaugeConstants
+import gauge.setting.PluginSettings
 import org.jdom.Element
 import javax.swing.JComponent
 import javax.swing.JPanel
@@ -29,8 +31,6 @@ class GaugeRunConfiguration(
     private var environment: String? = null
     // 実行するテストのタグ
     private var tags: String? = null
-    // 並列実行するかどうか
-    private var execInParallel: Boolean = false
     // 並列実行時のノード数
     private var parallelNodes: String? = null
     // 実行時の追加パラメータ
@@ -84,7 +84,7 @@ class GaugeRunConfiguration(
         // テーブルの行の範囲の設定
         addTableRowsRangeFlags(commandLine)
         // 並列実行の設定
-        // addParallelExecFlags(commandLine, env)
+        addParallelExecFlags(commandLine)
         // 追加のプログラム引数
         addProgramArguments(commandLine)
 
@@ -116,24 +116,12 @@ class GaugeRunConfiguration(
     }
 
     // 並列実行の設定
-//    private fun addParallelExecFlags(commandLine: GeneralCommandLine, env: ExecutionEnvironment) {
-//        if (parallelExec(env)) {
-//            commandLine.addParameter(GaugeConstants.PARALLEL)
-//            parallelNodes?.takeIf { it.isNotEmpty() }?.let {
-//                try {
-//                    it.toInt()
-//                    commandLine.addParameters(GaugeConstants.PARALLEL_NODES, it)
-//                } catch (e: NumberFormatException) {
-//                    // Ignore
-//                }
-//            }
-//        }
-//    }
-
-    // 並列実行するかどうか
-//    private fun parallelExec(env: ExecutionEnvironment): Boolean {
-//        return execInParallel && !GaugeDebugInfo.isDebugExecution(env)
-//    }
+    private fun addParallelExecFlags(commandLine: GeneralCommandLine) {
+        val settings = project.service<PluginSettings>()
+        val parallelNode = settings.parallelNode
+        commandLine.addParameter(GaugeConstants.PARALLEL)
+        commandLine.addParameter(GaugeConstants.PARALLEL_NODES + "=" + parallelNode)
+    }
 
     // 実行する仕様、シナリオの指定
     private fun addSpecs(commandLine: GeneralCommandLine, specsToExecute: String) {
@@ -151,7 +139,6 @@ class GaugeRunConfiguration(
         specs = element.getChildText("specsToExecute")
         tags = element.getChildText("tags")
         parallelNodes = element.getChildText("parallelNodes")
-        execInParallel = element.getChildText("execInParallel")?.toBoolean() ?: false
         programParameters.programParameters = element.getChildText("programParameters")
         programParameters.workingDirectory = element.getChildText("workingDirectory")
         moduleName = element.getChildText("moduleName")

@@ -5,6 +5,8 @@ object GaugeConstants {
     const val RUN: String = "run"
     const val MACHINE_READABLE: String = "--machine-readable"
     const val TAGS: String = "--tags"
+    const val PARALLEL: String = "--parallel"
+    const val PARALLEL_NODES: String = "-n"
     const val TABLE_ROWS: String = "--table-rows"
     const val ENV_FLAG: String = "--env"
     const val FAILED: String = "--failed"
