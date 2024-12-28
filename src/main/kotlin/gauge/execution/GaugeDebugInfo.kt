@@ -22,7 +22,7 @@ class GaugeDebugInfo private constructor(
             }
         }
 
-        private fun isDebugExecution(env: ExecutionEnvironment): Boolean {
+        fun isDebugExecution(env: ExecutionEnvironment): Boolean {
             return DefaultDebugExecutor.EXECUTOR_ID == env.executor.id
         }
 

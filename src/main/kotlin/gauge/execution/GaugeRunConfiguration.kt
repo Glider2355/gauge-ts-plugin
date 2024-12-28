@@ -84,7 +84,7 @@ class GaugeRunConfiguration(
         // テーブルの行の範囲の設定
         addTableRowsRangeFlags(commandLine)
         // 並列実行の設定
-        // addParallelExecFlags(commandLine, env)
+         addParallelExecFlags(commandLine, env)
         // 追加のプログラム引数
         addProgramArguments(commandLine)
 
@@ -116,24 +116,24 @@ class GaugeRunConfiguration(
     }
 
     // 並列実行の設定
-//    private fun addParallelExecFlags(commandLine: GeneralCommandLine, env: ExecutionEnvironment) {
-//        if (parallelExec(env)) {
-//            commandLine.addParameter(GaugeConstants.PARALLEL)
-//            parallelNodes?.takeIf { it.isNotEmpty() }?.let {
-//                try {
-//                    it.toInt()
-//                    commandLine.addParameters(GaugeConstants.PARALLEL_NODES, it)
-//                } catch (e: NumberFormatException) {
-//                    // Ignore
-//                }
-//            }
-//        }
-//    }
+    private fun addParallelExecFlags(commandLine: GeneralCommandLine, env: ExecutionEnvironment) {
+        if (parallelExec(env)) {
+            commandLine.addParameter(GaugeConstants.PARALLEL)
+            parallelNodes?.takeIf { it.isNotEmpty() }?.let {
+                try {
+                    it.toInt()
+                    commandLine.addParameters(GaugeConstants.PARALLEL_NODES, it)
+                } catch (e: NumberFormatException) {
+                    // Ignore
+                }
+            }
+        }
+    }
 
     // 並列実行するかどうか
-//    private fun parallelExec(env: ExecutionEnvironment): Boolean {
-//        return execInParallel && !GaugeDebugInfo.isDebugExecution(env)
-//    }
+    private fun parallelExec(env: ExecutionEnvironment): Boolean {
+        return execInParallel && !GaugeDebugInfo.isDebugExecution(env)
+    }
 
     // 実行する仕様、シナリオの指定
     private fun addSpecs(commandLine: GeneralCommandLine, specsToExecute: String) {
