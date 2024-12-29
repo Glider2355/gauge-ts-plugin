@@ -19,12 +19,6 @@ object GaugeCommandLine {
         } catch (e: GaugeNotFoundException) {
             commandLine.exePath = GaugeConstants.GAUGE
         }
-//        finally {
-//            commandLine.setWorkDirectory(project.basePath)
-//            module?.let {
-//                commandLine.workDirectory = GaugeUtil.moduleDir(it) 廃止済み
-//            }
-//        }
         return commandLine
     }
 }
