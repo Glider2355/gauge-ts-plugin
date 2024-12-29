@@ -11,3 +11,4 @@ exclude:
     paths:
       - .qodana
       - gen
+      - .idea
