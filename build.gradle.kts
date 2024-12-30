@@ -46,7 +46,7 @@ dependencies {
     testImplementation(kotlin("reflect"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testImplementation("io.mockk:mockk:1.13.14")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.1.0")
 
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
