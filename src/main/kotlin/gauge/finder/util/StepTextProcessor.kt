@@ -1,4 +1,4 @@
-package gauge.finder
+package gauge.finder.util
 
 internal object StepTextProcessor {
 

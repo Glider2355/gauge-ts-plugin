@@ -8,6 +8,7 @@ import com.intellij.lang.javascript.psi.JSCallExpression
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveElementVisitor
+import gauge.finder.util.StepTextProcessor
 
 class StepAnnotationsFinder {
 
