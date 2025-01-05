@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.8] - 2025-01-05
+
+- Add
+  - Fix Doc
+
 ## [0.0.6] - 2024-12-06
 
 Added
@@ -38,7 +43,8 @@ Added
 
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.6...HEAD
+[Unreleased]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.8...HEAD
+[0.0.8]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.6...v0.0.8
 [0.0.6]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.3...v0.0.4
