@@ -6,16 +6,42 @@
 
 <!-- Plugin description -->
 Plugin for writing Gauge tests (originally developed by Thoughtworks Inc.). Supports only steps written in TypeScript.  
-You need to specify the folder where the Step is implemented in the settings screen.
 
-Features:
+## Features
 - Auto completion
 - Run tests
 - Code jumping
 
-Disable Features:
+## Disable Features
 - Debugging
 - Find Usages
+
+## Usages
+You need to specify the folder where the Step is implemented in the settings screen.
+
+### Settings
+
+![img.png](img/img.png)
+
+- Gauge Binary Path
+  - Path to the gauge binary
+- GAUGE_HOME
+  - Path to the gauge home directory
+- Max Parallel Nodes
+  - Maximum number of parallel nodes to run tests
+- Gauge Step Directories
+  - Set the directory of the step you want to autocomplete
+
+### How to run the test
+- Run Test Gutter Icon
+
+![img.png](img/img2.png)
+
+- Run tests in parallel
+  - Specify the directory and execute
+
+![img.png](img/img3.png)
+
 <!-- Plugin description end -->
 
 ## Installation
