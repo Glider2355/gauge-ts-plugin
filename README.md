@@ -21,7 +21,7 @@ You need to specify the folder where the Step is implemented in the settings scr
 
 ### Settings
 
-![img.png](img/img.png)
+![Settings Screenshot](https://raw.githubusercontent.com/Glider2355/gauge-ts-plugin/main/img/img.png)
 
 - Gauge Binary Path
   - Path to the gauge binary
@@ -35,12 +35,12 @@ You need to specify the folder where the Step is implemented in the settings scr
 ### How to run the test
 - Run Test Gutter Icon
 
-![img.png](img/img2.png)
+![Run Test Screenshot](https://raw.githubusercontent.com/Glider2355/gauge-ts-plugin/main/img/img2.png)
 
 - Run tests in parallel
   - Specify the directory and execute
 
-![img.png](img/img3.png)
+![Run Parallel Tests Screenshot](https://raw.githubusercontent.com/Glider2355/gauge-ts-plugin/main/img/img3.png)
 
 <!-- Plugin description end -->
 
