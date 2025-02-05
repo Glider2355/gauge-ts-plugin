@@ -3,7 +3,7 @@ package gauge.execution
 import com.intellij.execution.configurations.GeneralCommandLine
 import gauge.GaugeConstants
 
-class CommandLineBuilder() {
+class CommandLineBuilder {
 
     fun buildCommandLine(
         commandLine: GeneralCommandLine,
