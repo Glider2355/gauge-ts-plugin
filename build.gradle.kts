@@ -44,7 +44,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     testImplementation(kotlin("reflect"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.12.1")
     testImplementation("io.mockk:mockk:1.13.16")
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.1.10")
 
