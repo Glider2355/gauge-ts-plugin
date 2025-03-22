@@ -5,22 +5,28 @@ import com.intellij.openapi.ui.TextBrowseFolderListener
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.JBList
 import com.intellij.util.ui.JBUI
+import gauge.setting.component.EnvPanel
 import javax.swing.*
 import java.awt.BorderLayout
-import java.awt.Dimension
+import java.awt.GridLayout
 
 /**
  * https://plugins.jetbrains.com/docs/intellij/settings-tutorial.html#creating-the-appsettingscomponent-implementation
  */
 
 class SettingsComponent {
-    val mainPanel: JPanel = JPanel(BorderLayout())
+    val mainPanel: JPanel = JPanel()
     val directoryListModel = DefaultListModel<DirectoryItem>()
     val directoryList = JBList(directoryListModel)
     val addButton = JButton("Add Directory")
     val removeButton = JButton("Remove Selected Directory")
     private val gaugeBinaryPathField = TextFieldWithBrowseButton()
     private val gaugeHomePathField = TextFieldWithBrowseButton()
+
+    private val enableEnvCheckbox = JCheckBox("--env")
+    private val envTextField = JTextField()
+    private val enableEnvVarCheckbox = JCheckBox("Environment Variables")
+    private val envVarTextField = JTextField()
 
     private val parallelNodesSpinner = JSpinner(
         SpinnerNumberModel(
@@ -32,9 +38,6 @@ class SettingsComponent {
     )
 
     init {
-        // メインパネルのボーダー設定
-        mainPanel.border = JBUI.Borders.empty(10)
-
         // Gauge Binary Pathの設定フィールド
         val binaryPathPanel = JPanel(BorderLayout())
         binaryPathPanel.border = JBUI.Borders.empty(10, 0)
@@ -79,23 +82,28 @@ class SettingsComponent {
         listPanel.add(JScrollPane(directoryList), BorderLayout.CENTER)
 
         // ディレクトリの追加・削除ボタンを作成
-        val buttonPanel = JPanel()
-        buttonPanel.layout = BoxLayout(buttonPanel, BoxLayout.Y_AXIS)
+        val buttonPanel = JPanel(GridLayout(1, 2, 10, 0))
         buttonPanel.border = JBUI.Borders.empty(10, 0)
-        addButton.maximumSize = Dimension(Int.MAX_VALUE, addButton.preferredSize.height)
-        removeButton.maximumSize = Dimension(Int.MAX_VALUE, removeButton.preferredSize.height)
-        buttonPanel.add(addButton)
-        buttonPanel.add(Box.createRigidArea(Dimension(0, 5)))
         buttonPanel.add(removeButton)
+        buttonPanel.add(addButton)
 
         // メインパネルに各コンポーネントを追加
-        val inputPanel = JPanel(BorderLayout())
-        inputPanel.add(binaryPathPanel, BorderLayout.NORTH)
-        inputPanel.add(homePathPanel, BorderLayout.CENTER)
-        inputPanel.add(parallelExecPanel, BorderLayout.SOUTH)
-        mainPanel.add(inputPanel, BorderLayout.NORTH)
-        mainPanel.add(listPanel, BorderLayout.CENTER)
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH)
+        val inputPanel = JPanel()
+        inputPanel.layout = BoxLayout(inputPanel, BoxLayout.Y_AXIS)
+        inputPanel.add(binaryPathPanel)
+        inputPanel.add(homePathPanel)
+        inputPanel.add(parallelExecPanel)
+
+        val settingsPanel = JPanel()
+        settingsPanel.layout = BoxLayout(settingsPanel, BoxLayout.Y_AXIS)
+        settingsPanel.add(inputPanel)
+        val envSettingsPanel = EnvPanel()
+        settingsPanel.add(envSettingsPanel)
+
+        mainPanel.layout = BoxLayout(mainPanel, BoxLayout.Y_AXIS)
+        mainPanel.add(settingsPanel)
+        mainPanel.add(listPanel)
+        mainPanel.add(buttonPanel)
     }
 
     // Gauge Binary Pathを取得
@@ -124,6 +132,22 @@ class SettingsComponent {
 
     fun setParallelNode(value: Int) {
         parallelNodesSpinner.value = value
+    }
+
+    fun getEnableEnv(): Boolean {
+        return enableEnvCheckbox.isSelected
+    }
+
+    fun setEnableEnv(value: Boolean) {
+        enableEnvCheckbox.isSelected = value
+    }
+
+    fun getEnv(): String {
+        return envTextField.text
+    }
+
+    fun setEnv(value: String) {
+        envTextField.text = value
     }
 
     // ディレクトリ一覧を取得
