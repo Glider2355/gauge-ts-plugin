@@ -31,6 +31,11 @@ You need to specify the folder where the Step is implemented in the settings scr
   - Maximum number of parallel nodes to run tests
 - Gauge Step Directories
   - Set the directory of the step you want to autocomplete
+- --env
+  - Gauge environment parameter
+- Environment Variables
+  - Set the environment variables to be used when running the test
+  - ex) `key1=value1 key2=value2`
 
 ### How to run the test
 - Run Test Gutter Icon
