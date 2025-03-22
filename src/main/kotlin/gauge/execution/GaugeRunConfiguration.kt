@@ -21,8 +21,6 @@ class GaugeRunConfiguration(
 
     // 実行するspecのパス
     var specs: String? = null
-    // 実行時の環境設定
-    private var environment: String? = null
     // 実行するテストのタグ
     private var tags: String? = null
     // 実行するテーブルの行の範囲
@@ -45,11 +43,14 @@ class GaugeRunConfiguration(
         val commandLine = GaugeCommandLine.getInstance(project)
         val settings = project.service<PluginSettings>()
         val parallelNode = settings.parallelNode
+        val envParam = if (settings.enableEnv) settings.envValue else ""
+        val envVar = if (settings.enableEnvVar) settings.envVarValue else ""
         val commandLineBuilder = CommandLineBuilder()
         val buildCommandLine = commandLineBuilder.buildCommandLine(
             commandLine,
             specs,
-            environment,
+            envParam,
+            envVar,
             tags,
             parallelNode,
             rowsRange

@@ -8,11 +8,23 @@ class CommandLineBuilder {
     fun buildCommandLine(
         commandLine: GeneralCommandLine,
         specs: String?,
-        environment: String?,
+        envPram: String,
+        envVar: String,
         tags: String?,
         parallelNodes: Int,
         rowsRange: String?
     ): GeneralCommandLine {
+        if (envVar.isNotBlank()) {
+            envVar.split(" ").forEach { envEntry ->
+                if (envEntry.contains("=")) {
+                    val parts = envEntry.split("=", limit = 2)
+                    val key = parts[0].trim()
+                    val value = parts[1].trim()
+                    commandLine.withEnvironment(key, value)
+                }
+            }
+        }
+
         // 基本コマンドの追加 (gauge run)
         commandLine.addParameter(GaugeConstants.RUN)
         commandLine.addParameter(GaugeConstants.MACHINE_READABLE)
@@ -25,8 +37,8 @@ class CommandLineBuilder {
         }
 
         // 環境が指定されている場合、--eフラグとその値を追加
-        if (!environment.isNullOrBlank()) {
-            commandLine.addParameters(GaugeConstants.ENV_FLAG, environment)
+        if (envPram.isNotBlank()) {
+            commandLine.addParameters(GaugeConstants.ENV_FLAG, envPram)
         }
 
         // テーブルの行の範囲の設定
