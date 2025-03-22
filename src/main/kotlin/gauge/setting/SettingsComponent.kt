@@ -23,11 +23,6 @@ class SettingsComponent {
     private val gaugeBinaryPathField = TextFieldWithBrowseButton()
     private val gaugeHomePathField = TextFieldWithBrowseButton()
 
-    private val enableEnvCheckbox = JCheckBox("--env")
-    private val envTextField = JTextField()
-    private val enableEnvVarCheckbox = JCheckBox("Environment Variables")
-    private val envVarTextField = JTextField()
-
     private val parallelNodesSpinner = JSpinner(
         SpinnerNumberModel(
             1,   // 初期値
@@ -132,22 +127,6 @@ class SettingsComponent {
 
     fun setParallelNode(value: Int) {
         parallelNodesSpinner.value = value
-    }
-
-    fun getEnableEnv(): Boolean {
-        return enableEnvCheckbox.isSelected
-    }
-
-    fun setEnableEnv(value: Boolean) {
-        enableEnvCheckbox.isSelected = value
-    }
-
-    fun getEnv(): String {
-        return envTextField.text
-    }
-
-    fun setEnv(value: String) {
-        envTextField.text = value
     }
 
     // ディレクトリ一覧を取得
