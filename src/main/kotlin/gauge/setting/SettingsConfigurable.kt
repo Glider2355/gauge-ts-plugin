@@ -24,6 +24,10 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         val currentGaugeBinaryPath = mySettingsComponent?.getGaugeBinaryPath() ?: ""
         val currentGaugeHomePath = mySettingsComponent?.getGaugeHomePath() ?: ""
         val currentParallelNode = mySettingsComponent?.getParallelNode() ?: 1
+        val currentEnableEnv = mySettingsComponent?.getEnableEnv() ?: false
+        val currentEnvValue = mySettingsComponent?.getEnvValue() ?: ""
+        val currentEnableEnvVar = mySettingsComponent?.getEnableEnvVar() ?: false
+        val currentEnvVarValue = mySettingsComponent?.getEnvVarValue() ?: ""
 
         return currentDirectories != settings.searchDirectories ||
                 currentGaugeBinaryPath != settings.gaugeBinaryPath ||
@@ -31,7 +35,11 @@ class SettingsConfigurable(private val project: Project) : Configurable {
                 currentParallelNode != settings.parallelNode ||
                 mySettingsComponent?.getDirectories()?.any {
                     it.path in settings.searchDirectories && it.isChecked != (it.path in settings.validDirectories)
-                } == true
+                } == true ||
+                currentEnableEnv != settings.enableEnv ||
+                currentEnvValue != settings.envValue ||
+                currentEnableEnvVar != settings.enableEnvVar ||
+                currentEnvVarValue != settings.envVarValue
     }
 
     // 設定を保存
@@ -42,6 +50,10 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         settings.gaugeBinaryPath = mySettingsComponent?.getGaugeBinaryPath() ?: ""
         settings.gaugeHomePath = mySettingsComponent?.getGaugeHomePath() ?: ""
         settings.parallelNode = mySettingsComponent?.getParallelNode() ?: 1
+        settings.enableEnv = mySettingsComponent?.getEnableEnv() ?: false
+        settings.envValue = mySettingsComponent?.getEnvValue() ?: ""
+        settings.enableEnvVar = mySettingsComponent?.getEnableEnvVar() ?: false
+        settings.envVarValue = mySettingsComponent?.getEnvVarValue() ?: ""
     }
 
     // 設定画面のタイトル
@@ -57,5 +69,9 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         mySettingsComponent?.setGaugeBinaryPath(settings.gaugeBinaryPath)
         mySettingsComponent?.setGaugeHomePath(settings.gaugeHomePath)
         mySettingsComponent?.setParallelNode(settings.parallelNode)
+        mySettingsComponent?.setEnableEnv(settings.enableEnv)
+        mySettingsComponent?.setEnvValue(settings.envValue)
+        mySettingsComponent?.setEnableEnvVar(settings.enableEnvVar)
+        mySettingsComponent?.setEnvVarValue(settings.envVarValue)
     }
 }

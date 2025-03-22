@@ -13,6 +13,11 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
     var gaugeBinaryPath: String = "/opt/homebrew/bin/gauge"
     var gaugeHomePath: String = "~/.gauge"
     var parallelNode: Int = 3
+    var enableEnv = false
+    var envValue = ""
+    var enableEnvVar = false
+    var envVarValue = ""
+
 
     override fun getState(): State {
         return State(
@@ -20,7 +25,11 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
             validDirectories,
             gaugeBinaryPath,
             gaugeHomePath,
-            parallelNode
+            parallelNode,
+            enableEnv,
+            envValue,
+            enableEnvVar,
+            envVarValue
         )
     }
 
@@ -30,6 +39,10 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
         gaugeBinaryPath = state.gaugeBinaryPath
         gaugeHomePath = state.gaugeHomePath
         parallelNode = state.parallelNode
+        enableEnv = state.enableEnv
+        envValue = state.envValue
+        enableEnvVar = state.enableEnvVar
+        envVarValue = state.envVarValue
     }
 
     data class State(
@@ -37,6 +50,10 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
         var validDirectories: List<String> = listOf(),
         var gaugeBinaryPath: String = "/opt/homebrew/bin/gauge",
         var gaugeHomePath: String = "~/.gauge",
-        var parallelNode: Int = 3
+        var parallelNode: Int = 3,
+        var enableEnv: Boolean = false,
+        var envValue: String = "",
+        var enableEnvVar: Boolean = false,
+        var envVarValue: String = ""
     )
 }

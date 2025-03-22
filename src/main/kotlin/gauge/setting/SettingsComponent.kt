@@ -27,10 +27,11 @@ class SettingsComponent {
         SpinnerNumberModel(
             1,   // 初期値
             1,   // 最小値
-            10,  // 最大値 (必要に応じて変更)
+            10,  // 最大値
             1    // ステップ
         )
     )
+    private val envSettingsPanel = EnvPanel()
 
     init {
         // Gauge Binary Pathの設定フィールド
@@ -92,7 +93,6 @@ class SettingsComponent {
         val settingsPanel = JPanel()
         settingsPanel.layout = BoxLayout(settingsPanel, BoxLayout.Y_AXIS)
         settingsPanel.add(inputPanel)
-        val envSettingsPanel = EnvPanel()
         settingsPanel.add(envSettingsPanel)
 
         mainPanel.layout = BoxLayout(mainPanel, BoxLayout.Y_AXIS)
@@ -127,6 +127,34 @@ class SettingsComponent {
 
     fun setParallelNode(value: Int) {
         parallelNodesSpinner.value = value
+    }
+
+    fun getEnableEnv(): Boolean {
+        return envSettingsPanel.getEnableEnv()
+    }
+    fun setEnableEnv(value: Boolean) {
+        envSettingsPanel.setEnableEnv(value)
+    }
+
+    fun getEnvValue(): String {
+        return envSettingsPanel.getEnvValue()
+    }
+    fun setEnvValue(value: String) {
+        envSettingsPanel.setEnvValue(value)
+    }
+
+    fun getEnableEnvVar(): Boolean {
+        return envSettingsPanel.getEnableEnvVar()
+    }
+    fun setEnableEnvVar(value: Boolean) {
+        envSettingsPanel.setEnableEnvVar(value)
+    }
+
+    fun getEnvVarValue(): String {
+        return envSettingsPanel.getEnvVarValue()
+    }
+    fun setEnvVarValue(value: String) {
+        envSettingsPanel.setEnvVarValue(value)
     }
 
     // ディレクトリ一覧を取得

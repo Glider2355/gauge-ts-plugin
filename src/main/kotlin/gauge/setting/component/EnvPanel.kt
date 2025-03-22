@@ -38,4 +38,23 @@ class EnvPanel : JPanel() {
         add(envPanel)
         add(envVarPanel)
     }
+
+    fun getEnableEnv(): Boolean = enableEnvCheckbox.isSelected
+    fun getEnvValue(): String = envTextField.text
+    fun getEnableEnvVar(): Boolean = enableEnvVarCheckbox.isSelected
+    fun getEnvVarValue(): String = envVarTextField.text
+    fun setEnableEnv(value: Boolean) {
+        enableEnvCheckbox.isSelected = value
+        envTextField.isEnabled = value
+    }
+    fun setEnvValue(value: String) {
+        envTextField.text = value
+    }
+    fun setEnableEnvVar(value: Boolean) {
+        enableEnvVarCheckbox.isSelected = value
+        envVarTextField.isEnabled = value
+    }
+    fun setEnvVarValue(value: String) {
+        envVarTextField.text = value
+    }
 }
