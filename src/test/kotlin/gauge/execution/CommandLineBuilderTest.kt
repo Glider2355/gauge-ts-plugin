@@ -41,6 +41,7 @@ class CommandLineBuilderTest {
         commandLine,
         "specs",
         "environment",
+        "key=value",
         "tags",
         3,
         "rowsRange"
