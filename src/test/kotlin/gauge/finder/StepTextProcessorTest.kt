@@ -29,9 +29,16 @@ internal class StepTextProcessorTest {
         assertEquals("StepName1", result)
     }
     @Test
-    fun isStepMatch() {
+    fun isStepMatch_doubleQuotation() {
         val stepAnnotationText = "Get request <path>"
         val stepText = "Get request \"/api/v1\""
+        val result = StepTextProcessor.isStepMatch(stepAnnotationText, stepText)
+        assertTrue(result)
+    }
+    @Test
+    fun isStepMatch_bracket() {
+        val stepAnnotationText = "Get request <path>"
+        val stepText = "Get request <url>"
         val result = StepTextProcessor.isStepMatch(stepAnnotationText, stepText)
         assertTrue(result)
     }
