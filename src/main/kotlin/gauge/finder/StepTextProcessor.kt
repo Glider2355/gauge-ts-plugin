@@ -11,10 +11,10 @@ internal object StepTextProcessor {
 
     fun isStepMatch(stepAnnotationText: String, stepText: String): Boolean {
         val stepAnnotationTextMatch = stepAnnotationText
-            .replace("<[^>]+>".toRegex(), "")  // <>で囲まれた部分を削除
+            .replace("<[^>]+>".toRegex(), "")
             .trimEnd()
         val stepTextMatch = stepText
-            .replace("\"[^\"]*\"".toRegex(), "")  // ""で囲まれた部分を削除
+            .replace("\"[^\"]*\"".toRegex(), "")
             .trimEnd()
 
         return stepAnnotationTextMatch == stepTextMatch
