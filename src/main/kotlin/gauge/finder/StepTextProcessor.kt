@@ -15,7 +15,6 @@ internal object StepTextProcessor {
             .trimEnd()
         val stepTextMatch = stepText
             .replace("\"[^\"]*\"".toRegex(), "")  // ""で囲まれた部分を削除
-            .replace("<[^>]+>".toRegex(), "")     // <>で囲まれた部分を削除
             .trimEnd()
 
         return stepAnnotationTextMatch == stepTextMatch
