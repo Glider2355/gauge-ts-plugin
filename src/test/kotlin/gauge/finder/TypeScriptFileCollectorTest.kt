@@ -10,7 +10,11 @@ class TypeScriptFileCollectorTest : BasePlatformTestCase() {
             "// JavaScript content"
         )
         myFixture.addFileToProject(
-            "test/dir/only_ts.ts",
+            "test/dir/only_ts1.ts",
+            "// TypeScript content"
+        )
+        myFixture.addFileToProject(
+            "test/dir/tmp/only_ts2.ts",
             "// TypeScript content"
         )
 
@@ -20,7 +24,8 @@ class TypeScriptFileCollectorTest : BasePlatformTestCase() {
         val files = collector.collectTypeScriptFiles(project, virtualFile)
 
         // Verify no TypeScript files found
-        assertEquals("Expected one TypeScript file", 1, files.size)
-        assertEquals("Expected TypeScript file", "only_ts.ts", files[0].name)
+        assertEquals("Expected one TypeScript file", 2, files.size)
+        assertEquals("Expected TypeScript file", "only_ts1.ts", files[1].name)
+        assertEquals("Expected TypeScript file", "only_ts2.ts", files[0].name)
     }
 }
