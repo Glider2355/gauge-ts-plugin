@@ -1,15 +1,14 @@
 package gauge.finder
 
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.openapi.vfs.VfsUtil
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 
 internal class TypeScriptFileCollector {
 
-    fun collectTypeScriptFiles(project: Project, directoryPath: String): List<PsiFile> {
-        val virtualFile = VirtualFileManager.getInstance().findFileByUrl("file://$directoryPath")
+    fun collectTypeScriptFiles(project: Project, virtualFile: VirtualFile?): List<PsiFile> {
         val files = mutableListOf<PsiFile>()
 
         if (virtualFile != null && virtualFile.isDirectory) {
