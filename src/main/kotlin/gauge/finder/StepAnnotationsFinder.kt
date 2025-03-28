@@ -6,6 +6,7 @@ import com.intellij.lang.javascript.psi.ecma6.ES6Decorator
 import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList
 import com.intellij.lang.javascript.psi.JSCallExpression
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveElementVisitor
 
@@ -21,7 +22,8 @@ class StepAnnotationsFinder {
 
         // ディレクトリ内のTypeScriptファイルを取得
         val collector = TypeScriptFileCollector()
-        val files = collector.collectTypeScriptFiles(project, directoryPath)
+        val virtualFile = LocalFileSystem.getInstance().findFileByPath(directoryPath)
+        val files = collector.collectTypeScriptFiles(project, virtualFile)
 
         // 各ファイルを解析して@Stepアノテーションを抽出
         for (file in files) {
