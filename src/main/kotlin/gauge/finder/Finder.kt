@@ -14,7 +14,7 @@ class Finder {
     }
 
     fun findStepAnnotations(project: Project, searchDirectories: MutableList<String>, stepText: String): PsiElement? {
-        val stepAnnotationsFinder = StepFunctionFinder()
-        return stepAnnotationsFinder.findStepFunction(project, searchDirectories, stepText)
+        val stepAnnotationsFinder = StepFunctionFinder(fileSystemRepository, typeScriptFileCollector)
+        return stepAnnotationsFinder.findStepFunction(project, searchDirectories.toSet(), stepText)
     }
 }

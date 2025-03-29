@@ -3,13 +3,13 @@ package gauge.finder.vfs
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
 
-class FileSystemRepositoryImpl {
+class FileSystemRepositoryImpl: FileSystemRepository {
     private val fileSystem = LocalFileSystem.getInstance()
-    fun findFileByPath(directoryPath: String): VirtualFile? {
+    override fun findFileByPath(directoryPath: String): VirtualFile? {
         return fileSystem.findFileByPath(directoryPath)
     }
 
-    fun findFilesByPaths(directoryPaths: Set<String>): Set<VirtualFile> {
+    override fun findFilesByPaths(directoryPaths: Set<String>): Set<VirtualFile> {
         return directoryPaths.mapNotNull { fileSystem.findFileByPath(it) }.toSet()
     }
 }

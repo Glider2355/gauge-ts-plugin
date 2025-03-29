@@ -6,6 +6,8 @@ import com.intellij.openapi.components.service
 import gauge.setting.PluginSettings
 import gauge.language.token.SpecTokenTypes
 import gauge.finder.StepFunctionFinder
+import gauge.finder.TypeScriptFileCollector
+import gauge.finder.vfs.FileSystemRepositoryImpl
 
 class GaugeGotoDeclarationHandler : GotoDeclarationHandler {
 
@@ -26,8 +28,10 @@ class GaugeGotoDeclarationHandler : GotoDeclarationHandler {
         val searchDirectories = settings.validDirectories
 
         // StepFunctionFinderを使用してTypeScript関数を検索
-        val stepFinder = StepFunctionFinder()
-        val stepFunction = stepFinder.findStepFunction(project, searchDirectories, stepText)
+        val fileSystemRepository = FileSystemRepositoryImpl()
+        val typeScriptFileCollector = TypeScriptFileCollector()
+        val stepFinder = StepFunctionFinder(fileSystemRepository, typeScriptFileCollector)
+        val stepFunction = stepFinder.findStepFunction(project, searchDirectories.toSet(), stepText)
 
         return stepFunction?.let { arrayOf(it) } ?: PsiElement.EMPTY_ARRAY
     }

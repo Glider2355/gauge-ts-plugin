@@ -6,7 +6,7 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 
-internal class TypeScriptFileCollector {
+class TypeScriptFileCollector {
 
     fun collectTypeScriptFiles(project: Project, virtualFile: VirtualFile?): List<PsiFile> {
         val files = mutableListOf<PsiFile>()
