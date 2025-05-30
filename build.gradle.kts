@@ -46,7 +46,7 @@ dependencies {
     testImplementation(kotlin("reflect"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.12.1")
     testImplementation("junit:junit:4.13.2")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.8.2")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.13.0")
     testImplementation("io.mockk:mockk:1.13.17")
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.1.10")
 
