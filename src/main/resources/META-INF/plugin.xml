@@ -5,7 +5,8 @@
     <vendor>glider2355</vendor>
     <category>Test Tools</category>
 
-    <depends>com.intellij.modules.java</depends>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
     <depends>JavaScript</depends>
 
     <extensions defaultExtensionNs="com.intellij">
