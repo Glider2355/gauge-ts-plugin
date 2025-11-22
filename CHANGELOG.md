@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+## [0.0.12] - 2025-11-22
+
+- Changelog update - `v0.0.11` by @github-actions[bot] in https://github.com/Glider2355/gauge-ts-plugin/pull/107
+- Add Test by @github-actions[bot] in https://github.com/Glider2355/gauge-ts-plugin/pull/108
+- build(deps): bump io.mockk:mockk from 1.13.17 to 1.14.6 by @dependabot[bot] in https://github.com/Glider2355/gauge-ts-plugin/pull/144
+- build(deps): bump org.jetbrains.kotlin.jvm from 2.1.10 to 2.2.21 by @dependabot[bot] in https://github.com/Glider2355/gauge-ts-plugin/pull/150
+- Update plugin by @Ryo-Muramatsu in https://github.com/Glider2355/gauge-ts-plugin/pull/151
+
 ## [0.0.11] - 2025-03-22
 
 - Support for Editing Run Configurations with --env Flag by @github-actions in https://github.com/Glider2355/gauge-ts-plugin/pull/103
@@ -57,7 +65,8 @@ Added
 
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.11...HEAD
+[Unreleased]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.12...HEAD
+[0.0.12]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.11...v0.0.12
 [0.0.11]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.10...v0.0.11
 [0.0.10]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.9...v0.0.10
 [0.0.9]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.8...v0.0.9
