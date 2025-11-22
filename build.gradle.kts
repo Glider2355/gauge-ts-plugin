@@ -146,6 +146,8 @@ tasks {
         sourceCompatibility = "21"
         targetCompatibility = "21"
     }
+
+    // IntelliJ Platform 2025.2対応: kotlinOptionsではなくcompilerOptionsを使用
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
@@ -162,6 +164,16 @@ tasks {
 
     test {
         useJUnitPlatform()
+
+        // IntelliJ Platform 2025.2対応: coroutines debug agentによるJVMクラッシュを回避
+        // 詳細: https://github.com/JetBrains/intellij-platform-gradle-plugin/issues/1794
+        systemProperty("idea.use.core.classloader.for.plugin.path", "true")
+
+        // coroutines java agentを完全に無効化してJVMクラッシュを回避
+        // これはIntelliJ Platform 2025.2のJVMクラッシュ問題の回避策
+        if (this is org.jetbrains.intellij.platform.gradle.tasks.aware.CoroutinesJavaAgentAware) {
+            coroutinesJavaAgentFile.set(null as File?)
+        }
     }
 }
 

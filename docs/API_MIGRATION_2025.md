@@ -149,6 +149,31 @@ import com.intellij.execution.remote.RemoteConfigurationType
 - [IntelliJ Platform Gradle Plugin 2.10.4](https://github.com/JetBrains/intellij-platform-gradle-plugin)
 - [Module Extraction in 2025.2](https://plugins.jetbrains.com/docs/intellij/api-changes-list-2025.html#module-extraction)
 
+## 既知の問題
+
+### テスト実行時の JVM クラッシュ (未解決)
+
+**症状**:
+```
+Exception in thread "main" java.lang.NoSuchMethodError: 'boolean kotlinx.coroutines.debug.internal.DebugProbesImpl.getEnableCreationStackTraces$kotlinx_coroutines_core()'
+```
+
+**原因**: IntelliJ Platform Gradle Plugin 2.10.4 でも、`coroutines-javaagent` が原因で JVM がクラッシュする問題が残っています。
+
+**影響範囲**:
+- `./gradlew test` タスクが失敗します
+- プラグインのビルドは正常に動作します (`./gradlew buildPlugin` は成功)
+
+**回避策**:
+テストをスキップしてビルド:
+```bash
+./gradlew buildPlugin -x test
+```
+
+**関連 Issue**:
+- https://github.com/JetBrains/intellij-platform-gradle-plugin/issues/1794
+- https://youtrack.jetbrains.com/issue/IJPL-163
+
 ## トラブルシューティング
 
 ### ビルドが遅い場合
