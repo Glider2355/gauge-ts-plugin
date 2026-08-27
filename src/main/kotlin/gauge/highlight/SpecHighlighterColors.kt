@@ -14,7 +14,7 @@ object SpecHighlighterColors {
     )
     val STEP: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
         "GAUGE_STEP",
-        DefaultLanguageHighlighterColors.KEYWORD
+        DefaultLanguageHighlighterColors.IDENTIFIER
     )
     val COMMENT: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
         "GAUGE_COMMENT",
