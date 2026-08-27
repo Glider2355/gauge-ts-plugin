@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.changelog) // Gradle Changelog Plugin
     alias(libs.plugins.qodana) // Gradle Qodana Plugin
     alias(libs.plugins.kover) // Gradle Kover Plugin
+    alias(libs.plugins.grammarKit) // Grammar-Kit (BNF/JFlex generator)
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -164,6 +165,40 @@ tasks {
 
     test {
         useJUnitPlatform()
+    }
+
+    // Grammar-Kit: BNF -> Java parser 生成
+    generateParser {
+        sourceFile.set(file("grammar/specification.bnf"))
+        targetRootOutputDir.set(file("gen"))
+        pathToParser.set("gauge/parser/SpecParser.java")
+        pathToPsiRoot.set("gauge/language/psi")
+        // rule `step` と token `STEP` の名前衝突を解消 (element type 側を無効化)
+        doLast {
+            val tokens = file("gen/gauge/language/token/SpecTokenTypes.java")
+            if (tokens.exists()) {
+                val original = tokens.readText()
+                val patched = original.replace(
+                    "IElementType STEP = new SpecElementType(\"STEP\");",
+                    "// IElementType STEP = new SpecElementType(\"STEP\"); // shadowed by SpecTokenType STEP"
+                )
+                if (original != patched) tokens.writeText(patched)
+            }
+        }
+    }
+
+    // Grammar-Kit: JFlex -> Java lexer 生成
+    generateLexer {
+        sourceFile.set(file("grammar/_SpecLexer.flex"))
+        targetOutputDir.set(file("gen/gauge/lexer"))
+    }
+
+    compileJava {
+        dependsOn(generateParser, generateLexer)
+    }
+
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        dependsOn(generateParser, generateLexer)
     }
 }
 

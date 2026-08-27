@@ -14,209 +14,220 @@ import com.intellij.lang.LightPsiParser;
 @SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
 public class SpecParser implements PsiParser, LightPsiParser {
 
-  public ASTNode parse(IElementType t, PsiBuilder b) {
-    parseLight(t, b);
-    return b.getTreeBuilt();
+  public ASTNode parse(IElementType root_, PsiBuilder builder_) {
+    parseLight(root_, builder_);
+    return builder_.getTreeBuilt();
   }
 
-  public void parseLight(IElementType t, PsiBuilder b) {
-    boolean r;
-    b = adapt_builder_(t, b, this, null);
-    Marker m = enter_section_(b, 0, _COLLAPSE_, null);
-    r = parse_root_(t, b);
-    exit_section_(b, 0, m, t, r, true, TRUE_CONDITION);
+  public void parseLight(IElementType root_, PsiBuilder builder_) {
+    boolean result_;
+    builder_ = adapt_builder_(root_, builder_, this, null);
+    Marker marker_ = enter_section_(builder_, 0, _COLLAPSE_, null);
+    result_ = parse_root_(root_, builder_);
+    exit_section_(builder_, 0, marker_, root_, result_, true, TRUE_CONDITION);
   }
 
-  protected boolean parse_root_(IElementType t, PsiBuilder b) {
-    return parse_root_(t, b, 0);
+  protected boolean parse_root_(IElementType root_, PsiBuilder builder_) {
+    return parse_root_(root_, builder_, 0);
   }
 
-  static boolean parse_root_(IElementType t, PsiBuilder b, int l) {
-    return specFile(b, l + 1);
+  static boolean parse_root_(IElementType root_, PsiBuilder builder_, int level_) {
+    return specFile(builder_, level_ + 1);
   }
 
   /* ********************************************************** */
   // COMMENT
-  static boolean comment(PsiBuilder b, int l) {
-    return consumeToken(b, COMMENT);
+  static boolean comment(PsiBuilder builder_, int level_) {
+    return consumeToken(builder_, COMMENT);
   }
 
   /* ********************************************************** */
   // scenarioHeading (step | comment)*
-  public static boolean scenario(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "scenario")) return false;
-    if (!nextTokenIs(b, SCENARIO_HEADING)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = scenarioHeading(b, l + 1);
-    r = r && scenario_1(b, l + 1);
-    exit_section_(b, m, SCENARIO, r);
-    return r;
+  public static boolean scenario(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "scenario")) return false;
+    if (!nextTokenIs(builder_, SCENARIO_HEADING)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = scenarioHeading(builder_, level_ + 1);
+    result_ = result_ && scenario_1(builder_, level_ + 1);
+    exit_section_(builder_, marker_, SCENARIO, result_);
+    return result_;
   }
 
   // (step | comment)*
-  private static boolean scenario_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "scenario_1")) return false;
+  private static boolean scenario_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "scenario_1")) return false;
     while (true) {
-      int c = current_position_(b);
-      if (!scenario_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "scenario_1", c)) break;
+      int pos_ = current_position_(builder_);
+      if (!scenario_1_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "scenario_1", pos_)) break;
     }
     return true;
   }
 
   // step | comment
-  private static boolean scenario_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "scenario_1_0")) return false;
-    boolean r;
-    r = step(b, l + 1);
-    if (!r) r = comment(b, l + 1);
-    return r;
+  private static boolean scenario_1_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "scenario_1_0")) return false;
+    boolean result_;
+    result_ = step(builder_, level_ + 1);
+    if (!result_) result_ = comment(builder_, level_ + 1);
+    return result_;
   }
 
   /* ********************************************************** */
   // SCENARIO_HEADING
-  static boolean scenarioHeading(PsiBuilder b, int l) {
-    return consumeToken(b, SCENARIO_HEADING);
+  static boolean scenarioHeading(PsiBuilder builder_, int level_) {
+    return consumeToken(builder_, SCENARIO_HEADING);
   }
 
   /* ********************************************************** */
   // (comment)*  specHeading table? (step|comment)*
-  static boolean specDetail(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "specDetail")) return false;
-    if (!nextTokenIs(b, "", COMMENT, SPEC_HEADING)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = specDetail_0(b, l + 1);
-    r = r && specHeading(b, l + 1);
-    r = r && specDetail_2(b, l + 1);
-    r = r && specDetail_3(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
+  static boolean specDetail(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "specDetail")) return false;
+    if (!nextTokenIs(builder_, "", COMMENT, SPEC_HEADING)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = specDetail_0(builder_, level_ + 1);
+    result_ = result_ && specHeading(builder_, level_ + 1);
+    result_ = result_ && specDetail_2(builder_, level_ + 1);
+    result_ = result_ && specDetail_3(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
   }
 
   // (comment)*
-  private static boolean specDetail_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "specDetail_0")) return false;
+  private static boolean specDetail_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "specDetail_0")) return false;
     while (true) {
-      int c = current_position_(b);
-      if (!specDetail_0_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "specDetail_0", c)) break;
+      int pos_ = current_position_(builder_);
+      if (!specDetail_0_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "specDetail_0", pos_)) break;
     }
     return true;
   }
 
   // (comment)
-  private static boolean specDetail_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "specDetail_0_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = comment(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
+  private static boolean specDetail_0_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "specDetail_0_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = comment(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
   }
 
   // table?
-  private static boolean specDetail_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "specDetail_2")) return false;
-    table(b, l + 1);
+  private static boolean specDetail_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "specDetail_2")) return false;
+    table(builder_, level_ + 1);
     return true;
   }
 
   // (step|comment)*
-  private static boolean specDetail_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "specDetail_3")) return false;
+  private static boolean specDetail_3(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "specDetail_3")) return false;
     while (true) {
-      int c = current_position_(b);
-      if (!specDetail_3_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "specDetail_3", c)) break;
+      int pos_ = current_position_(builder_);
+      if (!specDetail_3_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "specDetail_3", pos_)) break;
     }
     return true;
   }
 
   // step|comment
-  private static boolean specDetail_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "specDetail_3_0")) return false;
-    boolean r;
-    r = step(b, l + 1);
-    if (!r) r = comment(b, l + 1);
-    return r;
+  private static boolean specDetail_3_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "specDetail_3_0")) return false;
+    boolean result_;
+    result_ = step(builder_, level_ + 1);
+    if (!result_) result_ = comment(builder_, level_ + 1);
+    return result_;
   }
 
   /* ********************************************************** */
-  // specDetail scenario+
-  static boolean specFile(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "specFile")) return false;
-    if (!nextTokenIs(b, "", COMMENT, SPEC_HEADING)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = specDetail(b, l + 1);
-    r = r && specFile_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
+  // specDetail+ scenario*
+  static boolean specFile(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "specFile")) return false;
+    if (!nextTokenIs(builder_, "", COMMENT, SPEC_HEADING)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = specFile_0(builder_, level_ + 1);
+    result_ = result_ && specFile_1(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
   }
 
-  // scenario+
-  private static boolean specFile_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "specFile_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = scenario(b, l + 1);
-    while (r) {
-      int c = current_position_(b);
-      if (!scenario(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "specFile_1", c)) break;
+  // specDetail+
+  private static boolean specFile_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "specFile_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = specDetail(builder_, level_ + 1);
+    while (result_) {
+      int pos_ = current_position_(builder_);
+      if (!specDetail(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "specFile_0", pos_)) break;
     }
-    exit_section_(b, m, null, r);
-    return r;
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // scenario*
+  private static boolean specFile_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "specFile_1")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!scenario(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "specFile_1", pos_)) break;
+    }
+    return true;
   }
 
   /* ********************************************************** */
   // SPEC_HEADING
-  static boolean specHeading(PsiBuilder b, int l) {
-    return consumeToken(b, SPEC_HEADING);
+  static boolean specHeading(PsiBuilder builder_, int level_) {
+    return consumeToken(builder_, SPEC_HEADING);
   }
 
   /* ********************************************************** */
   // STEP table?
-  public static boolean step(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "step")) return false;
-    if (!nextTokenIs(b, STEP)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, STEP);
-    r = r && step_1(b, l + 1);
-    exit_section_(b, m, STEP, r);
-    return r;
+  public static boolean step(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "step")) return false;
+    if (!nextTokenIs(builder_, STEP)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, STEP);
+    result_ = result_ && step_1(builder_, level_ + 1);
+    exit_section_(builder_, marker_, STEP, result_);
+    return result_;
   }
 
   // table?
-  private static boolean step_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "step_1")) return false;
-    table(b, l + 1);
+  private static boolean step_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "step_1")) return false;
+    table(builder_, level_ + 1);
     return true;
   }
 
   /* ********************************************************** */
   // TABLE_HEADER TABLE_ROW*
-  public static boolean table(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "table")) return false;
-    if (!nextTokenIs(b, TABLE_HEADER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, TABLE_HEADER);
-    r = r && table_1(b, l + 1);
-    exit_section_(b, m, TABLE, r);
-    return r;
+  public static boolean table(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "table")) return false;
+    if (!nextTokenIs(builder_, TABLE_HEADER)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, TABLE_HEADER);
+    result_ = result_ && table_1(builder_, level_ + 1);
+    exit_section_(builder_, marker_, TABLE, result_);
+    return result_;
   }
 
   // TABLE_ROW*
-  private static boolean table_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "table_1")) return false;
+  private static boolean table_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "table_1")) return false;
     while (true) {
-      int c = current_position_(b);
-      if (!consumeToken(b, TABLE_ROW)) break;
-      if (!empty_element_parsed_guard_(b, "table_1", c)) break;
+      int pos_ = current_position_(builder_);
+      if (!consumeToken(builder_, TABLE_ROW)) break;
+      if (!empty_element_parsed_guard_(builder_, "table_1", pos_)) break;
     }
     return true;
   }

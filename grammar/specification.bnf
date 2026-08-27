@@ -16,9 +16,12 @@
 }
 
 /**
-* .specファイルのトップレベル構造 (specDetail:仕様の詳細部分 scenario+: 1つ以上のシナリオ)
+* .spec / .cpt ファイルのトップレベル構造。
+* 以下いずれの構造も受け入れる:
+*  - .spec: 1つ以上の specDetail + 0個以上の scenario
+*  - .cpt:  1つ以上の specDetail (concept 定義が並ぶ)
 */
-specFile ::= specDetail scenario+
+specFile ::= specDetail+ scenario*
 
 /**
  * scenarioHeading: シナリオの見出し
@@ -34,8 +37,9 @@ step ::= STEP table?
 table ::= TABLE_HEADER TABLE_ROW*
 
 /**
+ * spec / concept 見出しブロック
  * (comment)*: 0個以上のコメント
- * specHeading: 仕様の見出し
+ * specHeading: 見出し
  * table?: オプションでテーブル
  * (step|comment)*: 0個以上のステップまたはコメント
  */
