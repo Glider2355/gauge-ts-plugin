@@ -30,6 +30,10 @@
                 language="Specification"
                 implementationClass="gauge.highlight.GaugeConceptAnnotator"/>
 
+        <!-- 色設定ページ (Settings → Editor → Color Scheme → GaugeTS) -->
+        <colorSettingsPage
+                implementation="gauge.highlight.SpecColorSettingsPage"/>
+
         <!-- Pluginの設定の登録 -->
         <projectConfigurable groupId="tools" instance="gauge.setting.SettingsConfigurable" displayName="GaugeTS Plugin"/>
 
