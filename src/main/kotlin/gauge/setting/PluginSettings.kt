@@ -19,7 +19,8 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
     var envVarValue = ""
 
     // Step 検索モード。"AUTO" = プロジェクト全体を自動スキャン, "MANUAL" = 下の Directories 一覧を使う
-    var scanMode: String = ScanMode.MANUAL
+    // 新規インストールでは AUTO。既存の Directories 設定があるユーザーは loadState で MANUAL 扱い
+    var scanMode: String = ScanMode.AUTO
     // AUTO のとき .gauge/ を含む親ディレクトリを検索スコープにする
     var useGaugeRootScope: Boolean = true
 
@@ -50,7 +51,13 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
         envValue = state.envValue
         enableEnvVar = state.enableEnvVar
         envVarValue = state.envVarValue
-        scanMode = state.scanMode
+        // scanMode が空 = 保存された XML にフィールドが無い (=このバージョン以前のユーザー)
+        // その場合 Directories 設定があれば MANUAL を初期値として採用
+        scanMode = when {
+            state.scanMode.isNotEmpty() -> state.scanMode
+            state.searchDirectories.isNotEmpty() -> ScanMode.MANUAL
+            else -> ScanMode.AUTO
+        }
         useGaugeRootScope = state.useGaugeRootScope
     }
 
@@ -64,7 +71,8 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
         var envValue: String = "",
         var enableEnvVar: Boolean = false,
         var envVarValue: String = "",
-        var scanMode: String = ScanMode.MANUAL,
+        // 空 = 未保存 (旧バージョンのユーザー)。loadState で解決する
+        var scanMode: String = "",
         var useGaugeRootScope: Boolean = true
     )
 

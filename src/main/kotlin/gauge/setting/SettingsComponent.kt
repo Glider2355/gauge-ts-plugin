@@ -36,7 +36,7 @@ class SettingsComponent {
     // Step 検索モード切替 (AUTO / MANUAL)
     private val autoScanRadio = JRadioButton("Auto scan (search all .ts in project)")
     private val manualRadio = JRadioButton("Manual (use directories listed below)")
-    private val useGaugeRootCheckBox = JCheckBox("Restrict scope to `.gauge/` project roots")
+    private val useGaugeRootCheckBox = JCheckBox("Scope to directories containing `.gauge/`")
 
     init {
         // Gauge Binary Pathの設定フィールド
