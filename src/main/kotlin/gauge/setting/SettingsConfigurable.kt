@@ -12,7 +12,7 @@ class SettingsConfigurable(private val project: Project) : Configurable {
     override fun createComponent(): JComponent? {
         if (mySettingsComponent == null) {
             mySettingsComponent = SettingsComponent()
-            SettingsListener(mySettingsComponent!!)
+            SettingsListener(mySettingsComponent!!, project)
         }
         return mySettingsComponent?.mainPanel
     }
