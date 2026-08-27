@@ -7,5 +7,5 @@ import com.intellij.openapi.vfs.VirtualFile
 
 class SpecSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?): SyntaxHighlighter =
-        SpecSyntaxHighlighter()
+        if (virtualFile?.extension == "cpt") CptSyntaxHighlighter() else SpecSyntaxHighlighter()
 }

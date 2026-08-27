@@ -28,4 +28,13 @@ object SpecHighlighterColors {
         "GAUGE_TABLE_ROW",
         DefaultLanguageHighlighterColors.STRING
     )
+
+    val CONCEPT_HEADING: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+        "GAUGE_CONCEPT_HEADING",
+        DefaultLanguageHighlighterColors.KEYWORD
+    )
+    val CONCEPT_STEP: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+        "GAUGE_CONCEPT_STEP",
+        DefaultLanguageHighlighterColors.KEYWORD
+    )
 }
