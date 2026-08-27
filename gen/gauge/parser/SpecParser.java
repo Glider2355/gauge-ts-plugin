@@ -42,7 +42,7 @@ public class SpecParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // scenarioHeading (step | comment)*
+  // scenarioHeading (step | comment | tag)*
   public static boolean scenario(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "scenario")) return false;
     if (!nextTokenIs(builder_, SCENARIO_HEADING)) return false;
@@ -54,7 +54,7 @@ public class SpecParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // (step | comment)*
+  // (step | comment | tag)*
   private static boolean scenario_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "scenario_1")) return false;
     while (true) {
@@ -65,12 +65,13 @@ public class SpecParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // step | comment
+  // step | comment | tag
   private static boolean scenario_1_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "scenario_1_0")) return false;
     boolean result_;
     result_ = step(builder_, level_ + 1);
     if (!result_) result_ = comment(builder_, level_ + 1);
+    if (!result_) result_ = tag(builder_, level_ + 1);
     return result_;
   }
 
@@ -81,10 +82,9 @@ public class SpecParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (comment)*  specHeading table? (step|comment)*
+  // (comment | tag)*  specHeading table? (step | comment | tag)*
   static boolean specDetail(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "specDetail")) return false;
-    if (!nextTokenIs(builder_, "", COMMENT, SPEC_HEADING)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = specDetail_0(builder_, level_ + 1);
@@ -95,7 +95,7 @@ public class SpecParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // (comment)*
+  // (comment | tag)*
   private static boolean specDetail_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "specDetail_0")) return false;
     while (true) {
@@ -106,13 +106,12 @@ public class SpecParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // (comment)
+  // comment | tag
   private static boolean specDetail_0_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "specDetail_0_0")) return false;
     boolean result_;
-    Marker marker_ = enter_section_(builder_);
     result_ = comment(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
+    if (!result_) result_ = tag(builder_, level_ + 1);
     return result_;
   }
 
@@ -123,7 +122,7 @@ public class SpecParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // (step|comment)*
+  // (step | comment | tag)*
   private static boolean specDetail_3(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "specDetail_3")) return false;
     while (true) {
@@ -134,12 +133,13 @@ public class SpecParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // step|comment
+  // step | comment | tag
   private static boolean specDetail_3_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "specDetail_3_0")) return false;
     boolean result_;
     result_ = step(builder_, level_ + 1);
     if (!result_) result_ = comment(builder_, level_ + 1);
+    if (!result_) result_ = tag(builder_, level_ + 1);
     return result_;
   }
 
@@ -147,7 +147,6 @@ public class SpecParser implements PsiParser, LightPsiParser {
   // specDetail+ scenario*
   static boolean specFile(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "specFile")) return false;
-    if (!nextTokenIs(builder_, "", COMMENT, SPEC_HEADING)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = specFile_0(builder_, level_ + 1);
@@ -230,6 +229,12 @@ public class SpecParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(builder_, "table_1", pos_)) break;
     }
     return true;
+  }
+
+  /* ********************************************************** */
+  // TAG
+  static boolean tag(PsiBuilder builder_, int level_) {
+    return consumeToken(builder_, TAG);
   }
 
 }

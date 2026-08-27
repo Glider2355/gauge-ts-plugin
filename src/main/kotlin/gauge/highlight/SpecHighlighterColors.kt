@@ -37,4 +37,8 @@ object SpecHighlighterColors {
         "GAUGE_CONCEPT_STEP",
         DefaultLanguageHighlighterColors.KEYWORD
     )
+    val TAG: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+        "GAUGE_TAG",
+        DefaultLanguageHighlighterColors.STRING
+    )
 }

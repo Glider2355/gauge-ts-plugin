@@ -25,9 +25,9 @@ specFile ::= specDetail+ scenario*
 
 /**
  * scenarioHeading: シナリオの見出し
- * (step | comment)*: 0個以上のステップまたはコメント
+ * (step | comment | tag)*: 0個以上のステップ・コメント・タグ
  */
-scenario ::= scenarioHeading (step | comment)*
+scenario ::= scenarioHeading (step | comment | tag)*
 
 /**
  * ステップ要素(STEPのトークンで認識する)
@@ -38,15 +38,18 @@ table ::= TABLE_HEADER TABLE_ROW*
 
 /**
  * spec / concept 見出しブロック
- * (comment)*: 0個以上のコメント
+ * (comment | tag)*: 0個以上のコメント・タグ
  * specHeading: 見出し
  * table?: オプションでテーブル
- * (step|comment)*: 0個以上のステップまたはコメント
+ * (step | comment | tag)*: 0個以上のステップ・コメント・タグ
  */
-private specDetail ::= (comment)*  specHeading table? (step|comment)*
+private specDetail ::= (comment | tag)*  specHeading table? (step | comment | tag)*
 
 // コメント要素(COMMENTのトークンで認識する)
 private comment ::= COMMENT
+
+// タグ要素(TAGのトークンで認識する)
+private tag ::= TAG
 
 private specHeading ::= SPEC_HEADING
 private scenarioHeading ::= SCENARIO_HEADING

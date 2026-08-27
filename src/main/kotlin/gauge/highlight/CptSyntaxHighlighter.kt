@@ -18,6 +18,7 @@ class CptSyntaxHighlighter : SyntaxHighlighterBase() {
             SpecTokenTypes.COMMENT -> arrayOf(SpecHighlighterColors.COMMENT)
             SpecTokenTypes.TABLE_HEADER -> arrayOf(SpecHighlighterColors.TABLE_HEADER)
             SpecTokenTypes.TABLE_ROW -> arrayOf(SpecHighlighterColors.TABLE_ROW)
+            SpecTokenTypes.TAG -> arrayOf(SpecHighlighterColors.TAG)
             else -> emptyArray()
         }
     }
