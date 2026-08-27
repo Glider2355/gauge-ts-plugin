@@ -2,6 +2,9 @@ package gauge.highlight
 
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.editor.markup.TextAttributes
+import java.awt.Color
+import java.awt.Font
 
 object SpecHighlighterColors {
     val SPEC_HEADING: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
@@ -39,6 +42,6 @@ object SpecHighlighterColors {
     )
     val TAG: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
         "GAUGE_TAG",
-        DefaultLanguageHighlighterColors.STRING
+        TextAttributes(Color(0xC71585), null, null, null, Font.PLAIN)
     )
 }
