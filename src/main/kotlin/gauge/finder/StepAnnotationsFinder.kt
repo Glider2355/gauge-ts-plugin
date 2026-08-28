@@ -12,26 +12,25 @@ import com.intellij.psi.PsiRecursiveElementVisitor
 
 class StepAnnotationsFinder {
 
-    fun findStepAnnotations(project: Project, searchDirectories: MutableList<String>): List<String> {
-        val stepAnnotations = searchDirectories.flatMap { findStepAnnotationsByDirectoryPath(project, it) }.toSet()
-        return stepAnnotations.toList()
-    }
-
-    private fun findStepAnnotationsByDirectoryPath(project: Project, directoryPath: String): List<String> {
-        val stepAnnotations = mutableListOf<String>()
-
-        // ディレクトリ内のTypeScriptファイルを取得
+    fun findStepAnnotations(project: Project, searchDirectories: List<String>): List<String> {
         val collector = TypeScriptFileCollector()
-        val virtualFile = LocalFileSystem.getInstance().findFileByPath(directoryPath)
-        val files = collector.collectTypeScriptFiles(project, virtualFile)
-
-        // 各ファイルを解析して@Stepアノテーションを抽出
+        val files = if (searchDirectories.isEmpty()) {
+            // 未設定 → プロジェクト全体を自動スキャン
+            collector.collectAllTypeScriptFilesInProject(project)
+        } else {
+            // 明示指定あり → 従来通り指定ディレクトリだけ
+            searchDirectories.flatMap { directoryPath ->
+                val virtualFile = LocalFileSystem.getInstance().findFileByPath(directoryPath)
+                collector.collectTypeScriptFiles(project, virtualFile)
+            }
+        }
+        val stepAnnotations = mutableListOf<String>()
         for (file in files) {
             if (file is JSFile) {
                 extractStepAnnotationsFromFile(file, stepAnnotations)
             }
         }
-        return stepAnnotations
+        return stepAnnotations.toSet().toList()
     }
 
     private fun extractStepAnnotationsFromFile(file: JSFile, stepAnnotations: MutableList<String>) {

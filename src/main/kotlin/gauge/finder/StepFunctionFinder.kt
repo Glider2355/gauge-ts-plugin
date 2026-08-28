@@ -16,15 +16,20 @@ class StepFunctionFinder {
     private val fileCollector = TypeScriptFileCollector()
 
     fun findStepFunction(project: Project, searchDirectories: MutableList<String>, stepText: String): PsiElement? {
-        for (directoryPath in searchDirectories) {
-            // TypeScriptFileCollectorを使ってディレクトリからファイルを収集
-            val virtualFile = LocalFileSystem.getInstance().findFileByPath(directoryPath)
-            val files = fileCollector.collectTypeScriptFiles(project, virtualFile)
-            for (file in files) {
-                val function = findFunctionFromFile(file, stepText)
-                if (function != null) {
-                    return function
-                }
+        val files = if (searchDirectories.isEmpty()) {
+            // 未設定 → プロジェクト全体を自動スキャン
+            fileCollector.collectAllTypeScriptFilesInProject(project)
+        } else {
+            // 明示指定あり → 従来通り指定ディレクトリだけ
+            searchDirectories.flatMap { directoryPath ->
+                val virtualFile = LocalFileSystem.getInstance().findFileByPath(directoryPath)
+                fileCollector.collectTypeScriptFiles(project, virtualFile)
+            }
+        }
+        for (file in files) {
+            val function = findFunctionFromFile(file, stepText)
+            if (function != null) {
+                return function
             }
         }
         return null

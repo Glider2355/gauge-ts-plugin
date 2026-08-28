@@ -5,6 +5,8 @@ import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
+import com.intellij.psi.search.FilenameIndex
+import com.intellij.psi.search.GlobalSearchScope
 
 internal class TypeScriptFileCollector {
 
@@ -23,5 +25,17 @@ internal class TypeScriptFileCollector {
         }
 
         return files
+    }
+
+    /**
+     * プロジェクトスコープ全体の .ts ファイルを FilenameIndex から取得。
+     * IntelliJ の索引を使うのでディレクトリ再帰列挙より速い。
+     * .gitignore / Excluded Folders は projectScope 側で除外される。
+     */
+    fun collectAllTypeScriptFilesInProject(project: Project): List<PsiFile> {
+        val scope = GlobalSearchScope.projectScope(project)
+        val virtualFiles = FilenameIndex.getAllFilesByExt(project, "ts", scope)
+        val psiManager = PsiManager.getInstance(project)
+        return virtualFiles.mapNotNull { psiManager.findFile(it) }
     }
 }
