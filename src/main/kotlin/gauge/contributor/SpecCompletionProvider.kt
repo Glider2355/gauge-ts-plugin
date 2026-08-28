@@ -9,9 +9,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.util.ProcessingContext
 import gauge.finder.StepAnnotationsFinder
 
-class SpecCompletionProvider(
-    private val searchDirectoriesProvider: () -> List<String>
-) : CompletionProvider<CompletionParameters>() {
+class SpecCompletionProvider : CompletionProvider<CompletionParameters>() {
 
     override fun addCompletions(
         parameters: CompletionParameters,
@@ -19,11 +17,10 @@ class SpecCompletionProvider(
         result: CompletionResultSet
     ) {
         val project: Project = parameters.editor.project ?: return
-        val searchDirectories = searchDirectoriesProvider().toMutableList()
 
         // TypeScriptファイルを解析し、@Stepアノテーションの引数を取得
         val stepFinder = StepAnnotationsFinder()
-        val stepAnnotations = stepFinder.findStepAnnotations(project, searchDirectories)
+        val stepAnnotations = stepFinder.findStepAnnotations(project)
 
         // サジェストするために取得したアノテーションの引数を追加
         for (annotation in stepAnnotations) {

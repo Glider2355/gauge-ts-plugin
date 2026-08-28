@@ -31,11 +31,23 @@ internal class TypeScriptFileCollector {
      * プロジェクトスコープ全体の .ts ファイルを FilenameIndex から取得。
      * IntelliJ の索引を使うのでディレクトリ再帰列挙より速い。
      * .gitignore / Excluded Folders は projectScope 側で除外される。
+     *
+     * @param gaugeRoots 空でなければ、その配下の .ts のみに絞る (.gauge/ 起点スコープ用途)
      */
-    fun collectAllTypeScriptFilesInProject(project: Project): List<PsiFile> {
+    fun collectAllTypeScriptFilesInProject(
+        project: Project,
+        gaugeRoots: List<VirtualFile> = emptyList()
+    ): List<PsiFile> {
         val scope = GlobalSearchScope.projectScope(project)
         val virtualFiles = FilenameIndex.getAllFilesByExt(project, "ts", scope)
+        val filtered = if (gaugeRoots.isEmpty()) {
+            virtualFiles
+        } else {
+            virtualFiles.filter { file ->
+                gaugeRoots.any { root -> com.intellij.openapi.vfs.VfsUtil.isAncestor(root, file, true) }
+            }
+        }
         val psiManager = PsiManager.getInstance(project)
-        return virtualFiles.mapNotNull { psiManager.findFile(it) }
+        return filtered.mapNotNull { psiManager.findFile(it) }
     }
 }

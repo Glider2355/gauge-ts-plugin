@@ -6,24 +6,13 @@ import com.intellij.lang.javascript.psi.ecma6.ES6Decorator
 import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList
 import com.intellij.lang.javascript.psi.JSCallExpression
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveElementVisitor
 
 class StepAnnotationsFinder {
 
-    fun findStepAnnotations(project: Project, searchDirectories: List<String>): List<String> {
-        val collector = TypeScriptFileCollector()
-        val files = if (searchDirectories.isEmpty()) {
-            // 未設定 → プロジェクト全体を自動スキャン
-            collector.collectAllTypeScriptFilesInProject(project)
-        } else {
-            // 明示指定あり → 従来通り指定ディレクトリだけ
-            searchDirectories.flatMap { directoryPath ->
-                val virtualFile = LocalFileSystem.getInstance().findFileByPath(directoryPath)
-                collector.collectTypeScriptFiles(project, virtualFile)
-            }
-        }
+    fun findStepAnnotations(project: Project): List<String> {
+        val files = TsFileResolver.resolveTypeScriptFiles(project)
         val stepAnnotations = mutableListOf<String>()
         for (file in files) {
             if (file is JSFile) {

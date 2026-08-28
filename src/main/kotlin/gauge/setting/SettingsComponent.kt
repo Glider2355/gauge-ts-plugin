@@ -33,6 +33,11 @@ class SettingsComponent {
     )
     private val envSettingsPanel = EnvPanel()
 
+    // Step 検索モード切替 (AUTO / MANUAL)
+    private val autoScanRadio = JRadioButton("Auto scan (search all .ts in project)")
+    private val manualRadio = JRadioButton("Manual (use directories listed below)")
+    private val useGaugeRootCheckBox = JCheckBox("Restrict scope to `.gauge/` project roots")
+
     init {
         // Gauge Binary Pathの設定フィールド
         val binaryPathPanel = JPanel(BorderLayout())
@@ -83,6 +88,35 @@ class SettingsComponent {
         buttonPanel.add(removeButton)
         buttonPanel.add(addButton)
 
+        // Step 検索モードのラジオ + サブオプション
+        val scanGroup = ButtonGroup()
+        scanGroup.add(autoScanRadio)
+        scanGroup.add(manualRadio)
+        val gaugeRootIndent = JPanel(BorderLayout())
+        gaugeRootIndent.border = JBUI.Borders.emptyLeft(24)
+        gaugeRootIndent.add(useGaugeRootCheckBox, BorderLayout.WEST)
+
+        val scanModePanel = JPanel()
+        scanModePanel.layout = BoxLayout(scanModePanel, BoxLayout.Y_AXIS)
+        scanModePanel.border = JBUI.Borders.compound(
+            JBUI.Borders.customLine(java.awt.Color.GRAY, 1, 0, 0, 0),
+            JBUI.Borders.empty(10, 0)
+        )
+        scanModePanel.add(JLabel("Step Scan Mode:"))
+        scanModePanel.add(autoScanRadio)
+        scanModePanel.add(gaugeRootIndent)
+        scanModePanel.add(manualRadio)
+
+        val onModeChanged = {
+            val isManual = manualRadio.isSelected
+            useGaugeRootCheckBox.isEnabled = !isManual
+            directoryList.isEnabled = isManual
+            addButton.isEnabled = isManual
+            removeButton.isEnabled = isManual
+        }
+        autoScanRadio.addActionListener { onModeChanged() }
+        manualRadio.addActionListener { onModeChanged() }
+
         // メインパネルに各コンポーネントを追加
         val inputPanel = JPanel()
         inputPanel.layout = BoxLayout(inputPanel, BoxLayout.Y_AXIS)
@@ -97,8 +131,27 @@ class SettingsComponent {
 
         mainPanel.layout = BoxLayout(mainPanel, BoxLayout.Y_AXIS)
         mainPanel.add(settingsPanel)
+        mainPanel.add(scanModePanel)
         mainPanel.add(listPanel)
         mainPanel.add(buttonPanel)
+    }
+
+    fun getScanMode(): String =
+        if (autoScanRadio.isSelected) PluginSettings.ScanMode.AUTO else PluginSettings.ScanMode.MANUAL
+
+    fun setScanMode(mode: String) {
+        val isAuto = mode == PluginSettings.ScanMode.AUTO
+        autoScanRadio.isSelected = isAuto
+        manualRadio.isSelected = !isAuto
+        useGaugeRootCheckBox.isEnabled = isAuto
+        directoryList.isEnabled = !isAuto
+        addButton.isEnabled = !isAuto
+        removeButton.isEnabled = !isAuto
+    }
+
+    fun getUseGaugeRootScope(): Boolean = useGaugeRootCheckBox.isSelected
+    fun setUseGaugeRootScope(value: Boolean) {
+        useGaugeRootCheckBox.isSelected = value
     }
 
     // Gauge Binary Pathを取得

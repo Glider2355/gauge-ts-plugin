@@ -18,6 +18,11 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
     var enableEnvVar = false
     var envVarValue = ""
 
+    // Step 検索モード。"AUTO" = プロジェクト全体を自動スキャン, "MANUAL" = 下の Directories 一覧を使う
+    var scanMode: String = ScanMode.MANUAL
+    // AUTO のとき .gauge/ を含む親ディレクトリを検索スコープにする
+    var useGaugeRootScope: Boolean = true
+
 
     override fun getState(): State {
         return State(
@@ -29,7 +34,9 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
             enableEnv,
             envValue,
             enableEnvVar,
-            envVarValue
+            envVarValue,
+            scanMode,
+            useGaugeRootScope
         )
     }
 
@@ -43,6 +50,8 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
         envValue = state.envValue
         enableEnvVar = state.enableEnvVar
         envVarValue = state.envVarValue
+        scanMode = state.scanMode
+        useGaugeRootScope = state.useGaugeRootScope
     }
 
     data class State(
@@ -54,6 +63,13 @@ class PluginSettings : PersistentStateComponent<PluginSettings.State> {
         var enableEnv: Boolean = false,
         var envValue: String = "",
         var enableEnvVar: Boolean = false,
-        var envVarValue: String = ""
+        var envVarValue: String = "",
+        var scanMode: String = ScanMode.MANUAL,
+        var useGaugeRootScope: Boolean = true
     )
+
+    object ScanMode {
+        const val AUTO = "AUTO"
+        const val MANUAL = "MANUAL"
+    }
 }
