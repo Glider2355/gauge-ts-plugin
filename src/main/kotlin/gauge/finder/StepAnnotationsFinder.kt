@@ -46,7 +46,7 @@ class StepAnnotationsFinder {
                                 // デコレーターの引数を取得してリストに追加
                                 val callExpression = decorator.expression as? JSCallExpression
                                 callExpression?.arguments?.forEach { argument ->
-                                    stepAnnotations.add(StepTextProcessor.fixStepText(argument.text))
+                                    stepAnnotations.addAll(StepPatternExtractor.extract(argument))
                                 }
                             }
                         }
