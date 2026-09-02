@@ -1,27 +1,34 @@
 package gauge.setting
 
+import com.intellij.openapi.fileChooser.FileChooser
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.guessProjectDir
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
-import javax.swing.JFileChooser
 
-class SettingsListener(private val settingsComponent: SettingsComponent) {
+class SettingsListener(
+    private val settingsComponent: SettingsComponent,
+    private val project: Project
+) {
     init {
         settingsComponent.addButton.addActionListener(AddButtonListener())
         settingsComponent.removeButton.addActionListener(RemoveButtonListener())
         settingsComponent.directoryList.addMouseListener(CheckboxListener())
     }
 
-    // フォルダ追加
+    // フォルダ追加 (IntelliJ 標準の FileChooser + プロジェクトルート起点)
     inner class AddButtonListener : ActionListener {
         override fun actionPerformed(e: ActionEvent?) {
-            val fileChooser = JFileChooser()
-            fileChooser.fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
-            val result = fileChooser.showOpenDialog(settingsComponent.mainPanel)
-            if (result == JFileChooser.APPROVE_OPTION) {
-                val selectedDir = fileChooser.selectedFile.absolutePath
-                settingsComponent.addDirectory(selectedDir)
+            val descriptor = FileChooserDescriptorFactory.createMultipleFoldersDescriptor()
+                .withTitle("Select Gauge Step Directory")
+                .withDescription("Choose one or more directories containing Gauge step implementations")
+            val toSelect = project.guessProjectDir()
+            val chosen = FileChooser.chooseFiles(descriptor, project, toSelect)
+            for (dir in chosen) {
+                settingsComponent.addDirectory(dir.path)
             }
         }
     }

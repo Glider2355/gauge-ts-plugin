@@ -12,7 +12,7 @@ class SettingsConfigurable(private val project: Project) : Configurable {
     override fun createComponent(): JComponent? {
         if (mySettingsComponent == null) {
             mySettingsComponent = SettingsComponent()
-            SettingsListener(mySettingsComponent!!)
+            SettingsListener(mySettingsComponent!!, project)
         }
         return mySettingsComponent?.mainPanel
     }
@@ -28,6 +28,8 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         val currentEnvValue = mySettingsComponent?.getEnvValue() ?: ""
         val currentEnableEnvVar = mySettingsComponent?.getEnableEnvVar() ?: false
         val currentEnvVarValue = mySettingsComponent?.getEnvVarValue() ?: ""
+        val currentScanMode = mySettingsComponent?.getScanMode() ?: PluginSettings.ScanMode.MANUAL
+        val currentUseGaugeRootScope = mySettingsComponent?.getUseGaugeRootScope() ?: true
 
         return currentDirectories != settings.searchDirectories ||
                 currentGaugeBinaryPath != settings.gaugeBinaryPath ||
@@ -39,7 +41,9 @@ class SettingsConfigurable(private val project: Project) : Configurable {
                 currentEnableEnv != settings.enableEnv ||
                 currentEnvValue != settings.envValue ||
                 currentEnableEnvVar != settings.enableEnvVar ||
-                currentEnvVarValue != settings.envVarValue
+                currentEnvVarValue != settings.envVarValue ||
+                currentScanMode != settings.scanMode ||
+                currentUseGaugeRootScope != settings.useGaugeRootScope
     }
 
     // 設定を保存
@@ -54,6 +58,8 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         settings.envValue = mySettingsComponent?.getEnvValue() ?: ""
         settings.enableEnvVar = mySettingsComponent?.getEnableEnvVar() ?: false
         settings.envVarValue = mySettingsComponent?.getEnvVarValue() ?: ""
+        settings.scanMode = mySettingsComponent?.getScanMode() ?: PluginSettings.ScanMode.MANUAL
+        settings.useGaugeRootScope = mySettingsComponent?.getUseGaugeRootScope() ?: true
     }
 
     // 設定画面のタイトル
@@ -73,5 +79,7 @@ class SettingsConfigurable(private val project: Project) : Configurable {
         mySettingsComponent?.setEnvValue(settings.envValue)
         mySettingsComponent?.setEnableEnvVar(settings.enableEnvVar)
         mySettingsComponent?.setEnvVarValue(settings.envVarValue)
+        mySettingsComponent?.setScanMode(settings.scanMode)
+        mySettingsComponent?.setUseGaugeRootScope(settings.useGaugeRootScope)
     }
 }
