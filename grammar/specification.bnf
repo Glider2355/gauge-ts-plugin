@@ -25,15 +25,16 @@ specFile ::= specDetail+ scenario*
 
 /**
  * scenarioHeading: シナリオの見出し
- * (step | comment | tag)*: 0個以上のステップ・コメント・タグ
+ * (stepItem | comment | tag)*: 0個以上のステップ・コメント・タグ
  */
-scenario ::= scenarioHeading (step | comment | tag)*
+scenario ::= scenarioHeading (stepItem | comment | tag)*
 
 /**
  * ステップ要素(STEPのトークンで認識する)
  * table?: オプションでテーブル
+ * ルール名を step にすると生成される要素型 STEP がトークン STEP と衝突するため stepItem にしている
  */
-step ::= STEP table?
+stepItem ::= STEP table?
 table ::= TABLE_HEADER TABLE_ROW*
 
 /**
@@ -41,9 +42,9 @@ table ::= TABLE_HEADER TABLE_ROW*
  * (comment | tag)*: 0個以上のコメント・タグ
  * specHeading: 見出し
  * table?: オプションでテーブル
- * (step | comment | tag)*: 0個以上のステップ・コメント・タグ
+ * (stepItem | comment | tag)*: 0個以上のステップ・コメント・タグ
  */
-private specDetail ::= (comment | tag)*  specHeading table? (step | comment | tag)*
+private specDetail ::= (comment | tag)*  specHeading table? (stepItem | comment | tag)*
 
 // コメント要素(COMMENTのトークンで認識する)
 private comment ::= COMMENT

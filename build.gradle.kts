@@ -101,6 +101,8 @@ intellijPlatform {
         ideaVersion {
             sinceBuild = providers.gradleProperty("pluginSinceBuild")
             untilBuild = providers.gradleProperty("pluginUntilBuild")
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
         }
     }
 
@@ -173,18 +175,6 @@ tasks {
         targetRootOutputDir.set(file("gen"))
         pathToParser.set("gauge/parser/SpecParser.java")
         pathToPsiRoot.set("gauge/language/psi")
-        // rule `step` と token `STEP` の名前衝突を解消 (element type 側を無効化)
-        doLast {
-            val tokens = file("gen/gauge/language/token/SpecTokenTypes.java")
-            if (tokens.exists()) {
-                val original = tokens.readText()
-                val patched = original.replace(
-                    "IElementType STEP = new SpecElementType(\"STEP\");",
-                    "// IElementType STEP = new SpecElementType(\"STEP\"); // shadowed by SpecTokenType STEP"
-                )
-                if (original != patched) tokens.writeText(patched)
-            }
-        }
     }
 
     // Grammar-Kit: JFlex -> Java lexer 生成
