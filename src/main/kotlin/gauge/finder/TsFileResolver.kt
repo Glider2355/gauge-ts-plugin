@@ -9,6 +9,7 @@ import gauge.setting.PluginSettings
 /**
  * PluginSettings の設定 (AUTO/MANUAL, useGaugeRootScope) を見て
  * 検索対象の .ts ファイル一覧を組み立てる中央窓口。
+ * AUTO で Gauge プロジェクトルートが 1 つも見つからない場合はプロジェクト全体を対象にする。
  * StepFunctionFinder / StepAnnotationsFinder はこれを呼ぶだけでよい。
  */
 object TsFileResolver {
@@ -25,7 +26,7 @@ object TsFileResolver {
                 }
                 collector.collectAllTypeScriptFilesInProject(project, roots)
             }
-            else -> {
+            PluginSettings.ScanMode.MANUAL -> {
                 settings.validDirectories.flatMap { path ->
                     val vf = LocalFileSystem.getInstance().findFileByPath(path)
                     collector.collectTypeScriptFiles(project, vf)
