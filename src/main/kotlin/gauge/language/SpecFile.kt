@@ -6,9 +6,8 @@ import com.intellij.psi.FileViewProvider
 import javax.swing.Icon
 
 class SpecFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, Specification.INSTANCE) {
-    override fun getFileType(): FileType {
-        return SpecFileType.INSTANCE
-    }
+    // .spec は SpecFileType、.cpt は ConceptFileType。同じ言語を共有するため ViewProvider から実際の型を返す
+    override fun getFileType(): FileType = viewProvider.fileType
 
     override fun toString(): String {
         return "Specification File"

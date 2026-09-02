@@ -7,12 +7,18 @@ import com.intellij.psi.tree.IElementType
 import gauge.language.token.SpecTokenTypes
 import gauge.lexer.SpecLexer
 
-class SpecSyntaxHighlighter : SyntaxHighlighterBase() {
+/**
+ * .spec / .cpt 共通のハイライタ。
+ * 違いは `#` 見出しの色だけなので、isConcept で切り替える。
+ */
+class SpecSyntaxHighlighter(private val isConcept: Boolean = false) : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer = SpecLexer()
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
         return when (tokenType) {
-            SpecTokenTypes.SPEC_HEADING -> arrayOf(SpecHighlighterColors.SPEC_HEADING)
+            SpecTokenTypes.SPEC_HEADING -> arrayOf(
+                if (isConcept) SpecHighlighterColors.CONCEPT_HEADING else SpecHighlighterColors.SPEC_HEADING
+            )
             SpecTokenTypes.SCENARIO_HEADING -> arrayOf(SpecHighlighterColors.SCENARIO_HEADING)
             SpecTokenTypes.STEP -> arrayOf(SpecHighlighterColors.STEP)
             SpecTokenTypes.COMMENT -> arrayOf(SpecHighlighterColors.COMMENT)
