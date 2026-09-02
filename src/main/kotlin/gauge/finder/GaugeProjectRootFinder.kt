@@ -50,13 +50,12 @@ object GaugeProjectRootFinder {
 
     private fun isGaugeProjectRoot(dir: VirtualFile): Boolean {
         val manifest = dir.findChild(MANIFEST_FILE)
-        if (manifest != null && !manifest.isDirectory && isGaugeManifest(manifest)) return true
-        return dir.findChild(GAUGE_DIR)?.isDirectory == true
+        val hasGaugeManifest = manifest != null && !manifest.isDirectory && isGaugeManifest(manifest)
+        return hasGaugeManifest || dir.findChild(GAUGE_DIR)?.isDirectory == true
     }
 
     private fun isGaugeManifest(file: VirtualFile): Boolean {
-        if (file.length > MAX_MANIFEST_BYTES) return false
-        return try {
+        return file.length <= MAX_MANIFEST_BYTES && try {
             isGaugeManifest(VfsUtil.loadText(file))
         } catch (e: IOException) {
             false

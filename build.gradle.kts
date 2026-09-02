@@ -100,9 +100,8 @@ intellijPlatform {
 
         ideaVersion {
             sinceBuild = providers.gradleProperty("pluginSinceBuild")
-            untilBuild = providers.gradleProperty("pluginUntilBuild")
-                .map { it.trim() }
-                .filter { it.isNotEmpty() }
+            // until-build を付けず、将来の IDE でもインストール可能にする (IntelliJ Platform Gradle Plugin の推奨記法)
+            untilBuild = provider { null }
         }
     }
 

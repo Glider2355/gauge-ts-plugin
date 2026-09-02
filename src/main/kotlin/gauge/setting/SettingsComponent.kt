@@ -17,12 +17,12 @@ import java.awt.GridLayout
 
 class SettingsComponent {
     val mainPanel: JPanel = JPanel()
-    val directoryListModel = DefaultListModel<DirectoryItem>()
-    val directoryList = JBList(directoryListModel)
-    val addButton = JButton("Add Directory")
-    val removeButton = JButton("Remove Selected Directory")
-    private val gaugeBinaryPathField = TextFieldWithBrowseButton()
-    private val gaugeHomePathField = TextFieldWithBrowseButton()
+    val directoryListModel: DefaultListModel<DirectoryItem> = DefaultListModel()
+    val directoryList: JBList<DirectoryItem> = JBList(directoryListModel)
+    val addButton: JButton = JButton("Add Directory")
+    val removeButton: JButton = JButton("Remove Selected Directory")
+    private val gaugeBinaryPathField: TextFieldWithBrowseButton = TextFieldWithBrowseButton()
+    private val gaugeHomePathField: TextFieldWithBrowseButton = TextFieldWithBrowseButton()
 
     private val parallelNodesSpinner = JSpinner(
         SpinnerNumberModel(
