@@ -44,10 +44,11 @@ class StepFunctionFinder {
                             if (decorator is ES6Decorator && decorator.decoratorName == "Step") {
                                 val callExpression = decorator.expression as? JSCallExpression
                                 callExpression?.arguments?.forEach { argument ->
-                                    val stepAnnotationText = StepTextProcessor.fixStepText(argument.text)
-                                    if (StepTextProcessor.isStepMatch(stepAnnotationText, stepText)) {
-                                        foundFunction = element
-                                        return
+                                    for (stepAnnotationText in StepPatternExtractor.extract(argument)) {
+                                        if (StepTextProcessor.isStepMatch(stepAnnotationText, stepText)) {
+                                            foundFunction = element
+                                            return
+                                        }
                                     }
                                 }
                             }
