@@ -2,9 +2,6 @@ package gauge.highlight
 
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
-import com.intellij.openapi.editor.markup.TextAttributes
-import java.awt.Color
-import java.awt.Font
 
 object SpecHighlighterColors {
     val SPEC_HEADING: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
@@ -40,8 +37,10 @@ object SpecHighlighterColors {
         "GAUGE_CONCEPT_STEP",
         DefaultLanguageHighlighterColors.KEYWORD
     )
+    // 既定色は colorSchemes/GaugeTS*.xml (additionalTextAttributes) で Default / Darcula 別に与える。
+    // それ以外のスキームでは METADATA (アノテーション色) にフォールバックする
     val TAG: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
         "GAUGE_TAG",
-        TextAttributes(Color(0xC71585), null, null, null, Font.PLAIN)
+        DefaultLanguageHighlighterColors.METADATA
     )
 }

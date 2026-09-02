@@ -30,6 +30,10 @@
                 language="Specification"
                 implementationClass="gauge.highlight.SpecSyntaxHighlighterFactory"/>
 
+        <!-- トークン既定色 (TAG など)。Default / Darcula 由来のスキームに継承される -->
+        <additionalTextAttributes scheme="Default" file="colorSchemes/GaugeTSDefault.xml"/>
+        <additionalTextAttributes scheme="Darcula" file="colorSchemes/GaugeTSDarcula.xml"/>
+
         <!-- concept 呼び出し検出用アノテータ (.spec 内で cpt に一致する STEP を強調) -->
         <annotator
                 language="Specification"

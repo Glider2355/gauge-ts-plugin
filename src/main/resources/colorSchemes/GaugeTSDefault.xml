@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Light (Default 系) スキームでの GaugeTS トークン既定色 -->
+<list>
+  <option name="GAUGE_TAG">
+    <value>
+      <option name="FOREGROUND" value="c71585"/>
+    </value>
+  </option>
+</list>
