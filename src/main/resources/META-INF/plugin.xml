@@ -20,6 +20,11 @@
                 language="Specification"
                 implementationClass="gauge.parser.SpecParserDefinition"/>
 
+        <!-- シンタックスハイライトの登録 -->
+        <lang.syntaxHighlighterFactory
+                language="Specification"
+                implementationClass="gauge.highlight.SpecSyntaxHighlighterFactory"/>
+
         <!-- Pluginの設定の登録 -->
         <projectConfigurable groupId="tools" instance="gauge.setting.SettingsConfigurable" displayName="GaugeTS Plugin"/>
 
