@@ -11,7 +11,7 @@ public class SpecVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitStep(@NotNull SpecStep o) {
+  public void visitStepItem(@NotNull SpecStepItem o) {
     visitPsiElement(o);
   }
 

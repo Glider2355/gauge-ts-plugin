@@ -42,7 +42,7 @@ public class SpecParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // scenarioHeading (step | comment | tag)*
+  // scenarioHeading (stepItem | comment | tag)*
   public static boolean scenario(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "scenario")) return false;
     if (!nextTokenIs(builder_, SCENARIO_HEADING)) return false;
@@ -54,7 +54,7 @@ public class SpecParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // (step | comment | tag)*
+  // (stepItem | comment | tag)*
   private static boolean scenario_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "scenario_1")) return false;
     while (true) {
@@ -65,11 +65,11 @@ public class SpecParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // step | comment | tag
+  // stepItem | comment | tag
   private static boolean scenario_1_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "scenario_1_0")) return false;
     boolean result_;
-    result_ = step(builder_, level_ + 1);
+    result_ = stepItem(builder_, level_ + 1);
     if (!result_) result_ = comment(builder_, level_ + 1);
     if (!result_) result_ = tag(builder_, level_ + 1);
     return result_;
@@ -82,7 +82,7 @@ public class SpecParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (comment | tag)*  specHeading table? (step | comment | tag)*
+  // (comment | tag)*  specHeading table? (stepItem | comment | tag)*
   static boolean specDetail(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "specDetail")) return false;
     boolean result_;
@@ -122,7 +122,7 @@ public class SpecParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // (step | comment | tag)*
+  // (stepItem | comment | tag)*
   private static boolean specDetail_3(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "specDetail_3")) return false;
     while (true) {
@@ -133,11 +133,11 @@ public class SpecParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // step | comment | tag
+  // stepItem | comment | tag
   private static boolean specDetail_3_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "specDetail_3_0")) return false;
     boolean result_;
-    result_ = step(builder_, level_ + 1);
+    result_ = stepItem(builder_, level_ + 1);
     if (!result_) result_ = comment(builder_, level_ + 1);
     if (!result_) result_ = tag(builder_, level_ + 1);
     return result_;
@@ -189,20 +189,20 @@ public class SpecParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // STEP table?
-  public static boolean step(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "step")) return false;
+  public static boolean stepItem(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "stepItem")) return false;
     if (!nextTokenIs(builder_, STEP)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, STEP);
-    result_ = result_ && step_1(builder_, level_ + 1);
-    exit_section_(builder_, marker_, STEP, result_);
+    result_ = result_ && stepItem_1(builder_, level_ + 1);
+    exit_section_(builder_, marker_, STEP_ITEM, result_);
     return result_;
   }
 
   // table?
-  private static boolean step_1(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "step_1")) return false;
+  private static boolean stepItem_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "stepItem_1")) return false;
     table(builder_, level_ + 1);
     return true;
   }
