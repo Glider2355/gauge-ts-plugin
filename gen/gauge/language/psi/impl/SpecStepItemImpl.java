@@ -11,14 +11,14 @@ import static gauge.language.token.SpecTokenTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import gauge.language.psi.*;
 
-public class SpecStepImpl extends ASTWrapperPsiElement implements SpecStep {
+public class SpecStepItemImpl extends ASTWrapperPsiElement implements SpecStepItem {
 
-  public SpecStepImpl(@NotNull ASTNode node) {
+  public SpecStepItemImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SpecVisitor visitor) {
-    visitor.visitStep(this);
+    visitor.visitStepItem(this);
   }
 
   @Override

@@ -10,20 +10,34 @@
     <depends>JavaScript</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Specファイルの登録 -->
+        <!-- Spec ファイルの登録 -->
         <fileType name="Specification" language="Specification" fieldName="INSTANCE"
                   implementationClass="gauge.language.SpecFileType"
                   extensions="spec"/>
+
+        <!-- Concept (.cpt) ファイルの登録。言語は共有するが FileType を分けて実行対象から除外する -->
+        <fileType name="Gauge Concept" language="Specification" fieldName="INSTANCE"
+                  implementationClass="gauge.language.ConceptFileType"
+                  extensions="cpt"/>
 
         <!-- パーサーの設定の登録 -->
         <lang.parserDefinition
                 language="Specification"
                 implementationClass="gauge.parser.SpecParserDefinition"/>
 
-        <!-- シンタックスハイライトの登録 -->
+        <!-- シンタックスハイライトの登録 (FileType で spec / cpt をディスパッチ) -->
         <lang.syntaxHighlighterFactory
                 language="Specification"
                 implementationClass="gauge.highlight.SpecSyntaxHighlighterFactory"/>
+
+        <!-- トークン既定色 (TAG など)。Default / Darcula 由来のスキームに継承される -->
+        <additionalTextAttributes scheme="Default" file="colorSchemes/GaugeTSDefault.xml"/>
+        <additionalTextAttributes scheme="Darcula" file="colorSchemes/GaugeTSDarcula.xml"/>
+
+        <!-- concept 呼び出し検出用アノテータ (.spec 内で cpt に一致する STEP を強調) -->
+        <annotator
+                language="Specification"
+                implementationClass="gauge.highlight.GaugeConceptAnnotator"/>
 
         <!-- Pluginの設定の登録 -->
         <projectConfigurable groupId="tools" instance="gauge.setting.SettingsConfigurable" displayName="GaugeTS Plugin"/>

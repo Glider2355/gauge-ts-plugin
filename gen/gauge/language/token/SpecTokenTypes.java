@@ -9,7 +9,7 @@ import gauge.language.psi.impl.*;
 public interface SpecTokenTypes {
 
   IElementType SCENARIO = new SpecElementType("SCENARIO");
-  // IElementType STEP = new SpecElementType("STEP");
+  IElementType STEP_ITEM = new SpecElementType("STEP_ITEM");
   IElementType TABLE = new SpecElementType("TABLE");
 
   IElementType COMMENT = new SpecTokenType("COMMENT");
@@ -18,6 +18,7 @@ public interface SpecTokenTypes {
   IElementType STEP = new SpecTokenType("STEP");
   IElementType TABLE_HEADER = new SpecTokenType("TABLE_HEADER");
   IElementType TABLE_ROW = new SpecTokenType("TABLE_ROW");
+  IElementType TAG = new SpecTokenType("TAG");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
@@ -25,8 +26,8 @@ public interface SpecTokenTypes {
       if (type == SCENARIO) {
         return new SpecScenarioImpl(node);
       }
-      else if (type == STEP) {
-        return new SpecStepImpl(node);
+      else if (type == STEP_ITEM) {
+        return new SpecStepItemImpl(node);
       }
       else if (type == TABLE) {
         return new SpecTableImpl(node);

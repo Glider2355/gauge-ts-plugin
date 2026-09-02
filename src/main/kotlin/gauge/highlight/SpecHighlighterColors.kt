@@ -28,4 +28,19 @@ object SpecHighlighterColors {
         "GAUGE_TABLE_ROW",
         DefaultLanguageHighlighterColors.STRING
     )
+
+    val CONCEPT_HEADING: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+        "GAUGE_CONCEPT_HEADING",
+        DefaultLanguageHighlighterColors.KEYWORD
+    )
+    val CONCEPT_STEP: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+        "GAUGE_CONCEPT_STEP",
+        DefaultLanguageHighlighterColors.KEYWORD
+    )
+    // 既定色は colorSchemes/GaugeTS*.xml (additionalTextAttributes) で Default / Darcula 別に与える。
+    // それ以外のスキームでは METADATA (アノテーション色) にフォールバックする
+    val TAG: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+        "GAUGE_TAG",
+        DefaultLanguageHighlighterColors.METADATA
+    )
 }

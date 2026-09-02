@@ -29,8 +29,8 @@ public class SpecScenarioImpl extends ASTWrapperPsiElement implements SpecScenar
 
   @Override
   @NotNull
-  public List<SpecStep> getStepList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SpecStep.class);
+  public List<SpecStepItem> getStepItemList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SpecStepItem.class);
   }
 
 }

@@ -48,6 +48,8 @@ Step = {WhiteSpace}* "*" [^*] {InputCharacter}* {LineTerminator}*
 TableHeader = {WhiteSpace}* ("|" {TableInputCharacter}*)+ "|" {LineTerminator} | {WhiteSpace}* ("|" {TableInputCharacter}*)+ "|" {LineTerminator} {WhiteSpace}* {TableSeparator}+ {LineTerminator}+
 // テーブルの行
 TableRow={WhiteSpace}* ("|" {TableInputCharacter}*)+ "|" {LineTerminator}
+// タグ (tags: xxx, yyy で始まる行)
+Tag = {WhiteSpace}* [tT][aA][gG][sS] {WhiteSpace}* ":" {InputCharacter}* {LineTerminator}+
 // コメント
 Comment = {InputCharacter}*? {LineTerminator}*?
 // テーブルのセパレータ
@@ -60,6 +62,7 @@ TableSeparator = [-|]
   {ScenarioHeading} {return SCENARIO_HEADING;}
   {SpecHeading}     {return SPEC_HEADING;}
   {Step}            {return STEP;}
+  {Tag}             {return TAG;}
   {TableHeader}     {yybegin(INTABLE);return TABLE_HEADER;}
   {Comment}         {return COMMENT;}
 }

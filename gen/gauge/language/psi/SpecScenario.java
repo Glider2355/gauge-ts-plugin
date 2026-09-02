@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface SpecScenario extends PsiElement {
 
   @NotNull
-  List<SpecStep> getStepList();
+  List<SpecStepItem> getStepItemList();
 
 }

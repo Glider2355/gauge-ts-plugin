@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- Support `.cpt` (concept) files and `tags:` lines with dedicated syntax highlighting
+
 ## [0.0.11] - 2025-03-22
 
 - Support for Editing Run Configurations with --env Flag by @github-actions in https://github.com/Glider2355/gauge-ts-plugin/pull/103

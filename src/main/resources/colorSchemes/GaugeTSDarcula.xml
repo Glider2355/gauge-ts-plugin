@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Dark (Darcula 系) スキームでの GaugeTS トークン既定色。暗い背景でも読めるよう明度を上げている -->
+<list>
+  <option name="GAUGE_TAG">
+    <value>
+      <option name="FOREGROUND" value="db7093"/>
+    </value>
+  </option>
+</list>

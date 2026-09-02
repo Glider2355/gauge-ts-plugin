@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.changelog) // Gradle Changelog Plugin
     alias(libs.plugins.qodana) // Gradle Qodana Plugin
     alias(libs.plugins.kover) // Gradle Kover Plugin
+    alias(libs.plugins.grammarKit) // Grammar-Kit (BNF/JFlex generator)
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -166,6 +167,28 @@ tasks {
 
     test {
         useJUnitPlatform()
+    }
+
+    // Grammar-Kit: BNF -> Java parser 生成
+    generateParser {
+        sourceFile.set(file("grammar/specification.bnf"))
+        targetRootOutputDir.set(file("gen"))
+        pathToParser.set("gauge/parser/SpecParser.java")
+        pathToPsiRoot.set("gauge/language/psi")
+    }
+
+    // Grammar-Kit: JFlex -> Java lexer 生成
+    generateLexer {
+        sourceFile.set(file("grammar/_SpecLexer.flex"))
+        targetOutputDir.set(file("gen/gauge/lexer"))
+    }
+
+    compileJava {
+        dependsOn(generateParser, generateLexer)
+    }
+
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        dependsOn(generateParser, generateLexer)
     }
 }
 
