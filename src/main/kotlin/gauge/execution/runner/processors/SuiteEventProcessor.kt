@@ -25,11 +25,9 @@ class SuiteEventProcessor(
         return addHooks(event, BEFORE_SUITE, AFTER_SUITE, "", SUITE_ID)
     }
 
-    override fun canProcess(event: ExecutionEvent?): Boolean {
-        if (event != null) {
-            return event.type.equals(ExecutionEvent.SUITE_START, ignoreCase = true) ||
-                    event.type.equals(ExecutionEvent.SUITE_END, ignoreCase = true)
-        }
-        return false
-    }
+    override fun canProcess(event: ExecutionEvent?): Boolean =
+        event != null && (
+            event.type.equals(ExecutionEvent.SUITE_START, ignoreCase = true) ||
+                event.type.equals(ExecutionEvent.SUITE_END, ignoreCase = true)
+            )
 }

@@ -68,11 +68,9 @@ class SpecEventProcessor(
         return processor.process(msg, cache.getId(event.id), SuiteEventProcessor.SUITE_ID)
     }
 
-    override fun canProcess(event: ExecutionEvent?): Boolean {
-        if (event != null) {
-            return event.type.equals(ExecutionEvent.SPEC_START, ignoreCase = true) ||
-                    event.type.equals(ExecutionEvent.SPEC_END, ignoreCase = true)
-        }
-        return false
-    }
+    override fun canProcess(event: ExecutionEvent?): Boolean =
+        event != null && (
+            event.type.equals(ExecutionEvent.SPEC_START, ignoreCase = true) ||
+                event.type.equals(ExecutionEvent.SPEC_END, ignoreCase = true)
+            )
 }
