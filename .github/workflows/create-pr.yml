@@ -47,7 +47,7 @@ jobs:
           git push origin ${{ steps.extract_branch.outputs.branch_name }}
 
       - name: プルリクエストを作成する
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
