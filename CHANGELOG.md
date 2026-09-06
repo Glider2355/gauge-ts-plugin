@@ -5,6 +5,8 @@
 ## [Unreleased]
 
 - Support `.cpt` (concept) files and `tags:` lines with dedicated syntax highlighting
+- Go to Declaration (Cmd+Click) on a step jumps to the matching concept definition in `.cpt`, falling back to the TypeScript `@Step` implementation
+- Add a `Settings → Editor → Color Scheme → GaugeTS` page to customize spec/concept token colors
 
 ## [0.0.11] - 2025-03-22
 
