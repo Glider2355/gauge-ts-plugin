@@ -3,6 +3,7 @@ package gauge.setting
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.ui.TextBrowseFolderListener
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
+import com.intellij.ui.JBColor
 import com.intellij.ui.components.JBList
 import com.intellij.util.ui.JBUI
 import gauge.setting.component.EnvPanel
@@ -16,12 +17,12 @@ import java.awt.GridLayout
 
 class SettingsComponent {
     val mainPanel: JPanel = JPanel()
-    val directoryListModel = DefaultListModel<DirectoryItem>()
-    val directoryList = JBList(directoryListModel)
-    val addButton = JButton("Add Directory")
-    val removeButton = JButton("Remove Selected Directory")
-    private val gaugeBinaryPathField = TextFieldWithBrowseButton()
-    private val gaugeHomePathField = TextFieldWithBrowseButton()
+    val directoryListModel: DefaultListModel<DirectoryItem> = DefaultListModel()
+    val directoryList: JBList<DirectoryItem> = JBList(directoryListModel)
+    val addButton: JButton = JButton("Add Directory")
+    val removeButton: JButton = JButton("Remove Selected Directory")
+    private val gaugeBinaryPathField: TextFieldWithBrowseButton = TextFieldWithBrowseButton()
+    private val gaugeHomePathField: TextFieldWithBrowseButton = TextFieldWithBrowseButton()
 
     private val parallelNodesSpinner = JSpinner(
         SpinnerNumberModel(
@@ -36,7 +37,7 @@ class SettingsComponent {
     // Step 検索モード切替 (AUTO / MANUAL)
     private val autoScanRadio = JRadioButton("Auto scan (search all .ts in project)")
     private val manualRadio = JRadioButton("Manual (use directories listed below)")
-    private val useGaugeRootCheckBox = JCheckBox("Scope to directories containing `.gauge/`")
+    private val useGaugeRootCheckBox = JCheckBox("Scope to Gauge project roots (directories containing manifest.json or .gauge/)")
 
     init {
         // Gauge Binary Pathの設定フィールド
@@ -99,7 +100,7 @@ class SettingsComponent {
         val scanModePanel = JPanel()
         scanModePanel.layout = BoxLayout(scanModePanel, BoxLayout.Y_AXIS)
         scanModePanel.border = JBUI.Borders.compound(
-            JBUI.Borders.customLine(java.awt.Color.GRAY, 1, 0, 0, 0),
+            JBUI.Borders.customLine(JBColor.border(), 1, 0, 0, 0),
             JBUI.Borders.empty(10, 0)
         )
         scanModePanel.add(JLabel("Step Scan Mode:"))
@@ -107,15 +108,8 @@ class SettingsComponent {
         scanModePanel.add(gaugeRootIndent)
         scanModePanel.add(manualRadio)
 
-        val onModeChanged = {
-            val isManual = manualRadio.isSelected
-            useGaugeRootCheckBox.isEnabled = !isManual
-            directoryList.isEnabled = isManual
-            addButton.isEnabled = isManual
-            removeButton.isEnabled = isManual
-        }
-        autoScanRadio.addActionListener { onModeChanged() }
-        manualRadio.addActionListener { onModeChanged() }
+        autoScanRadio.addActionListener { updateScanModeControls() }
+        manualRadio.addActionListener { updateScanModeControls() }
 
         // メインパネルに各コンポーネントを追加
         val inputPanel = JPanel()
@@ -136,17 +130,23 @@ class SettingsComponent {
         mainPanel.add(buttonPanel)
     }
 
-    fun getScanMode(): String =
+    fun getScanMode(): PluginSettings.ScanMode =
         if (autoScanRadio.isSelected) PluginSettings.ScanMode.AUTO else PluginSettings.ScanMode.MANUAL
 
-    fun setScanMode(mode: String) {
+    fun setScanMode(mode: PluginSettings.ScanMode) {
         val isAuto = mode == PluginSettings.ScanMode.AUTO
         autoScanRadio.isSelected = isAuto
         manualRadio.isSelected = !isAuto
-        useGaugeRootCheckBox.isEnabled = isAuto
-        directoryList.isEnabled = !isAuto
-        addButton.isEnabled = !isAuto
-        removeButton.isEnabled = !isAuto
+        updateScanModeControls()
+    }
+
+    // モードに応じてサブ UI の有効/無効を揃える (AUTO: ルート絞り込み, MANUAL: ディレクトリ一覧と追加/削除)
+    private fun updateScanModeControls() {
+        val isManual = manualRadio.isSelected
+        useGaugeRootCheckBox.isEnabled = !isManual
+        directoryList.isEnabled = isManual
+        addButton.isEnabled = isManual
+        removeButton.isEnabled = isManual
     }
 
     fun getUseGaugeRootScope(): Boolean = useGaugeRootCheckBox.isSelected

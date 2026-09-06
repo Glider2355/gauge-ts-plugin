@@ -18,7 +18,7 @@ import gauge.lexer.SpecLexer
 
 class SpecParserDefinition : ParserDefinition {
     companion object {
-        val FILE = IFileElementType(Specification.INSTANCE)
+        val FILE: IFileElementType = IFileElementType(Specification.INSTANCE)
     }
 
     override fun createLexer(project: Project): Lexer {

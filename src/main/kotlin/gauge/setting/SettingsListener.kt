@@ -43,6 +43,8 @@ class SettingsListener(
     // チェックボックスのクリックイベントを処理
     inner class CheckboxListener : MouseAdapter() {
         override fun mouseClicked(e: MouseEvent?) {
+            // 無効化された Swing コンポーネントにもマウスイベントは届くので、AUTO モード中はチェックを変更させない
+            if (!settingsComponent.directoryList.isEnabled) return
             val index = settingsComponent.directoryList.locationToIndex(e?.point)
             if (index >= 0) {
                 val item = settingsComponent.directoryListModel.getElementAt(index)

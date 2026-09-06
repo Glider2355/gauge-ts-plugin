@@ -87,13 +87,11 @@ class ScenarioEventProcessor(
         return processor.process(scenarioEnd, id, parentId)
     }
 
-    override fun canProcess(event: ExecutionEvent?): Boolean {
-        if (event != null) {
-            return event.type.equals(ExecutionEvent.SCENARIO_START, ignoreCase = true) ||
-                    event.type.equals(ExecutionEvent.SCENARIO_END, ignoreCase = true)
-        }
-        return false
-    }
+    override fun canProcess(event: ExecutionEvent?): Boolean =
+        event != null && (
+            event.type.equals(ExecutionEvent.SCENARIO_START, ignoreCase = true) ||
+                event.type.equals(ExecutionEvent.SCENARIO_END, ignoreCase = true)
+            )
 
     @Throws(ParseException::class)
     private fun scenarioMessage(

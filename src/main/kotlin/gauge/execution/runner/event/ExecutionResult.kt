@@ -48,11 +48,11 @@ data class ExecutionResult(
     override fun hashCode(): Int {
         var result = time ?: 0
         result = 31 * result + status.hashCode()
-        result = 31 * result + (out?.hashCode() ?: 0)
+        result = 31 * result + out.hashCode()
         result = 31 * result + (errors?.contentHashCode() ?: 0)
-        result = 31 * result + (beforeHookFailure?.hashCode() ?: 0)
-        result = 31 * result + (afterHookFailure?.hashCode() ?: 0)
-        result = 31 * result + (table?.hashCode() ?: 0)
+        result = 31 * result + beforeHookFailure.hashCode()
+        result = 31 * result + afterHookFailure.hashCode()
+        result = 31 * result + table.hashCode()
         return result
     }
 }

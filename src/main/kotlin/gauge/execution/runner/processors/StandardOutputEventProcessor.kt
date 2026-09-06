@@ -30,10 +30,6 @@ class StandardOutputEventProcessor(
         return true
     }
 
-    override fun canProcess(event: ExecutionEvent?): Boolean {
-        if (event != null) {
-            return event.type.equals(ExecutionEvent.STANDARD_OUTPUT, ignoreCase = true)
-        }
-        return false
-    }
+    override fun canProcess(event: ExecutionEvent?): Boolean =
+        event != null && event.type.equals(ExecutionEvent.STANDARD_OUTPUT, ignoreCase = true)
 }

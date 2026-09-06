@@ -14,9 +14,10 @@ internal class TypeScriptFileCollector {
         val files = mutableListOf<PsiFile>()
 
         if (virtualFile != null && virtualFile.isDirectory) {
+            val psiManager = PsiManager.getInstance(project)
             VfsUtil.iterateChildrenRecursively(virtualFile, null) { file ->
-                if (!file.isDirectory && file.extension == "ts") {
-                    PsiManager.getInstance(project).findFile(file)?.let { psiFile ->
+                if (isStepImplementationCandidate(file)) {
+                    psiManager.findFile(file)?.let { psiFile ->
                         files.add(psiFile)
                     }
                 }
@@ -30,9 +31,10 @@ internal class TypeScriptFileCollector {
     /**
      * プロジェクトスコープ全体の .ts ファイルを FilenameIndex から取得。
      * IntelliJ の索引を使うのでディレクトリ再帰列挙より速い。
-     * .gitignore / Excluded Folders は projectScope 側で除外される。
+     * projectScope は IDE の Excluded フォルダと ignore パターン (node_modules 等) を除外するが、
+     * .gitignore の内容は考慮しない。
      *
-     * @param gaugeRoots 空でなければ、その配下の .ts のみに絞る (.gauge/ 起点スコープ用途)
+     * @param gaugeRoots 空でなければ、その配下の .ts のみに絞る (Gauge プロジェクトルート起点スコープ用途)
      */
     fun collectAllTypeScriptFilesInProject(
         project: Project,
@@ -40,14 +42,21 @@ internal class TypeScriptFileCollector {
     ): List<PsiFile> {
         val scope = GlobalSearchScope.projectScope(project)
         val virtualFiles = FilenameIndex.getAllFilesByExt(project, "ts", scope)
+            .filter { isStepImplementationCandidate(it) }
         val filtered = if (gaugeRoots.isEmpty()) {
             virtualFiles
         } else {
             virtualFiles.filter { file ->
-                gaugeRoots.any { root -> com.intellij.openapi.vfs.VfsUtil.isAncestor(root, file, true) }
+                gaugeRoots.any { root -> VfsUtil.isAncestor(root, file, true) }
             }
         }
         val psiManager = PsiManager.getInstance(project)
         return filtered.mapNotNull { psiManager.findFile(it) }
+    }
+
+    companion object {
+        /** @Step 実装を含みうる .ts か。型定義ファイル (.d.ts) は実装を持たないので走査対象から外す */
+        fun isStepImplementationCandidate(file: VirtualFile): Boolean =
+            !file.isDirectory && file.extension == "ts" && !file.name.endsWith(".d.ts")
     }
 }
