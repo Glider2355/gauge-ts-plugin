@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- Drop the until-build constraint so the plugin can be installed on future IntelliJ IDEA versions
+- Auto scan mode for step implementations: search all `.ts` files in the project, optionally scoped to Gauge project roots (directories containing `manifest.json` or `.gauge/`); `.d.ts` files are skipped
 - Support `.cpt` (concept) files and `tags:` lines with dedicated syntax highlighting
 
 ## [0.0.11] - 2025-03-22

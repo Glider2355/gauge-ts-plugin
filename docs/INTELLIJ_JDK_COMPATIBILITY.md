@@ -112,20 +112,27 @@ Gradleバージョンが十分に新しいことを確認します：
 
 ## サポート範囲の調整（オプション）
 
+現在の設定では、対応する IntelliJ IDEA の下限だけを `gradle.properties` の `pluginSinceBuild` で指定し、上限 (until-build) は付けていません。`build.gradle.kts` の `ideaVersion { untilBuild = provider { null } }` がその指定で、これにより将来の IntelliJ IDEA にもそのままインストールできます。
+
 もし古いIntelliJ IDEAバージョンもサポートしたい場合は、`gradle.properties`を調整できます：
 
-### オプション1: 2024.2～2025.3をサポート（Java 21）
+### オプション1: 2024.2以降をサポート（Java 21）
 ```properties
 pluginSinceBuild = 242
-pluginUntilBuild = 253.*
 platformVersion = 2024.3  # または 2025.3
 ```
 
 ### オプション2: 2024.1までサポート（Java 17のまま）
 ```properties
 pluginSinceBuild = 241
-pluginUntilBuild = 241.*
 platformVersion = 2024.1
+```
+この場合は上限も必要になるため、`build.gradle.kts` 側で until-build を指定します：
+```kotlin
+ideaVersion {
+    sinceBuild = providers.gradleProperty("pluginSinceBuild")
+    untilBuild = provider { "241.*" }
+}
 ```
 ※ただしこの場合、最新のIntelliJ IDEA 2024.3以降（2025.3含む）では動作しません
 
