@@ -2,8 +2,6 @@ package gauge.gotoDeclaration
 
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
 import com.intellij.psi.PsiElement
-import com.intellij.openapi.components.service
-import gauge.setting.PluginSettings
 import gauge.language.token.SpecTokenTypes
 import gauge.finder.ConceptIndex
 import gauge.finder.StepFunctionFinder
@@ -30,11 +28,8 @@ class GaugeGotoDeclarationHandler : GotoDeclarationHandler {
             }
         }
 
-        // 2. TypeScript の @Step 実装にジャンプ
-        val settings = project.service<PluginSettings>()
-        val searchDirectories = settings.validDirectories
-        val stepFinder = StepFunctionFinder()
-        val stepFunction = stepFinder.findStepFunction(project, searchDirectories, stepText)
+        // 2. TypeScript の @Step 実装にジャンプ (検索対象は TsFileResolver が設定から決める)
+        val stepFunction = StepFunctionFinder().findStepFunction(project, stepText)
 
         return stepFunction?.let { arrayOf(it) } ?: PsiElement.EMPTY_ARRAY
     }

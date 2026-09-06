@@ -6,25 +6,18 @@ import com.intellij.lang.javascript.psi.ecma6.ES6Decorator
 import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList
 import com.intellij.lang.javascript.psi.JSCallExpression
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiRecursiveElementVisitor
 
 class StepFunctionFinder {
 
-    private val fileCollector = TypeScriptFileCollector()
-
-    fun findStepFunction(project: Project, searchDirectories: MutableList<String>, stepText: String): PsiElement? {
-        for (directoryPath in searchDirectories) {
-            // TypeScriptFileCollectorを使ってディレクトリからファイルを収集
-            val virtualFile = LocalFileSystem.getInstance().findFileByPath(directoryPath)
-            val files = fileCollector.collectTypeScriptFiles(project, virtualFile)
-            for (file in files) {
-                val function = findFunctionFromFile(file, stepText)
-                if (function != null) {
-                    return function
-                }
+    fun findStepFunction(project: Project, stepText: String): PsiElement? {
+        val files = TsFileResolver.resolveTypeScriptFiles(project)
+        for (file in files) {
+            val function = findFunctionFromFile(file, stepText)
+            if (function != null) {
+                return function
             }
         }
         return null
