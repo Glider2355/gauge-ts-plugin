@@ -22,6 +22,13 @@ class SpecColorSettingsPage : ColorSettingsPage {
         AttributesDescriptor("Tag (tags:)", SpecHighlighterColors.TAG),
     )
 
+    // デモテキストは .spec としてレキサーでハイライトされるだけなので、アノテータ由来の CONCEPT_STEP と
+    // .cpt 専用の CONCEPT_HEADING はタグで範囲を指定して重ねる (プレビューではタグ名だけが解釈され、表示からは除かれる)
+    private val additionalTags: MutableMap<String, TextAttributesKey> = mutableMapOf(
+        "concept_step" to SpecHighlighterColors.CONCEPT_STEP,
+        "concept_heading" to SpecHighlighterColors.CONCEPT_HEADING,
+    )
+
     override fun getIcon(): Icon = SpecificationIcons.FILE
 
     override fun getHighlighter(): SyntaxHighlighter = SpecSyntaxHighlighter()
@@ -42,11 +49,17 @@ class SpecColorSettingsPage : ColorSettingsPage {
 
         tags: happy-path
         * open the login page
-        * enter "alice" into the username field
+        <concept_step>* login as "alice"</concept_step>
+        * click the login button
+
+        The concept referenced above, as defined in a .cpt file:
+
+        <concept_heading># login as <user></concept_heading>
+        * enter <user> into the username field
         * click the login button
     """.trimIndent()
 
-    override fun getAdditionalHighlightingTagToDescriptorMap(): MutableMap<String, TextAttributesKey>? = null
+    override fun getAdditionalHighlightingTagToDescriptorMap(): MutableMap<String, TextAttributesKey> = additionalTags
 
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> = descriptors
 
