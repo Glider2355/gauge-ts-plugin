@@ -4,9 +4,17 @@
 
 ## [Unreleased]
 
+## [0.0.13] - 2026-09-08
+
 - Support `.cpt` (concept) files and `tags:` lines with dedicated syntax highlighting
-- Go to Declaration (Cmd+Click) on a step jumps to the matching concept definition in `.cpt`, falling back to the TypeScript `@Step` implementation
-- Add a `Settings → Editor → Color Scheme → GaugeTS` page to customize spec/concept token colors
+- feat: syntax highlighting for .spec by @tmiyako-cod in https://github.com/Glider2355/gauge-ts-plugin/pull/158
+- feat: multi-pattern step arrays by @tmiyako-cod in https://github.com/Glider2355/gauge-ts-plugin/pull/161
+- chore: drop pluginUntilBuild by @tmiyako-cod in https://github.com/Glider2355/gauge-ts-plugin/pull/157
+- feat: .cpt file + tag support (BNF relax + grammar-kit) by @tmiyako-cod in https://github.com/Glider2355/gauge-ts-plugin/pull/159
+- feat: step scan mode + Add Directory UX by @tmiyako-cod in https://github.com/Glider2355/gauge-ts-plugin/pull/162
+- fix: scan mode follow-ups (manifest.json root detection, .d.ts skip, settings UI) by @Ryo-Muramatsu in https://github.com/Glider2355/gauge-ts-plugin/pull/163
+- feat: concept goto + color settings page by @tmiyako-cod in https://github.com/Glider2355/gauge-ts-plugin/pull/160
+- @tmiyako-cod made their first contribution in https://github.com/Glider2355/gauge-ts-plugin/pull/158
 
 ## [0.0.11] - 2025-03-22
 
@@ -61,7 +69,8 @@ Added
 
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.11...HEAD
+[Unreleased]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.13...HEAD
+[0.0.13]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.11...v0.0.13
 [0.0.11]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.10...v0.0.11
 [0.0.10]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.9...v0.0.10
 [0.0.9]: https://github.com/Glider2355/gauge-ts-plugin/compare/v0.0.8...v0.0.9
